@@ -1,0 +1,125 @@
+{% extends 'layouts/app.html' %}
+
+{% block title %}Transações — Finanpy{% endblock %}
+
+{% block app_content %}
+<div class='space-y-6'>
+  <div class='flex items-center justify-between'>
+    <h1 class='text-2xl font-bold text-[#f0eef5]'>Transações</h1>
+    <a href='{% url "transactions:create" %}' class='px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-medium text-sm shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 transition-all duration-200'>
+      <span class='flex items-center gap-2'>
+        <svg class='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+          <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 4v16m8-8H4'/>
+        </svg>
+        Nova Transação
+      </span>
+    </a>
+  </div>
+
+  <div class='rounded-xl bg-[#1a1730] border border-[#2d2754] p-4 shadow-lg shadow-black/20'>
+    <form method='get' class='flex flex-wrap gap-3 items-end'>
+      <div class='flex-1 min-w-[150px]'>
+        <label class='block text-sm font-medium text-[#a09cb5] mb-1'>Buscar</label>
+        <input type='text' name='search' value='{{ current_search }}' placeholder='Descrição...' class='w-full px-3 py-2 rounded-lg bg-[#0f0d1a] border border-[#2d2754] text-[#f0eef5] text-sm placeholder-[#6b6785] focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200'>
+      </div>
+      <div class='min-w-[120px]'>
+        <label class='block text-sm font-medium text-[#a09cb5] mb-1'>Tipo</label>
+        <select name='type' class='w-full px-3 py-2 rounded-lg bg-[#0f0d1a] border border-[#2d2754] text-[#f0eef5] text-sm focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200 appearance-none'>
+          <option value=''>Todos</option>
+          <option value='entrada' {% if current_type == 'entrada' %}selected{% endif %}>Entrada</option>
+          <option value='saida' {% if current_type == 'saida' %}selected{% endif %}>Saída</option>
+        </select>
+      </div>
+      <div class='min-w-[140px]'>
+        <label class='block text-sm font-medium text-[#a09cb5] mb-1'>Categoria</label>
+        <select name='category' class='w-full px-3 py-2 rounded-lg bg-[#0f0d1a] border border-[#2d2754] text-[#f0eef5] text-sm focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200 appearance-none'>
+          <option value=''>Todas</option>
+          {% for cat in categories %}
+          <option value='{{ cat.pk }}' {% if current_category == cat.pk|stringformat:'s' %}selected{% endif %}>{{ cat.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class='min-w-[140px]'>
+        <label class='block text-sm font-medium text-[#a09cb5] mb-1'>Conta</label>
+        <select name='account' class='w-full px-3 py-2 rounded-lg bg-[#0f0d1a] border border-[#2d2754] text-[#f0eef5] text-sm focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200 appearance-none'>
+          <option value=''>Todas</option>
+          {% for acc in accounts %}
+          <option value='{{ acc.pk }}' {% if current_account == acc.pk|stringformat:'s' %}selected{% endif %}>{{ acc.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class='min-w-[130px]'>
+        <label class='block text-sm font-medium text-[#a09cb5] mb-1'>De</label>
+        <input type='date' name='date_from' value='{{ current_date_from }}' class='w-full px-3 py-2 rounded-lg bg-[#0f0d1a] border border-[#2d2754] text-[#f0eef5] text-sm focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200'>
+      </div>
+      <div class='min-w-[130px]'>
+        <label class='block text-sm font-medium text-[#a09cb5] mb-1'>Até</label>
+        <input type='date' name='date_to' value='{{ current_date_to }}' class='w-full px-3 py-2 rounded-lg bg-[#0f0d1a] border border-[#2d2754] text-[#f0eef5] text-sm focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200'>
+      </div>
+      <button type='submit' class='px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-sm font-medium shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 transition-all duration-200'>
+        Filtrar
+      </button>
+      {% if current_type or current_category or current_account or current_date_from or current_date_to or current_search %}
+      <a href='{% url "transactions:list" %}' class='px-4 py-2 rounded-lg border border-[#2d2754] text-[#a09cb5] text-sm hover:text-[#f0eef5] transition-all duration-200'>Limpar</a>
+      {% endif %}
+    </form>
+  </div>
+
+  {% if transactions %}
+  <div class='rounded-xl bg-[#1a1730] border border-[#2d2754] overflow-hidden shadow-lg shadow-black/20'>
+    <div class='overflow-x-auto'>
+      <table class='w-full'>
+        <thead>
+          <tr class='border-b border-[#2d2754]'>
+            <th class='px-4 py-3 text-left text-sm font-medium text-[#a09cb5]'>Data</th>
+            <th class='px-4 py-3 text-left text-sm font-medium text-[#a09cb5]'>Descrição</th>
+            <th class='px-4 py-3 text-left text-sm font-medium text-[#a09cb5]'>Categoria</th>
+            <th class='px-4 py-3 text-left text-sm font-medium text-[#a09cb5]'>Conta</th>
+            <th class='px-4 py-3 text-right text-sm font-medium text-[#a09cb5]'>Valor</th>
+            <th class='px-4 py-3 text-right text-sm font-medium text-[#a09cb5]'>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for transaction in transactions %}
+          <tr class='border-b border-[#2d2754]/50 hover:bg-[#241f3c]/50 transition-colors'>
+            <td class='px-4 py-3 text-sm text-[#a09cb5]'>{{ transaction.date|date:"d/m/Y" }}</td>
+            <td class='px-4 py-3 text-sm text-[#f0eef5]'>{{ transaction.description }}</td>
+            <td class='px-4 py-3'>
+              <div class='flex items-center gap-2'>
+                <div class='w-2 h-2 rounded-full' style='background-color: {{ transaction.category.color }}'></div>
+                <span class='text-sm text-[#a09cb5]'>{{ transaction.category.name }}</span>
+              </div>
+            </td>
+            <td class='px-4 py-3 text-sm text-[#a09cb5]'>{{ transaction.account.name }}</td>
+            <td class='px-4 py-3 text-sm text-right font-semibold {% if transaction.transaction_type == "entrada" %}text-green-400{% else %}text-red-400{% endif %}'>
+              {% if transaction.transaction_type == "entrada" %}+{% else %}-{% endif %}R$ {{ transaction.amount|floatformat:2 }}
+            </td>
+            <td class='px-4 py-3 text-right'>
+              <a href='{% url "transactions:update" transaction.pk %}' class='px-2 py-1 rounded text-xs text-violet-400 hover:bg-[#241f3c] transition-all duration-200'>Editar</a>
+              <a href='{% url "transactions:delete" transaction.pk %}' class='px-2 py-1 rounded text-xs text-red-400 hover:bg-red-500/10 transition-all duration-200'>Excluir</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {% include 'components/pagination.html' %}
+  {% else %}
+  <div class='rounded-xl bg-[#1a1730] border border-[#2d2754] p-12 shadow-lg shadow-black/20 text-center'>
+    <svg class='w-16 h-16 text-[#2d2754] mx-auto mb-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+      <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4'/>
+    </svg>
+    <h3 class='text-lg font-semibold text-[#f0eef5] mb-2'>Nenhuma transação registrada</h3>
+    <p class='text-sm text-[#6b6785] mb-4'>Clique em "Nova Transação" para começar a registrar suas finanças.</p>
+    <a href='{% url "transactions:create" %}' class='inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-medium text-sm shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 transition-all duration-200'>
+      <svg class='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+        <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 4v16m8-8H4'/>
+      </svg>
+      Criar primeira transação
+    </a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

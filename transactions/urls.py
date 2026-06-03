@@ -1,8 +1,12 @@
 from django.urls import path
-from django.views.generic import TemplateView
+
+from .views import TransactionListView, TransactionCreateView, TransactionUpdateView, TransactionDeleteView
 
 app_name = 'transactions'
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='pages/coming_soon.html'), name='list'),
+    path('', TransactionListView.as_view(), name='list'),
+    path('nova/', TransactionCreateView.as_view(), name='create'),
+    path('<int:pk>/editar/', TransactionUpdateView.as_view(), name='update'),
+    path('<int:pk>/excluir/', TransactionDeleteView.as_view(), name='delete'),
 ]

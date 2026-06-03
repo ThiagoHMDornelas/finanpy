@@ -1,0 +1,122 @@
+{% extends 'layouts/app.html' %}
+{% load core_extras %}
+
+{% block title %}{% if form.instance.pk %}Editar Transacao{% else %}Nova Transacao{% endif %} — Finanpy{% endblock %}
+
+{% block app_content %}
+<div class='max-w-xl mx-auto'>
+  <div class='flex items-center justify-between mb-6'>
+    <h1 class='text-2xl font-bold text-[#f0eef5]'>{% if form.instance.pk %}Editar Transacao{% else %}Nova Transacao{% endif %}</h1>
+    <a href='{% url "transactions:list" %}' class='text-sm text-[#a09cb5] hover:text-[#f0eef5] transition-all duration-200'>Voltar</a>
+  </div>
+  <div class='rounded-xl bg-[#1a1730] border border-[#2d2754] p-6 shadow-lg shadow-black/20'>
+    <form method='post' class='space-y-5'>
+      {% csrf_token %}
+
+      <div>
+        <label for='id_description' class='block text-sm font-medium text-[#a09cb5] mb-1.5'>Descricao</label>
+        <input type='text' id='id_description' name='description' value='{% if form.description.value %}{{ form.description.value }}{% endif %}' placeholder='Descricao da transacao' class='w-full px-4 py-2.5 rounded-lg bg-[#0f0d1a] border border-[#2d2754] text-[#f0eef5] placeholder-[#6b6785] focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200 {% if form.description.errors %}border-red-500{% endif %}'>
+        {% for error in form.description.errors %}
+        <p class='text-red-400 text-sm mt-1'>{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <div>
+        <label for='id_amount' class='block text-sm font-medium text-[#a09cb5] mb-1.5'>Valor</label>
+        <input type='number' id='id_amount' name='amount' value='{% if form.amount.value is not None %}{{ form.amount.value|to_str }}{% endif %}' step='0.01' placeholder='0.00' class='w-full px-4 py-2.5 rounded-lg bg-[#0f0d1a] border border-[#2d2754] text-[#f0eef5] placeholder-[#6b6785] focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200 {% if form.amount.errors %}border-red-500{% endif %}'>
+        {% for error in form.amount.errors %}
+        <p class='text-red-400 text-sm mt-1'>{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <div>
+        <label for='id_transaction_type' class='block text-sm font-medium text-[#a09cb5] mb-1.5'>Tipo</label>
+        <select id='id_transaction_type' name='transaction_type' class='w-full px-4 py-2.5 rounded-lg bg-[#0f0d1a] border border-[#2d2754] text-[#f0eef5] focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200 appearance-none {% if form.transaction_type.errors %}border-red-500{% endif %}'>
+          {% for choice in form.fields.transaction_type.choices %}
+          <option value='{{ choice.0 }}' {% if choice.0|stringformat:"s" == form.transaction_type.value|stringformat:"s" %}selected{% endif %}>{{ choice.1 }}</option>
+          {% endfor %}
+        </select>
+        {% for error in form.transaction_type.errors %}
+        <p class='text-red-400 text-sm mt-1'>{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <div>
+        <label for='id_date' class='block text-sm font-medium text-[#a09cb5] mb-1.5'>Data</label>
+        <input type='date' id='id_date' name='date' value='{% if form.date.value %}{{ form.date.value|date:"Y-m-d" }}{% elif form.data.date %}{{ form.data.date }}{% endif %}' class='w-full px-4 py-2.5 rounded-lg bg-[#0f0d1a] border border-[#2d2754] text-[#f0eef5] focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200 {% if form.date.errors %}border-red-500{% endif %}'>
+        {% for error in form.date.errors %}
+        <p class='text-red-400 text-sm mt-1'>{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <div>
+        <label for='id_category' class='block text-sm font-medium text-[#a09cb5] mb-1.5'>Categoria</label>
+        <select id='id_category' name='category' class='w-full px-4 py-2.5 rounded-lg bg-[#0f0d1a] border border-[#2d2754] text-[#f0eef5] focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200 appearance-none {% if form.category.errors %}border-red-500{% endif %}'>
+          {% for choice in form.fields.category.queryset %}
+          <option value='{{ choice.pk }}' data-type='{{ choice.category_type }}' {% if choice.pk|stringformat:"s" == form.category.value|stringformat:"s" %}selected{% endif %}>{{ choice.name }} ({{ choice.get_category_type_display }})</option>
+          {% endfor %}
+        </select>
+        {% for error in form.category.errors %}
+        <p class='text-red-400 text-sm mt-1'>{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <div>
+        <label for='id_account' class='block text-sm font-medium text-[#a09cb5] mb-1.5'>Conta</label>
+        <select id='id_account' name='account' class='w-full px-4 py-2.5 rounded-lg bg-[#0f0d1a] border border-[#2d2754] text-[#f0eef5] focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200 appearance-none {% if form.account.errors %}border-red-500{% endif %}'>
+          {% for choice in form.fields.account.queryset %}
+          <option value='{{ choice.pk }}' {% if choice.pk|stringformat:"s" == form.account.value|stringformat:"s" %}selected{% endif %}>{{ choice.name }}</option>
+          {% endfor %}
+        </select>
+        {% for error in form.account.errors %}
+        <p class='text-red-400 text-sm mt-1'>{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <div class='flex items-center gap-3 pt-2'>
+        <button type='submit' class='px-6 py-2.5 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-medium text-sm shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 transition-all duration-200'>
+          Salvar
+        </button>
+        <a href='{% url "transactions:list" %}' class='px-4 py-2.5 text-[#a09cb5] hover:text-[#f0eef5] transition-all duration-200 text-sm font-medium'>
+          Cancelar
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const typeSelect = document.getElementById('id_transaction_type');
+  const categorySelect = document.getElementById('id_category');
+
+  if (!typeSelect || !categorySelect) return;
+
+  function filterCategories() {
+    const selectedType = typeSelect.value;
+    const typeMap = {'entrada': 'receita', 'saida': 'despesa'};
+    const catType = typeMap[selectedType] || 'despesa';
+
+    for (const option of categorySelect.options) {
+      const optType = option.getAttribute('data-type');
+      if (optType === catType || !optType) {
+        option.style.display = '';
+      } else {
+        option.style.display = 'none';
+        if (option.selected) {
+          option.selected = false;
+        }
+      }
+    }
+
+    const visibleOptions = Array.from(categorySelect.options).filter(o => o.style.display !== 'none');
+    if (visibleOptions.length > 0 && !visibleOptions.some(o => o.selected)) {
+      visibleOptions[0].selected = true;
+    }
+  }
+
+  typeSelect.addEventListener('change', filterCategories);
+  filterCategories();
+});
+</script>
+{% endblock %}

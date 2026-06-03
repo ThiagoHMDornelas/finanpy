@@ -134,33 +134,33 @@
 
 ---
 
-### Sprint 4 — Transações
+### Sprint 4 — Transações ✅
 
-#### T4.1 — Model Transaction
-- [ ] 4.1.1 — Criar model `Transaction` em `transactions/models.py` com campos: `user` (FK para User), `account` (FK para Account), `category` (FK para Category), `description` (CharField), `amount` (DecimalField), `transaction_type` (CharField com choices: entrada, saida), `date` (DateField), `created_at`, `updated_at`
-- [ ] 4.1.2 — Adicionar `__str__` retornando descrição e valor
-- [ ] 4.1.3 — Adicionar `class Meta` com `ordering = ['-date', '-created_at']`
-- [ ] 4.1.4 — Registrar model `Transaction` no admin
-- [ ] 4.1.5 — Executar migração
+#### T4.1 — Model Transaction ✅
+- [X] 4.1.1 — Criar model `Transaction` em `transactions/models.py` com campos: `user` (FK para User), `account` (FK para Account), `category` (FK para Category), `description` (CharField), `amount` (DecimalField), `transaction_type` (CharField com choices: entrada, saida), `date` (DateField), `created_at`, `updated_at`
+- [X] 4.1.2 — Adicionar `__str__` retornando descrição e valor
+- [X] 4.1.3 — Adicionar `class Meta` com `ordering = ['-date', '-created_at']`
+- [X] 4.1.4 — Registrar model `Transaction` no admin
+- [X] 4.1.5 — Executar migração
 
-#### T4.2 — CRUD de Transações
-- [ ] 4.2.1 — Criar `transactions/forms.py` com `TransactionForm` (description, amount, transaction_type, date, category, account). Filtrar categorias por tipo da transação e por usuário; filtrar contas por usuário
-- [ ] 4.2.2 — Criar `TransactionListView` (ListView) filtrando por `request.user` com filtros GET (período, tipo, categoria, conta) e busca por descrição
-- [ ] 4.2.3 — Criar `TransactionCreateView` (CreateView)
-- [ ] 4.2.4 — Criar `TransactionUpdateView` (UpdateView) com verificação de proprietário
-- [ ] 4.2.5 — Criar `TransactionDeleteView` (DeleteView) com verificação de proprietário
-- [ ] 4.2.6 — Criar `templates/transactions/transaction_list.html` com filtros, busca e tabela paginada
-- [ ] 4.2.7 — Criar `templates/transactions/transaction_form.html`
-- [ ] 4.2.8 — Criar `templates/transactions/transaction_confirm_delete.html`
-- [ ] 4.2.9 — Configurar `transactions/urls.py` com rotas CRUD
-- [ ] 4.2.10 — Incluir URLs de transactions em `core/urls.py`
-- [ ] 4.2.11 — Adicionar link "Transações" na sidebar
+#### T4.2 — CRUD de Transações ✅
+- [X] 4.2.1 — Criar `transactions/forms.py` com `TransactionForm` (description, amount, transaction_type, date, category, account). Filtrar categorias por tipo da transação e por usuário; filtrar contas por usuário
+- [X] 4.2.2 — Criar `TransactionListView` (ListView) filtrando por `request.user` com filtros GET (período, tipo, categoria, conta) e busca por descrição
+- [X] 4.2.3 — Criar `TransactionCreateView` (CreateView)
+- [X] 4.2.4 — Criar `TransactionUpdateView` (UpdateView) com verificação de proprietário
+- [X] 4.2.5 — Criar `TransactionDeleteView` (DeleteView) com verificação de proprietário
+- [X] 4.2.6 — Criar `templates/transactions/transaction_list.html` com filtros, busca e tabela paginada
+- [X] 4.2.7 — Criar `templates/transactions/transaction_form.html`
+- [X] 4.2.8 — Criar `templates/transactions/transaction_confirm_delete.html`
+- [X] 4.2.9 — Configurar `transactions/urls.py` com rotas CRUD
+- [X] 4.2.10 — Incluir URLs de transactions em `core/urls.py`
+- [X] 4.2.11 — Adicionar link "Transações" na sidebar
 
-#### T4.3 — Atualização de saldo ao criar/editar/excluir transação
-- [ ] 4.3.1 — Criar `transactions/signals.py` com signal `post_save` para atualizar saldo da conta ao criar/editar transação
-- [ ] 4.3.2 — Criar signal `post_delete` para reverter saldo da conta ao excluir transação
-- [ ] 4.3.3 — Ao editar, calcular diferença entre valor antigo e novo para ajustar saldo
-- [ ] 4.3.4 — Configurar `apps.py` do transactions para carregar signals
+#### T4.3 — Atualização de saldo ao criar/editar/excluir transação ✅
+- [X] 4.3.1 — Criar `transactions/signals.py` com signal `post_save` para atualizar saldo da conta ao criar/editar transação
+- [X] 4.3.2 — Criar signal `post_delete` para reverter saldo da conta ao excluir transação
+- [X] 4.3.3 — Ao editar, calcular diferença entre valor antigo e novo para ajustar saldo
+- [X] 4.3.4 — Configurar `apps.py` do transactions para carregar signals
 
 ---
 

@@ -1,3 +1,4 @@
+{% load core_extras %}
 <form method='post' {% if form_action %}action='{{ form_action }}'{% endif %} class='space-y-5'>
   {% csrf_token %}
   {% for field in form %}
@@ -8,7 +9,7 @@
     {% if field.field.widget.input_type == 'select' %}
     <select id='{{ field.id_for_label }}' name='{{ field.html_name }}' class='w-full px-4 py-2.5 rounded-lg bg-[#0f0d1a] border border-[#2d2754] text-[#f0eef5] focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200 appearance-none {% if field.errors %}border-red-500{% endif %}'>
       {% for choice in field.field.choices %}
-      <option value='{{ choice.0 }}' {% if choice.0 == field.value|stringformat:"s" %}selected{% endif %}>{{ choice.1 }}</option>
+      <option value='{{ choice.0 }}' {% if choice.0|stringformat:"s" == field.value|stringformat:"s" %}selected{% endif %}>{{ choice.1 }}</option>
       {% endfor %}
     </select>
     {% elif field.field.widget.input_type == 'checkbox' %}
@@ -16,6 +17,10 @@
       <input type='checkbox' id='{{ field.id_for_label }}' name='{{ field.html_name }}' class='w-4 h-4 rounded bg-[#0f0d1a] border-[#2d2754] text-violet-500 focus:ring-violet-500 focus:ring-offset-0 transition-all duration-200' {% if field.value %}checked{% endif %}>
       <span class='text-sm text-[#a09cb5]'>{{ field.help_text }}</span>
     </div>
+    {% elif field.field.widget.input_type == 'date' %}
+    <input type='date' id='{{ field.id_for_label }}' name='{{ field.html_name }}' value='{{ field.value|date:"Y-m-d"|default:"" }}' class='w-full px-4 py-2.5 rounded-lg bg-[#0f0d1a] border border-[#2d2754] text-[#f0eef5] focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200 {% if field.errors %}border-red-500{% endif %}'>
+    {% elif field.field.widget.input_type == 'number' %}
+    <input type='number' id='{{ field.id_for_label }}' name='{{ field.html_name }}' value='{% if field.value is not None %}{{ field.value|to_str }}{% endif %}' step='{{ field.field.widget.attrs.step|default:"any" }}' placeholder='{{ field.field.widget.attrs.placeholder|default:"" }}' class='w-full px-4 py-2.5 rounded-lg bg-[#0f0d1a] border border-[#2d2754] text-[#f0eef5] placeholder-[#6b6785] focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200 {% if field.errors %}border-red-500{% endif %}'>
     {% else %}
     <input type='{{ field.field.widget.input_type|default:"text" }}' id='{{ field.id_for_label }}' name='{{ field.html_name }}' value='{{ field.value|default:"" }}' placeholder='{{ field.field.widget.attrs.placeholder|default:"" }}' class='w-full px-4 py-2.5 rounded-lg bg-[#0f0d1a] border border-[#2d2754] text-[#f0eef5] placeholder-[#6b6785] focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200 {% if field.errors %}border-red-500{% endif %}'>
     {% endif %}
