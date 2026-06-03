@@ -1,0 +1,117 @@
+{% extends 'layouts/public.html' %}
+
+{% block public_content %}
+<section class='relative w-full py-24 md:py-32 lg:py-40 overflow-hidden'>
+  <div class='absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-fuchsia-500 opacity-90'></div>
+  <div class='absolute inset-0 bg-[#0f0d1a]/30'></div>
+  <div class='relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center'>
+    <h1 class='text-4xl md:text-6xl font-bold text-white leading-tight'>
+      Controle suas finanças com inteligência
+    </h1>
+    <p class='mt-6 text-lg text-white/80 max-w-2xl mx-auto'>
+      Organize receitas, despesas e investimentos em um só lugar. Simples, rápido e seguro.
+    </p>
+    <div class='mt-10 flex flex-col sm:flex-row items-center justify-center gap-4'>
+      <a href='/register/' class='px-8 py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-semibold shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 hover:scale-105 transition-all duration-200'>
+        Começar agora
+      </a>
+      <a href='/login/' class='px-8 py-3 rounded-lg border border-white/30 text-white hover:bg-white/10 transition-all duration-200 font-medium'>
+        Já tenho conta
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class='py-20 md:py-28'>
+  <div class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+    <div class='text-center mb-14'>
+      <h2 class='text-3xl md:text-4xl font-bold text-[#f0eef5]'>
+        Tudo que você precisa para controlar suas finanças
+      </h2>
+    </div>
+    <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+      <div class='rounded-xl bg-[#1a1730] border border-[#2d2754] p-6 shadow-lg shadow-black/20'>
+        <div class='w-10 h-10 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white mb-4'>
+          <svg class='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+            <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z'></path>
+          </svg>
+        </div>
+        <h3 class='text-lg font-semibold text-[#f0eef5] mb-2'>Dashboard intuitivo</h3>
+        <p class='text-[#a09cb5] text-sm'>Acompanhe receitas, despesas e saldo em tempo real</p>
+      </div>
+
+      <div class='rounded-xl bg-[#1a1730] border border-[#2d2754] p-6 shadow-lg shadow-black/20'>
+        <div class='w-10 h-10 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white mb-4'>
+          <svg class='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+            <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M3 10h18M3 6h18M3 14h18M3 18h18'></path>
+          </svg>
+        </div>
+        <h3 class='text-lg font-semibold text-[#f0eef5] mb-2'>Contas bancárias</h3>
+        <p class='text-[#a09cb5] text-sm'>Gerencie múltiplas contas bancárias em um só lugar</p>
+      </div>
+
+      <div class='rounded-xl bg-[#1a1730] border border-[#2d2754] p-6 shadow-lg shadow-black/20'>
+        <div class='w-10 h-10 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white mb-4'>
+          <svg class='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+            <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z'></path>
+          </svg>
+        </div>
+        <h3 class='text-lg font-semibold text-[#f0eef5] mb-2'>Categorias personalizáveis</h3>
+        <p class='text-[#a09cb5] text-sm'>Organize transações por categorias de forma simples</p>
+      </div>
+
+      <div class='rounded-xl bg-[#1a1730] border border-[#2d2754] p-6 shadow-lg shadow-black/20'>
+        <div class='w-10 h-10 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white mb-4'>
+          <svg class='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+            <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4'></path>
+          </svg>
+        </div>
+        <h3 class='text-lg font-semibold text-[#f0eef5] mb-2'>Controle de transações</h3>
+        <p class='text-[#a09cb5] text-sm'>Registre todas as suas movimentações financeiras</p>
+      </div>
+
+      <div class='rounded-xl bg-[#1a1730] border border-[#2d2754] p-6 shadow-lg shadow-black/20'>
+        <div class='w-10 h-10 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white mb-4'>
+          <svg class='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+            <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z'></path>
+          </svg>
+        </div>
+        <h3 class='text-lg font-semibold text-[#f0eef5] mb-2'>Relatórios visuais</h3>
+        <p class='text-[#a09cb5] text-sm'>Visualize seus dados com gráficos claros e objetivos</p>
+      </div>
+
+      <div class='rounded-xl bg-[#1a1730] border border-[#2d2754] p-6 shadow-lg shadow-black/20'>
+        <div class='w-10 h-10 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white mb-4'>
+          <svg class='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+            <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z'></path>
+          </svg>
+        </div>
+        <h3 class='text-lg font-semibold text-[#f0eef5] mb-2'>Segurança total</h3>
+        <p class='text-[#a09cb5] text-sm'>Seus dados protegidos com as melhores práticas</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class='py-20 md:py-28'>
+  <div class='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-fuchsia-500 p-12 md:p-16'>
+    <h2 class='text-3xl md:text-4xl font-bold text-white'>
+      Pronto para tomar controle das suas finanças?
+    </h2>
+    <p class='mt-4 text-lg text-white/80'>
+      Crie sua conta gratuitamente e comece agora mesmo.
+    </p>
+    <div class='mt-8'>
+      <a href='/register/' class='inline-block px-10 py-3 rounded-lg bg-white text-[#4c388c] font-semibold hover:bg-white/90 transition-all duration-200 shadow-lg'>
+        Criar conta gratuita
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class='bg-[#1a1730] border-t border-[#2d2754]'>
+  <div class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center'>
+    <p class='text-[#6b6785] text-sm'>&copy; 2025 Finanpy. Todos os direitos reservados.</p>
+  </div>
+</footer>
+{% endblock %}

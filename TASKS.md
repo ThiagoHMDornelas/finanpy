@@ -31,44 +31,44 @@
 - [X] 1.2.6 — Apagar `db.sqlite3` existente, executar `makemigrations` e `migrate` (necessário pois o superuser atual usa o model padrão)
 - [X] 1.2.7 — Recriar superuser com o novo model: `python manage.py createsuperuser` (email: dornelas, senha: [REDACTED])
 
-#### T1.3 — Model Profile e Signal
-- [ ] 1.3.1 — Criar model `Profile` em `profiles/models.py` com campos: `user` (OneToOne com User), `avatar` (ImageField opcional), `created_at`, `updated_at`
-- [ ] 1.3.2 — Criar `profiles/signals.py` com signal `post_save` para criar Profile automaticamente ao criar User
-- [ ] 1.3.3 — Configurar `apps.py` do profiles para carregar signals (método `ready()`)
-- [ ] 1.3.4 — Registrar model `Profile` no admin
-- [ ] 1.3.5 — Executar migração (`makemigrations profiles` e `migrate`)
+#### T1.3 — Model Profile e Signal ✅
+- [X] 1.3.1 — Criar model `Profile` em `profiles/models.py` com campos: `user` (OneToOne com User), `avatar` (ImageField opcional), `created_at`, `updated_at`
+- [X] 1.3.2 — Criar `profiles/signals.py` com signal `post_save` para criar Profile automaticamente ao criar User
+- [X] 1.3.3 — Configurar `apps.py` do profiles para carregar signals (método `ready()`)
+- [X] 1.3.4 — Registrar model `Profile` no admin
+- [X] 1.3.5 — Executar migração (`makemigrations profiles` e `migrate`)
 
-#### T1.4 — Templates base e design system
-- [ ] 1.4.1 — Criar `templates/base.html` com estrutura HTML5, TailwindCSS CDN, Google Fonts (Inter), meta tags, blocos `{% block title %}`, `{% block content %}`, `{% block extra_css %}`, `{% block extra_js %}`
-- [ ] 1.4.2 — Criar `templates/components/navbar.html` com logo, links de navegação, dropdown de usuário (para páginas públicas)
-- [ ] 1.4.3 — Criar `templates/components/sidebar.html` com links de navegação do app (Dashboard, Contas, Categorias, Transações, Perfil), logo e botão de logout
-- [ ] 1.4.4 — Criar `templates/components/card.html` como template component reutilizável
-- [ ] 1.4.5 — Criar `templates/components/table.html` como template component reutilizável
-- [ ] 1.4.6 — Criar `templates/components/form.html` como template component reusável com renderização de campos e erros
-- [ ] 1.4.7 — Criar `templates/components/pagination.html` como template component reutilizável
-- [ ] 1.4.8 — Criar `templates/components/alert.html` para mensagens de sucesso/erro/aviso
-- [ ] 1.4.9 — Criar `templates/components/modal.html` como template component reutilizável
-- [ ] 1.4.10 — Criar `templates/partials/messages.html` para renderizar mensagens do Django messages framework
-- [ ] 1.4.11 — Criar `templates/layouts/app.html` que herda de base.html e inclui sidebar + área de conteúdo (layout autenticado)
-- [ ] 1.4.12 — Criar `templates/layouts/public.html` que herda de base.html e inclui navbar (layout público)
+#### T1.4 — Templates base e design system ✅
+- [X] 1.4.1 — Criar `templates/base.html` com estrutura HTML5, TailwindCSS CDN, Google Fonts (Inter), meta tags, blocos `{% block title %}`, `{% block content %}`, `{% block extra_css %}`, `{% block extra_js %}`
+- [X] 1.4.2 — Criar `templates/components/navbar.html` com logo, links de navegação, dropdown de usuário (para páginas públicas)
+- [X] 1.4.3 — Criar `templates/components/sidebar.html` com links de navegação do app (Dashboard, Contas, Categorias, Transações, Perfil), logo e botão de logout
+- [X] 1.4.4 — Criar `templates/components/card.html` como template component reutilizável
+- [X] 1.4.5 — Criar `templates/components/table.html` como template component reutilizável
+- [X] 1.4.6 — Criar `templates/components/form.html` como template component reusável com renderização de campos e erros
+- [X] 1.4.7 — Criar `templates/components/pagination.html` como template component reutilizável
+- [X] 1.4.8 — Criar `templates/components/alert.html` para mensagens de sucesso/erro/aviso
+- [X] 1.4.9 — Criar `templates/components/modal.html` como template component reutilizável
+- [X] 1.4.10 — Criar `templates/partials/messages.html` para renderizar mensagens do Django messages framework
+- [X] 1.4.11 — Criar `templates/layouts/app.html` que herda de base.html e inclui sidebar + área de conteúdo (layout autenticado)
+- [X] 1.4.12 — Criar `templates/layouts/public.html` que herda de base.html e inclui navbar (layout público)
 
-#### T1.5 — Landing page
-- [ ] 1.5.1 — Criar view `LandingPageView` (TemplateView) em `core/views.py`
-- [ ] 1.5.2 — Criar `templates/pages/landing.html` com hero section, features, CTA de cadastro e login
-- [ ] 1.5.3 — Configurar `core/urls.py` com URL `/` apontando para a landing page
-- [ ] 1.5.4 — Aplicar design system: gradiente no hero, cards de features, tema escuro
+#### T1.5 — Landing page ✅
+- [X] 1.5.1 — Criar view `LandingPageView` (TemplateView) em `core/views.py`
+- [X] 1.5.2 — Criar `templates/pages/landing.html` com hero section, features, CTA de cadastro e login
+- [X] 1.5.3 — Configurar `core/urls.py` com URL `/` apontando para a landing page
+- [X] 1.5.4 — Aplicar design system: gradiente no hero, cards de features, tema escuro
 
-#### T1.6 — Autenticação: cadastro, login, logout
-- [ ] 1.6.1 — Criar `users/forms.py` com `UserRegisterForm` (nome, email, senha, confirmação de senha)
-- [ ] 1.6.2 — Criar `users/forms.py` com `UserLoginForm` (email, senha, lembrar-me)
-- [ ] 1.6.3 — Criar `users/views.py` com `RegisterView` (CreateView ou View customizada) para cadastro
-- [ ] 1.6.4 — Criar `users/views.py` com `LoginView` customizada que usa email
-- [ ] 1.6.5 — Criar `users/views.py` com `LogoutView`
-- [ ] 1.6.6 — Criar `templates/pages/register.html` com formulário de cadastro estilizado
-- [ ] 1.6.7 — Criar `templates/pages/login.html` com formulário de login estilizado
-- [ ] 1.6.8 — Criar `users/urls.py` com rotas de autenticação (`/register/`, `/login/`, `/logout/`)
-- [ ] 1.6.9 — Configurar `core/urls.py` incluindo urls de todos os apps
-- [ ] 1.6.10 — Adicionar decorator `@login_required` ou `LoginRequiredMixin` nas views protegidas
+#### T1.6 — Autenticação: cadastro, login, logout ✅
+- [X] 1.6.1 — Criar `users/forms.py` com `UserRegisterForm` (nome, email, senha, confirmação de senha)
+- [X] 1.6.2 — Criar `users/forms.py` com `UserLoginForm` (email, senha, lembrar-me)
+- [X] 1.6.3 — Criar `users/views.py` com `RegisterView` (CreateView ou View customizada) para cadastro
+- [X] 1.6.4 — Criar `users/views.py` com `LoginView` customizada que usa email
+- [X] 1.6.5 — Criar `users/views.py` com `LogoutView`
+- [X] 1.6.6 — Criar `templates/pages/register.html` com formulário de cadastro estilizado
+- [X] 1.6.7 — Criar `templates/pages/login.html` com formulário de login estilizado
+- [X] 1.6.8 — Criar `users/urls.py` com rotas de autenticação (`/register/`, `/login/`, `/logout/`)
+- [X] 1.6.9 — Configurar `core/urls.py` incluindo urls de todos os apps
+- [X] 1.6.10 — Adicionar decorator `@login_required` ou `LoginRequiredMixin` nas views protegidas
 
 ---
 

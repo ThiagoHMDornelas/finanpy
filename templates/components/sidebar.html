@@ -1,0 +1,49 @@
+<aside class='fixed left-0 top-0 z-40 w-64 min-h-screen bg-[#0f0d1a] border-r border-[#2d2754] flex flex-col'>
+  <div class='flex items-center h-16 px-6 border-b border-[#2d2754]'>
+    <a href='/' class='text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent'>
+      Finanpy
+    </a>
+  </div>
+  <nav class='flex-1 px-3 py-4 space-y-1 overflow-y-auto'>
+    <a href='{% url "dashboard" %}' class='flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 {% if request.resolver_match.url_name == "dashboard" %}bg-gradient-to-r from-indigo-600/20 to-violet-600/20 text-violet-400 font-medium{% else %}text-[#a09cb5] hover:bg-[#1a1730]{% endif %}'>
+      <svg class='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+        <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-2 0h6'/>
+      </svg>
+      <span class='text-sm'>Dashboard</span>
+    </a>
+    <a href='{% url "accounts:list" %}' class='flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 {% if request.resolver_match.url_name|startswith:"accounts:" %}bg-gradient-to-r from-indigo-600/20 to-violet-600/20 text-violet-400 font-medium{% else %}text-[#a09cb5] hover:bg-[#1a1730]{% endif %}'>
+      <svg class='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+        <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M3 10h18M3 14h18M3 6h18M3 18h18'/>
+      </svg>
+      <span class='text-sm'>Contas</span>
+    </a>
+    <a href='{% url "categories:list" %}' class='flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 {% if request.resolver_match.url_name|startswith:"categories:" %}bg-gradient-to-r from-indigo-600/20 to-violet-600/20 text-violet-400 font-medium{% else %}text-[#a09cb5] hover:bg-[#1a1730]{% endif %}'>
+      <svg class='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+        <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z'/>
+      </svg>
+      <span class='text-sm'>Categorias</span>
+    </a>
+    <a href='{% url "transactions:list" %}' class='flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 {% if request.resolver_match.url_name|startswith:"transactions:" %}bg-gradient-to-r from-indigo-600/20 to-violet-600/20 text-violet-400 font-medium{% else %}text-[#a09cb5] hover:bg-[#1a1730]{% endif %}'>
+      <svg class='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+        <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4'/>
+      </svg>
+      <span class='text-sm'>Transações</span>
+    </a>
+  </nav>
+  <div class='border-t border-[#2d2754] px-4 py-4'>
+    <div class='flex items-center gap-3'>
+      <div class='w-9 h-9 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white text-sm font-semibold'>
+        {{ user.email|truncatechars:2:'' }}
+      </div>
+      <div class='flex-1 min-w-0'>
+        <p class='text-sm font-medium text-[#f0eef5] truncate'>{{ user.email }}</p>
+      </div>
+    </div>
+    <a href='{% url "logout" %}' class='flex items-center gap-2 mt-3 px-3 py-2 rounded-lg text-[#6b6785] hover:text-red-400 hover:bg-red-500/10 transition-all duration-200 text-sm w-full'>
+      <svg class='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+        <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1'/>
+      </svg>
+      Sair
+    </a>
+  </div>
+</aside>

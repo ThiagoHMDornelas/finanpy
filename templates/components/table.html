@@ -1,0 +1,14 @@
+<div class='rounded-xl bg-[#1a1730] border border-[#2d2754] overflow-hidden'>
+  <table class='w-full'>
+    <thead>
+      <tr class='border-b border-[#2d2754]'>
+        {% for header in headers %}
+        <th class='px-4 py-3 text-left text-sm font-medium text-[#a09cb5]'>{{ header }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% block table_body %}{% endblock %}
+    </tbody>
+  </table>
+</div>

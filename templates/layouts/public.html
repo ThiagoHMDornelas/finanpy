@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'components/navbar.html' %}
+<main class='min-h-screen'>
+  {% include 'partials/messages.html' %}
+  {% block public_content %}{% endblock %}
+</main>
+{% endblock %}

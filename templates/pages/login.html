@@ -1,0 +1,47 @@
+{% extends 'layouts/public.html' %}
+
+{% block public_content %}
+<div class='max-w-md mx-auto mt-20 bg-[#1a1730] border border-[#2d2754] rounded-xl p-8 shadow-lg shadow-black/20'>
+  <h1 class='bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent text-3xl font-bold text-center'>Finanpy</h1>
+  <h2 class='text-xl font-semibold text-[#f0eef5] mt-6 text-center'>Entrar na sua conta</h2>
+
+  {% if form.non_field_errors %}
+  <div class='mt-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg'>
+    {% for error in form.non_field_errors %}
+    <p class='text-red-400 text-sm'>{{ error }}</p>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <form method='post' class='mt-6 space-y-4'>
+    {% csrf_token %}
+
+    {% for field in form %}
+    {% if field.name == 'remember_me' %}
+    <div class='flex items-center gap-3'>
+      <input type='checkbox' name='{{ field.html_name }}' id='{{ field.id_for_label }}' class='h-4 w-4 rounded border-[#2d2754] bg-[#0f0d1a] text-violet-500 focus:ring-violet-500 focus:ring-1'>
+      <label for='{{ field.id_for_label }}' class='text-sm text-[#a09cb5]'>{{ field.label }}</label>
+    </div>
+    {% else %}
+    <div>
+      <label for='{{ field.id_for_label }}' class='block text-sm font-medium text-[#a09cb5] mb-1'>{{ field.label }}</label>
+      {{ field }}
+      {% if field.errors %}
+      {% for error in field.errors %}
+      <p class='text-red-400 text-sm mt-1'>{{ error }}</p>
+      {% endfor %}
+      {% endif %}
+    </div>
+    {% endif %}
+    {% endfor %}
+
+    <button type='submit' class='w-full px-4 py-2.5 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-medium hover:from-indigo-600 hover:to-purple-600 transition-all duration-200 shadow-lg shadow-violet-500/25'>
+      Entrar
+    </button>
+  </form>
+
+  <p class='mt-6 text-center text-sm text-[#a09cb5]'>
+    Não tem uma conta? <a href='/register/' class='text-violet-400 hover:text-violet-300'>Cadastre-se</a>
+  </p>
+</div>
+{% endblock %}
