@@ -1,0 +1,15 @@
+{% extends 'layouts/app.html' %}
+
+{% block title %}{% if form.instance.pk %}Editar Categoria{% else %}Nova Categoria{% endif %} — Finanpy{% endblock %}
+
+{% block app_content %}
+<div class='max-w-xl mx-auto'>
+  <div class='flex items-center justify-between mb-6'>
+    <h1 class='text-2xl font-bold text-[#f0eef5]'>{% if form.instance.pk %}Editar Categoria{% else %}Nova Categoria{% endif %}</h1>
+    <a href='{% url "categories:list" %}' class='text-sm text-[#a09cb5] hover:text-[#f0eef5] transition-all duration-200'>Voltar</a>
+  </div>
+  <div class='rounded-xl bg-[#1a1730] border border-[#2d2754] p-6 shadow-lg shadow-black/20'>
+    {% include 'components/form.html' with cancel_url=view.success_url|default:'/categorias/' %}
+  </div>
+</div>
+{% endblock %}

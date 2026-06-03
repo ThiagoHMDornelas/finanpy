@@ -105,32 +105,32 @@
 
 ---
 
-### Sprint 3 — Categorias
+### Sprint 3 — Categorias ✅
 
-#### T3.1 — Model Category
-- [ ] 3.1.1 — Criar model `Category` em `categories/models.py` com campos: `user` (FK para User), `name` (CharField), `category_type` (CharField com choices: receita, despesa), `color` (CharField, default='#7c3aed'), `icon` (CharField, opcional), `created_at`, `updated_at`
-- [ ] 3.1.2 — Adicionar `__str__` retornando nome da categoria
-- [ ] 3.1.3 — Adicionar `class Meta` com `ordering = ['category_type', 'name']` e `unique_together = ('user', 'name')`
-- [ ] 3.1.4 — Registrar model `Category` no admin
-- [ ] 3.1.5 — Executar migração
+#### T3.1 — Model Category ✅
+- [X] 3.1.1 — Criar model `Category` em `categories/models.py` com campos: `user` (FK para User), `name` (CharField), `category_type` (CharField com choices: receita, despesa), `color` (CharField, default='#7c3aed'), `icon` (CharField, opcional), `created_at`, `updated_at`
+- [X] 3.1.2 — Adicionar `__str__` retornando nome da categoria
+- [X] 3.1.3 — Adicionar `class Meta` com `ordering = ['category_type', 'name']` e `unique_together = ('user', 'name')`
+- [X] 3.1.4 — Registrar model `Category` no admin
+- [X] 3.1.5 — Executar migração
 
-#### T3.2 — Categorias padrão (signal)
-- [ ] 3.2.1 — Criar `categories/signals.py` com signal `post_save` para criar categorias padrão quando um novo User for criado (ex: Alimentação, Transporte, Salário, Moradia, Lazer, Saúde, Educação, Outros — para despesas; Salário, Freelance, Investimentos, Outros — para receitas)
-- [ ] 3.2.2 — Configurar `apps.py` do categories para carregar signals
-- [ ] 3.2.3 — Testar criação de categorias padrão ao registrar novo usuário
+#### T3.2 — Categorias padrão (signal) ✅
+- [X] 3.2.1 — Criar `categories/signals.py` com signal `post_save` para criar categorias padrão quando um novo User for criado (ex: Alimentação, Transporte, Salário, Moradia, Lazer, Saúde, Educação, Outros — para despesas; Salário, Freelance, Investimentos, Outros — para receitas)
+- [X] 3.2.2 — Configurar `apps.py` do categories para carregar signals
+- [X] 3.2.3 — Testar criação de categorias padrão ao registrar novo usuário
 
-#### T3.3 — CRUD de Categorias
-- [ ] 3.3.1 — Criar `categories/forms.py` com `CategoryForm` (name, category_type, color)
-- [ ] 3.3.2 — Criar `CategoryListView` (ListView) filtrando por `request.user`
-- [ ] 3.3.3 — Criar `CategoryCreateView` (CreateView)
-- [ ] 3.3.4 — Criar `CategoryUpdateView` (UpdateView) com verificação de proprietário
-- [ ] 3.3.5 — Criar `CategoryDeleteView` (DeleteView) com verificação de proprietário
-- [ ] 3.3.6 — Criar `templates/categories/category_list.html` com abas de receita/despesa
-- [ ] 3.3.7 — Criar `templates/categories/category_form.html`
-- [ ] 3.3.8 — Criar `templates/categories/category_confirm_delete.html`
-- [ ] 3.3.9 — Configurar `categories/urls.py` com rotas CRUD
-- [ ] 3.3.10 — Incluir URLs de categories em `core/urls.py`
-- [ ] 3.3.11 — Adicionar link "Categorias" na sidebar
+#### T3.3 — CRUD de Categorias ✅
+- [X] 3.3.1 — Criar `categories/forms.py` com `CategoryForm` (name, category_type, color)
+- [X] 3.3.2 — Criar `CategoryListView` (ListView) filtrando por `request.user`
+- [X] 3.3.3 — Criar `CategoryCreateView` (CreateView)
+- [X] 3.3.4 — Criar `CategoryUpdateView` (UpdateView) com verificação de proprietário
+- [X] 3.3.5 — Criar `CategoryDeleteView` (DeleteView) com verificação de proprietário
+- [X] 3.3.6 — Criar `templates/categories/category_list.html` com abas de receita/despesa
+- [X] 3.3.7 — Criar `templates/categories/category_form.html`
+- [X] 3.3.8 — Criar `templates/categories/category_confirm_delete.html`
+- [X] 3.3.9 — Configurar `categories/urls.py` com rotas CRUD
+- [X] 3.3.10 — Incluir URLs de categories em `core/urls.py`
+- [X] 3.3.11 — Adicionar link "Categorias" na sidebar
 
 ---
 

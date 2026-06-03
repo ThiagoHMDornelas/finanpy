@@ -1,8 +1,12 @@
 from django.urls import path
-from django.views.generic import TemplateView
+
+from .views import CategoryListView, CategoryCreateView, CategoryUpdateView, CategoryDeleteView
 
 app_name = 'categories'
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='pages/coming_soon.html'), name='list'),
+    path('', CategoryListView.as_view(), name='list'),
+    path('nova/', CategoryCreateView.as_view(), name='create'),
+    path('<int:pk>/editar/', CategoryUpdateView.as_view(), name='update'),
+    path('<int:pk>/excluir/', CategoryDeleteView.as_view(), name='delete'),
 ]

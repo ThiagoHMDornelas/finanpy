@@ -1,0 +1,30 @@
+{% extends 'layouts/app.html' %}
+
+{% block title %}Excluir Categoria — Finanpy{% endblock %}
+
+{% block app_content %}
+<div class='max-w-md mx-auto'>
+  <div class='rounded-xl bg-[#1a1730] border border-[#2d2754] p-6 shadow-lg shadow-black/20'>
+    <div class='text-center'>
+      <div class='w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center mx-auto mb-4'>
+        <svg class='w-6 h-6 text-red-400' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+          <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'/>
+        </svg>
+      </div>
+      <h3 class='text-lg font-semibold text-[#f0eef5] mb-2'>Excluir categoria</h3>
+      <p class='text-sm text-[#a09cb5] mb-6'>Tem certeza que deseja excluir a categoria <strong class='text-[#f0eef5]'>{{ object.name }}</strong>? Esta ação não pode ser desfeita.</p>
+      <div class='flex items-center justify-center gap-3'>
+        <a href='{% url "categories:list" %}' class='px-4 py-2 rounded-lg border border-[#2d2754] text-[#a09cb5] hover:text-[#f0eef5] hover:border-[#6b6785] transition-all duration-200 text-sm font-medium'>
+          Cancelar
+        </a>
+        <form method='post' class='inline'>
+          {% csrf_token %}
+          <button type='submit' class='px-4 py-2 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 transition-all duration-200 text-sm font-medium'>
+            Excluir
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
