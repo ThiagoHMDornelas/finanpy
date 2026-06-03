@@ -1,5 +1,5 @@
 {% load core_extras %}
-<form method='post' {% if form_action %}action='{{ form_action }}'{% endif %} class='space-y-5'>
+<form method='post' {% if form_action %}action='{{ form_action }}'{% endif %} class='space-y-5' onsubmit='var btn=this.querySelector("button[type=submit]");btn.disabled=true;btn.classList.add("opacity-50","cursor-not-allowed");var txt=btn.textContent;btn.textContent="Salvando...";'>
   {% csrf_token %}
   {% for field in form %}
   <div>

@@ -11,6 +11,7 @@ class CategoryListView(LoginRequiredMixin, ListView):
     model = Category
     template_name = 'categories/category_list.html'
     context_object_name = 'categories'
+    paginate_by = 10
 
     def get_queryset(self):
         return Category.objects.filter(user=self.request.user)

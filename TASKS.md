@@ -192,41 +192,41 @@
 
 ---
 
-### Sprint 6 — Polimento e finalização
+### Sprint 6 — Polimento e finalização ✅
 
-#### T6.1 — Polimento visual e UX
-- [ ] 6.1.1 — Revisar consistência visual de todas as páginas
-- [ ] 6.1.2 — Adicionar mensagens de feedback (success, error, warning) em todas as operações CRUD usando Django messages framework
-- [ ] 6.1.3 — Implementar paginação consistente em todas as listagens (ListView com `paginate_by`)
-- [ ] 6.1.4 — Adicionar estados vazios (empty states) quando não houver dados (ex: "Nenhuma transação registrada. Clique em Nova Transação para começar.")
-- [ ] 6.1.5 — Adicionar confirmação visual de exclusão com modal em todas as telas de delete (usar component modal.html)
-- [ ] 6.1.6 — Garantir que todos os formulários exibam erros de validação corretamente
-- [ ] 6.1.7 — Garantir responsividade mobile em todas as páginas
-- [ ] 6.1.8 — Adicionar loading states ou feedback visual em formulários submetidos
+#### T6.1 — Polimento visual e UX ✅
+- [X] 6.1.1 — Revisar consistência visual de todas as páginas
+- [X] 6.1.2 — Adicionar mensagens de feedback (success, error, warning) em todas as operações CRUD usando Django messages framework
+- [X] 6.1.3 — Implementar paginação consistente em todas as listagens (ListView com `paginate_by`)
+- [X] 6.1.4 — Adicionar estados vazios (empty states) quando não houver dados (ex: "Nenhuma transação registrada. Clique em Nova Transação para começar.")
+- [X] 6.1.5 — Adicionar confirmação visual de exclusão com modal em todas as telas de delete (usar component modal.html)
+- [X] 6.1.6 — Garantir que todos os formulários exibam erros de validação corretamente
+- [X] 6.1.7 — Garantir responsividade mobile em todas as páginas
+- [X] 6.1.8 — Adicionar loading states ou feedback visual em formulários submetidos
 
-#### T6.2 — Segurança e proteção de dados
-- [ ] 6.2.1 — Garantir que todas as views protegidas usam `@login_required` ou `LoginRequiredMixin`
-- [ ] 6.2.2 — Garantir que todas as queries filtram por `request.user` (isolation)
-- [ ] 6.2.3 — Garantir que usuários não podem acessar/editar/excluir dados de outros usuários
-- [ ] 6.2.4 — Revisar CSRF em todos os formulários POST
-- [ ] 6.2.5 — Adicionar `LOGIN_REQUIRED` em settings para views protegidas
+#### T6.2 — Segurança e proteção de dados ✅
+- [X] 6.2.1 — Garantir que todas as views protegidas usam `@login_required` ou `LoginRequiredMixin`
+- [X] 6.2.2 — Garantir que todas as queries filtram por `request.user` (isolation)
+- [X] 6.2.3 — Garantir que usuários não podem acessar/editar/excluir dados de outros usuários
+- [X] 6.2.4 — Revisar CSRF em todos os formulários POST
+- [X] 6.2.5 — Adicionar `LOGIN_REQUIRED` em settings para views protegidas
 
-#### T6.3 — Revisão de código e organização
-- [ ] 6.3.1 — Revisar todos os models para garantir `created_at` e `updated_at`
-- [ ] 6.3.2 — Revisar que todo código está em inglês
-- [ ] 6.3.3 — Revisar que toda interface está em português brasileiro
-- [ ] 6.3.4 — Revisar que o código usa aspas simples (PEP8)
-- [ ] 6.3.5 — Revisar que todas as CBVs seguem padrão consistente
-- [ ] 6.3.6 — Limpar imports não utilizados
-- [ ] 6.3.7 — Verificar relacionamentos no banco (on_delete, related_name)
-- [ ] 6.3.8 — Revisar `__str__` em todos os models
+#### T6.3 — Revisão de código e organização ✅
+- [X] 6.3.1 — Revisar todos os models para garantir `created_at` e `updated_at`
+- [X] 6.3.2 — Revisar que todo código está em inglês
+- [X] 6.3.3 — Revisar que toda interface está em português brasileiro
+- [X] 6.3.4 — Revisar que o código usa aspas simples (PEP8)
+- [X] 6.3.5 — Revisar que todas as CBVs seguem padrão consistente
+- [X] 6.3.6 — Limpar imports não utilizados
+- [X] 6.3.7 — Verificar relacionamentos no banco (on_delete, related_name)
+- [X] 6.3.8 — Revisar `__str__` em todos os models
 
-#### T6.4 — Documentação e configuração final
-- [ ] 6.4.1 — Atualizar `requirements.txt` com todas as dependências
-- [ ] 6.4.2 — Atualizar ou criar arquivo `.env.example` com variáveis de ambiente necessárias
-- [ ] 6.4.3 — Garantir que `manage.py` e migrações estão em dia
-- [ ] 6.4.4 — Executar `python manage.py check` e corrigir avisos
-- [ ] 6.4.5 — Executar `python manage.py runserver` e testar todos os fluxos manualmente
+#### T6.4 — Documentação e configuração final ✅
+- [X] 6.4.1 — Atualizar `requirements.txt` com todas as dependências
+- [X] 6.4.2 — Atualizar ou criar arquivo `.env.example` com variáveis de ambiente necessárias
+- [X] 6.4.3 — Garantir que `manage.py` e migrações estão em dia
+- [X] 6.4.4 — Executar `python manage.py check` e corrigir avisos
+- [X] 6.4.5 — Executar `python manage.py runserver` e testar todos os fluxos manualmente
 
 ---
 
