@@ -20,7 +20,7 @@ Apps do Django, responsabilidades e estrutura de cada app.
 ### 5. [Models](models.md)
 Models planejados, campos e relacionamentos.
 
-### 6. [SeguDesign systemrança](design-system.md)
+### 6. [Design system](design-system.md)
 Design system, cores, componentes e padroes visuais.
 
 
