@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang='pt-BR'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>{% block title %}Finanpy{% endblock %}</title>
+  <link rel='preconnect' href='https://fonts.googleapis.com'>
+  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+  <link href='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap' rel='stylesheet'>
+  <script src='https://cdn.tailwindcss.com'></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            surface: '#0f0d1a',
+            brand: {
+              50: '#f0eef5',
+              100: '#e0ddf0',
+              200: '#c4bdd6',
+              300: '#a89cec',
+              400: '#8b7ae0',
+              500: '#7c6ad8',
+              600: '#6d55c9',
+              700: '#5b42a8',
+              800: '#4c388c',
+              900: '#3f3074',
+            },
+          },
+        },
+      },
+    }
+  </script>
+  {% block extra_css %}{% endblock %}
+</head>
+<body class='bg-[#0f0d1a] text-[#f0eef5] font-sans antialiased'>
+  {% block content %}{% endblock %}
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

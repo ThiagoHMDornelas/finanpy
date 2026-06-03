@@ -10,24 +10,26 @@
 
 ### Sprint 1 — Setup do projeto e autenticação
 
-#### T1.1 — Configuração inicial do projeto
+#### T1.1 — Configuração inicial do projeto ✅
 - [X] 1.1.1 — Criar estrutura de diretórios dos apps (`accounts`, `categories`, `transactions`, `profiles`, `users`) — **já realizado via `startapp`**
-- [ ] 1.1.2 — Criar diretório `templates/` com subpastas `components/`, `pages/`, `partials/`, `layouts/`
-- [ ] 1.1.3 — Criar diretório `static/` com subpastas `css/`, `js/`, `img/`
+- [X] 1.1.2 — Criar diretório `templates/` com subpastas `components/`, `pages/`, `partials/`, `layouts/`
+- [X] 1.1.3 — Criar diretório `static/` com subpastas `css/`, `js/`, `img/`
 - [X] 1.1.4 — Configurar `settings.py`: apps registrados, `LANGUAGE_CODE='pt-br'` — **já realizado**
-- [ ] 1.1.5 — Atualizar `settings.py`: adicionar `TEMPLATES[0]['DIRS']` apontando para diretório de templates global, `STATICFILES_DIRS`, `TIME_ZONE='America/Sao_Paulo'`, `AUTH_USER_MODEL = 'users.User'`, `LOGIN_URL`, `LOGIN_REDIRECT_URL = 'dashboard'`, `LOGOUT_REDIRECT_URL = 'landing'`
-- [ ] 1.1.6 — Atualizar `requirements.txt` adicionando dependências necessárias (ex: django-tributo se for usar django-tailwind)
-- [ ] 1.1.7 — Configurar TailwindCSS (via CDN no template base ou via `django-tailwind`)
-- [ ] 1.1.8 — **Atenção:** antes de criar o model User customizado, apagar `db.sqlite3` e recriar o banco após as migrações. O superuser `dornelas` precisará ser recriado com o novo model
+- [X] 1.1.5 — Atualizar `settings.py`: adicionar `TEMPLATES[0]['DIRS']` apontando para diretório de templates global, `STATICFILES_DIRS`, `TIME_ZONE='America/Sao_Paulo'`, `AUTH_USER_MODEL = 'users.User'`, `LOGIN_URL`, `LOGIN_REDIRECT_URL = 'dashboard'`, `LOGOUT_REDIRECT_URL = 'landing'`
+- [X] 1.1.6 — Atualizar `requirements.txt` adicionando dependências necessárias (Pillow para ImageField)
+- [X] 1.1.7 — Configurar TailwindCSS via CDN no template base (`templates/base.html`)
+- [X] 1.1.8: Criar arquivo `.env` na raiz do projeto
+- [X] 1.1.9: Mover SECRET_KEY para arquivo `.env`
+- [X] 1.1.10 — **Atenção:** `db.sqlite3` apagado. Banco será recriado após implementar model User customizado (T1.2)
 
-#### T1.2 — Model User customizado
-- [ ] 1.2.1 — Criar model `User` em `users/models.py` herdando de `AbstractUser`, substituindo `username` por `email` como campo principal (`USERNAME_FIELD = 'email'`), tornando `username` não obrigatório (`blank=True, null=True`)
-- [ ] 1.2.2 — Adicionar campos `created_at` e `updated_at` com `auto_now_add` e `auto_now`
-- [ ] 1.2.3 — Adicionar `REQUIRED_FIELDS = ['first_name']` no model User
-- [ ] 1.2.4 — Criar `UserManager` customizado que usa email para `create_user` e `create_superuser`
-- [ ] 1.2.5 — Registrar model `User` no `users/admin.py` com configuração adequada
-- [ ] 1.2.6 — Apagar `db.sqlite3` existente, executar `makemigrations` e `migrate` (necessário pois o superuser atual usa o model padrão)
-- [ ] 1.2.7 — Recriar superuser com o novo model: `python manage.py createsuperuser` (email: dornelas, senha: [REDACTED])
+#### T1.2 — Model User customizado ✅
+- [X] 1.2.1 — Criar model `User` em `users/models.py` herdando de `AbstractUser`, substituindo `username` por `email` como campo principal (`USERNAME_FIELD = 'email'`), tornando `username` não obrigatório (`blank=True, null=True`)
+- [X] 1.2.2 — Adicionar campos `created_at` e `updated_at` com `auto_now_add` e `auto_now`
+- [X] 1.2.3 — Adicionar `REQUIRED_FIELDS = ['first_name']` no model User
+- [X] 1.2.4 — Criar `UserManager` customizado que usa email para `create_user` e `create_superuser`
+- [X] 1.2.5 — Registrar model `User` no `users/admin.py` com configuração adequada
+- [X] 1.2.6 — Apagar `db.sqlite3` existente, executar `makemigrations` e `migrate` (necessário pois o superuser atual usa o model padrão)
+- [X] 1.2.7 — Recriar superuser com o novo model: `python manage.py createsuperuser` (email: dornelas, senha: [REDACTED])
 
 #### T1.3 — Model Profile e Signal
 - [ ] 1.3.1 — Criar model `Profile` em `profiles/models.py` com campos: `user` (OneToOne com User), `avatar` (ImageField opcional), `created_at`, `updated_at`
@@ -221,7 +223,7 @@
 
 #### T6.4 — Documentação e configuração final
 - [ ] 6.4.1 — Atualizar `requirements.txt` com todas as dependências
-- [ ] 6.4.2 — Criar arquivo `.env.example` com variáveis de ambiente necessárias
+- [ ] 6.4.2 — Atualizar ou criar arquivo `.env.example` com variáveis de ambiente necessárias
 - [ ] 6.4.3 — Garantir que `manage.py` e migrações estão em dia
 - [ ] 6.4.4 — Executar `python manage.py check` e corrigir avisos
 - [ ] 6.4.5 — Executar `python manage.py runserver` e testar todos os fluxos manualmente
