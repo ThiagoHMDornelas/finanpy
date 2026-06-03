@@ -1,3 +1,58 @@
-from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, UpdateView
+from django.contrib.auth import update_session_auth_hash
 
-# Create your views here.
+from .models import Profile
+from .forms import ProfileUpdateForm, CustomPasswordChangeForm
+
+
+class ProfileDetailView(LoginRequiredMixin, DetailView):
+    model = Profile
+    template_name = 'profiles/profile_detail.html'
+    context_object_name = 'profile'
+
+    def get_object(self, queryset=None):
+        return self.request.user.profile
+
+
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+    model = Profile
+    form_class = ProfileUpdateForm
+    template_name = 'profiles/profile_form.html'
+    success_url = reverse_lazy('profiles:detail')
+
+    def get_object(self, queryset=None):
+        return self.request.user.profile
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.pop('instance', None)
+        kwargs['instance'] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Perfil atualizado com sucesso!')
+        return super().form_valid(form)
+
+
+class PasswordChangeView(LoginRequiredMixin, UpdateView):
+    form_class = CustomPasswordChangeForm
+    template_name = 'profiles/password_change.html'
+    success_url = reverse_lazy('profiles:detail')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        kwargs.pop('instance', None)
+        return kwargs
+
+    def get_object(self, queryset=None):
+        return self.request.user.profile
+
+    def form_valid(self, form):
+        form.save()
+        update_session_auth_hash(self.request, form.user)
+        messages.success(self.request, 'Senha alterada com sucesso!')
+        return super().form_valid(form)

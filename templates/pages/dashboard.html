@@ -6,7 +6,7 @@
 <div class='space-y-6'>
   <div class='flex items-center justify-between'>
     <h1 class='text-2xl font-bold text-[#f0eef5]'>Dashboard</h1>
-    <p class='text-sm text-[#6b6785]'>Visão geral das suas finanças</p>
+    <p class='text-sm text-[#6b6785]'>Visao geral das suas financas</p>
   </div>
 
   <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
@@ -14,9 +14,7 @@
       <div class='flex items-center justify-between'>
         <p class='text-sm font-medium text-indigo-200'>Saldo Total</p>
         <div class='w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center'>
-          <svg class='w-5 h-5 text-white' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-            <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z'/>
-          </svg>
+          <svg class='w-5 h-5 text-white' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z'/></svg>
         </div>
       </div>
       <p class='text-2xl font-bold text-white mt-2'>R$ {{ total_balance|floatformat:2 }}</p>
@@ -24,11 +22,9 @@
 
     <div class='rounded-xl bg-[#1a1730] border border-[#2d2754] p-6 shadow-lg shadow-black/20'>
       <div class='flex items-center justify-between'>
-        <p class='text-sm font-medium text-[#a09cb5]'>Receitas do Mês</p>
+        <p class='text-sm font-medium text-[#a09cb5]'>Receitas do Mes</p>
         <div class='w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center'>
-          <svg class='w-5 h-5 text-green-400' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-            <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M7 11l5-5m0 0l5 5m-5-5v12'/>
-          </svg>
+          <svg class='w-5 h-5 text-green-400' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M7 11l5-5m0 0l5 5m-5-5v12'/></svg>
         </div>
       </div>
       <p class='text-2xl font-bold text-green-400 mt-2'>R$ {{ monthly_income|floatformat:2 }}</p>
@@ -36,11 +32,9 @@
 
     <div class='rounded-xl bg-[#1a1730] border border-[#2d2754] p-6 shadow-lg shadow-black/20'>
       <div class='flex items-center justify-between'>
-        <p class='text-sm font-medium text-[#a09cb5]'>Despesas do Mês</p>
+        <p class='text-sm font-medium text-[#a09cb5]'>Despesas do Mes</p>
         <div class='w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center'>
-          <svg class='w-5 h-5 text-red-400' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-            <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M17 13l-5 5m0 0l-5-5m5 5V6'/>
-          </svg>
+          <svg class='w-5 h-5 text-red-400' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M17 13l-5 5m0 0l-5-5m5 5V6'/></svg>
         </div>
       </div>
       <p class='text-2xl font-bold text-red-400 mt-2'>R$ {{ monthly_expense|floatformat:2 }}</p>
@@ -48,21 +42,48 @@
 
     <div class='rounded-xl bg-[#1a1730] border border-[#2d2754] p-6 shadow-lg shadow-black/20'>
       <div class='flex items-center justify-between'>
-        <p class='text-sm font-medium text-[#a09cb5]'>Saldo do Mês</p>
+        <p class='text-sm font-medium text-[#a09cb5]'>Saldo do Mes</p>
         <div class='w-10 h-10 rounded-lg bg-violet-500/10 flex items-center justify-center'>
-          <svg class='w-5 h-5 text-violet-400' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-            <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m2 0a2 2 0 002-2V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z'/>
-          </svg>
+          <svg class='w-5 h-5 text-violet-400' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m2 0a2 2 0 002-2V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z'/></svg>
         </div>
       </div>
-      <p class='text-2xl font-bold text-violet-400 mt-2'>R$ {{ monthly_balance|floatformat:2 }}</p>
+      <p class='text-2xl font-bold {% if monthly_balance >= 0 %}text-green-400{% else %}text-red-400{% endif %} mt-2'>R$ {{ monthly_balance|floatformat:2 }}</p>
     </div>
+  </div>
+
+  <div class='rounded-xl bg-[#1a1730] border border-[#2d2754] p-6 shadow-lg shadow-black/20'>
+    <h2 class='text-lg font-semibold text-[#f0eef5] mb-4'>Receitas vs Despesas</h2>
+    {% if monthly_data %}
+    <div class='space-y-3'>
+      {% for item in monthly_data %}
+      <div>
+        <p class='text-xs text-[#6b6785] mb-1'>{{ item.month }}</p>
+        <div class='flex items-center gap-2 mb-1'>
+          <span class='text-xs text-green-400 w-14 text-right'>+{{ item.income|floatformat:0 }}</span>
+          <div class='flex-1 h-2 bg-[#0f0d1a] rounded-full overflow-hidden'>
+            <div class='h-full bg-green-500 rounded-full transition-all duration-300' style='width: {{ item.income_pct }}%'></div>
+          </div>
+        </div>
+        <div class='flex items-center gap-2'>
+          <span class='text-xs text-red-400 w-14 text-right'>-{{ item.expense|floatformat:0 }}</span>
+          <div class='flex-1 h-2 bg-[#0f0d1a] rounded-full overflow-hidden'>
+            <div class='h-full bg-red-500 rounded-full transition-all duration-300' style='width: {{ item.expense_pct }}%'></div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class='text-center py-8'>
+      <p class='text-sm text-[#6b6785]'>Nenhum dado disponivel.</p>
+    </div>
+    {% endif %}
   </div>
 
   <div class='grid grid-cols-1 lg:grid-cols-2 gap-6'>
     <div class='rounded-xl bg-[#1a1730] border border-[#2d2754] p-6 shadow-lg shadow-black/20'>
       <div class='flex items-center justify-between mb-4'>
-        <h2 class='text-lg font-semibold text-[#f0eef5]'>Transações Recentes</h2>
+        <h2 class='text-lg font-semibold text-[#f0eef5]'>Transacoes Recentes</h2>
         <a href='{% url "transactions:list" %}' class='text-sm text-violet-400 hover:text-violet-300 transition-all duration-200'>Ver todas</a>
       </div>
       {% if recent_transactions %}
@@ -81,11 +102,9 @@
       </div>
       {% else %}
       <div class='text-center py-8'>
-        <svg class='w-12 h-12 text-[#2d2754] mx-auto mb-3' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-          <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4'/>
-        </svg>
-        <p class='text-sm text-[#6b6785]'>Nenhuma transação registrada.</p>
-        <a href='{% url "transactions:list" %}' class='text-sm text-violet-400 hover:text-violet-300 transition-all duration-200 mt-1 inline-block'>Criar transação</a>
+        <svg class='w-12 h-12 text-[#2d2754] mx-auto mb-3' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4'/></svg>
+        <p class='text-sm text-[#6b6785]'>Nenhuma transacao registrada.</p>
+        <a href='{% url "transactions:list" %}' class='text-sm text-violet-400 hover:text-violet-300 transition-all duration-200 mt-1 inline-block'>Criar transacao</a>
       </div>
       {% endif %}
     </div>
@@ -112,9 +131,7 @@
       </div>
       {% else %}
       <div class='text-center py-8'>
-        <svg class='w-12 h-12 text-[#2d2754] mx-auto mb-3' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-          <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M3 10h18M3 14h18M3 6h18M3 18h18'/>
-        </svg>
+        <svg class='w-12 h-12 text-[#2d2754] mx-auto mb-3' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M3 10h18M3 14h18M3 6h18M3 18h18'/></svg>
         <p class='text-sm text-[#6b6785]'>Nenhuma conta registrada.</p>
         <a href='{% url "accounts:create" %}' class='text-sm text-violet-400 hover:text-violet-300 transition-all duration-200 mt-1 inline-block'>Criar conta</a>
       </div>

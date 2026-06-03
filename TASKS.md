@@ -164,31 +164,31 @@
 
 ---
 
-### Sprint 5 — Dashboard com dados reais e Perfil
+### Sprint 5 — Dashboard com dados reais e Perfil ✅
 
-#### T5.1 — Dashboard com dados reais
-- [ ] 5.1.1 — Atualizar `DashboardView` com queryset de transações do usuário logado
-- [ ] 5.1.2 — Implementar cálculo de saldo total (soma dos saldos de todas as contas do usuário)
-- [ ] 5.1.3 — Implementar cálculo de receitas do mês atual
-- [ ] 5.1.4 — Implementar cálculo de despesas do mês atual
-- [ ] 5.1.5 — Implementar cálculo de saldo do mês (receitas - despesas)
-- [ ] 5.1.6 — Implementar listagem das 5 transações mais recentes
-- [ ] 5.1.7 — Implementar listagem de contas com saldos
-- [ ] 5.1.8 — Implementar gráfico simples de receitas vs despesas por mês (usando Chart.js via CDN ou barras HTML/CSS)
-- [ ] 5.1.9 — Refinar visual do dashboard com cards de gradiente e ícones
+#### T5.1 — Dashboard com dados reais ✅
+- [X] 5.1.1 — Atualizar `DashboardView` com queryset de transações do usuário logado
+- [X] 5.1.2 — Implementar cálculo de saldo total (soma dos saldos de todas as contas do usuário)
+- [X] 5.1.3 — Implementar cálculo de receitas do mês atual
+- [X] 5.1.4 — Implementar cálculo de despesas do mês atual
+- [X] 5.1.5 — Implementar cálculo de saldo do mês (receitas - despesas)
+- [X] 5.1.6 — Implementar listagem das 5 transações mais recentes
+- [X] 5.1.7 — Implementar listagem de contas com saldos
+- [X] 5.1.8 — Implementar gráfico simples de receitas vs despesas por mês (usando Chart.js via CDN ou barras HTML/CSS)
+- [X] 5.1.9 — Refinar visual do dashboard com cards de gradiente e ícones
 
-#### T5.2 — Perfil do usuário
-- [ ] 5.2.1 — Criar `profiles/forms.py` com `ProfileUpdateForm` (first_name, last_name, email)
-- [ ] 5.2.2 — Criar `profiles/forms.py` com `PasswordChangeForm` customizada
-- [ ] 5.2.3 — Criar `ProfileDetailView` (DetailView) para exibir perfil
-- [ ] 5.2.4 — Criar `ProfileUpdateView` (UpdateView) para editar perfil
-- [ ] 5.2.5 — Criar `PasswordChangeView` customizada
-- [ ] 5.2.6 — Criar `templates/profiles/profile_detail.html`
-- [ ] 5.2.7 — Criar `templates/profiles/profile_form.html`
-- [ ] 5.2.8 — Criar `templates/profiles/password_change.html`
-- [ ] 5.2.9 — Configurar `profiles/urls.py` com rotas (`/perfil/`, `/perfil/editar/`, `/perfil/alterar-senha/`)
-- [ ] 5.2.10 — Incluir URLs de profiles em `core/urls.py`
-- [ ] 5.2.11 — Adicionar link "Perfil" na sidebar (no dropdown do usuário)
+#### T5.2 — Perfil do usuário ✅
+- [X] 5.2.1 — Criar `profiles/forms.py` com `ProfileUpdateForm` (first_name, last_name, email)
+- [X] 5.2.2 — Criar `profiles/forms.py` com `PasswordChangeForm` customizada
+- [X] 5.2.3 — Criar `ProfileDetailView` (DetailView) para exibir perfil
+- [X] 5.2.4 — Criar `ProfileUpdateView` (UpdateView) para editar perfil
+- [X] 5.2.5 — Criar `PasswordChangeView` customizada
+- [X] 5.2.6 — Criar `templates/profiles/profile_detail.html`
+- [X] 5.2.7 — Criar `templates/profiles/profile_form.html`
+- [X] 5.2.8 — Criar `templates/profiles/password_change.html`
+- [X] 5.2.9 — Configurar `profiles/urls.py` com rotas (`/perfil/`, `/perfil/editar/`, `/perfil/alterar-senha/`)
+- [X] 5.2.10 — Incluir URLs de profiles em `core/urls.py`
+- [X] 5.2.11 — Adicionar link "Perfil" na sidebar (no dropdown do usuário)
 
 ---
 
