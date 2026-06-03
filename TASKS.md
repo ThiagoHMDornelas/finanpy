@@ -72,36 +72,36 @@
 
 ---
 
-### Sprint 2 — Dashboard e Contas bancárias
+### Sprint 2 — Dashboard e Contas bancárias ✅
 
-#### T2.1 — Dashboard base
-- [ ] 2.1.1 — Criar `dashboard/` ou usar `core/views.py` para a view do dashboard (`DashboardView`)
-- [ ] 2.1.2 — Criar `templates/pages/dashboard.html` herdando de `layouts/app.html`
-- [ ] 2.1.3 — Implementar cards de métricas: saldo total, receitas do mês, despesas do mês, saldo do mês
-- [ ] 2.1.4 — Implementar listagem das 5 transações mais recentes (inicialmente vazio, sem dados)
-- [ ] 2.1.5 — Implementar listagem de contas com saldos (inicialmente vazio)
-- [ ] 2.1.6 — Configurar URL `/dashboard/` com nome `dashboard`
-- [ ] 2.1.7 — Adicionar dados de contexto no dashboard (querysets vazios inicialmente, depois populados)
+#### T2.1 — Dashboard base ✅
+- [X] 2.1.1 — Criar `dashboard/` ou usar `core/views.py` para a view do dashboard (`DashboardView`)
+- [X] 2.1.2 — Criar `templates/pages/dashboard.html` herdando de `layouts/app.html`
+- [X] 2.1.3 — Implementar cards de métricas: saldo total, receitas do mês, despesas do mês, saldo do mês
+- [X] 2.1.4 — Implementar listagem das 5 transações mais recentes (inicialmente vazio, sem dados)
+- [X] 2.1.5 — Implementar listagem de contas com saldos (inicialmente vazio)
+- [X] 2.1.6 — Configurar URL `/dashboard/` com nome `dashboard`
+- [X] 2.1.7 — Adicionar dados de contexto no dashboard (querysets vazios inicialmente, depois populados)
 
-#### T2.2 — Model Account
-- [ ] 2.2.1 — Criar model `Account` em `accounts/models.py` com campos: `user` (FK para User), `name` (CharField), `account_type` (CharField com choices: corrente, poupança, carteira, investimento), `balance` (DecimalField), `institution` (CharField, opcional), `color` (CharField, default='#7c3aed'), `is_active` (BooleanField, default=True), `created_at`, `updated_at`
-- [ ] 2.2.2 — Adicionar `__str__` retornando nome da conta
-- [ ] 2.2.3 — Adicionar `class Meta` com `ordering = ['-created_at']`
-- [ ] 2.2.4 — Registrar model `Account` no admin
-- [ ] 2.2.5 — Executar migração
+#### T2.2 — Model Account ✅
+- [X] 2.2.1 — Criar model `Account` em `accounts/models.py` com campos: `user` (FK para User), `name` (CharField), `account_type` (CharField com choices: corrente, poupança, carteira, investimento), `balance` (DecimalField), `institution` (CharField, opcional), `color` (CharField, default='#7c3aed'), `is_active` (BooleanField, default=True), `created_at`, `updated_at`
+- [X] 2.2.2 — Adicionar `__str__` retornando nome da conta
+- [X] 2.2.3 — Adicionar `class Meta` com `ordering = ['-created_at']`
+- [X] 2.2.4 — Registrar model `Account` no admin
+- [X] 2.2.5 — Executar migração
 
-#### T2.3 — CRUD de Contas
-- [ ] 2.3.1 — Criar `accounts/forms.py` com `AccountForm` (name, account_type, balance, institution, color)
-- [ ] 2.3.2 — Criar `AccountListView` (ListView) filtrando por `request.user`
-- [ ] 2.3.3 — Criar `AccountCreateView` (CreateView) com `form_class` e `success_url`
-- [ ] 2.3.4 — Criar `AccountUpdateView` (UpdateView) com verificação de proprietário
-- [ ] 2.3.5 — Criar `AccountDeleteView` (DeleteView) com verificação de proprietário
-- [ ] 2.3.6 — Criar `templates/accounts/account_list.html` com listagem em cards/grid
-- [ ] 2.3.7 — Criar `templates/accounts/account_form.html` com formulário estilizado (reutilizar component form.html)
-- [ ] 2.3.8 — Criar `templates/accounts/account_confirm_delete.html` com modal de confirmação
-- [ ] 2.3.9 — Configurar `accounts/urls.py` com rotas CRUD (`/contas/`, `/contas/nova/`, `/contas/<id>/editar/`, `/contas/<id>/excluir/`)
-- [ ] 2.3.10 — Incluir URLs de accounts em `core/urls.py`
-- [ ] 2.3.11 — Adicionar link "Contas" na sidebar
+#### T2.3 — CRUD de Contas ✅
+- [X] 2.3.1 — Criar `accounts/forms.py` com `AccountForm` (name, account_type, balance, institution, color)
+- [X] 2.3.2 — Criar `AccountListView` (ListView) filtrando por `request.user`
+- [X] 2.3.3 — Criar `AccountCreateView` (CreateView) com `form_class` e `success_url`
+- [X] 2.3.4 — Criar `AccountUpdateView` (UpdateView) com verificação de proprietário
+- [X] 2.3.5 — Criar `AccountDeleteView` (DeleteView) com verificação de proprietário
+- [X] 2.3.6 — Criar `templates/accounts/account_list.html` com listagem em cards/grid
+- [X] 2.3.7 — Criar `templates/accounts/account_form.html` com formulário estilizado (reutilizar component form.html)
+- [X] 2.3.8 — Criar `templates/accounts/account_confirm_delete.html` com modal de confirmação
+- [X] 2.3.9 — Configurar `accounts/urls.py` com rotas CRUD (`/contas/`, `/contas/nova/`, `/contas/<id>/editar/`, `/contas/<id>/excluir/`)
+- [X] 2.3.10 — Incluir URLs de accounts em `core/urls.py`
+- [X] 2.3.11 — Adicionar link "Contas" na sidebar
 
 ---
 

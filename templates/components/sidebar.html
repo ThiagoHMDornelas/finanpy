@@ -1,3 +1,4 @@
+{% load core_extras %}
 <aside class='fixed left-0 top-0 z-40 w-64 min-h-screen bg-[#0f0d1a] border-r border-[#2d2754] flex flex-col'>
   <div class='flex items-center h-16 px-6 border-b border-[#2d2754]'>
     <a href='/' class='text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent'>
@@ -33,7 +34,7 @@
   <div class='border-t border-[#2d2754] px-4 py-4'>
     <div class='flex items-center gap-3'>
       <div class='w-9 h-9 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white text-sm font-semibold'>
-        {{ user.email|truncatechars:2:'' }}
+        {{ user.email|slice:":2" }}
       </div>
       <div class='flex-1 min-w-0'>
         <p class='text-sm font-medium text-[#f0eef5] truncate'>{{ user.email }}</p>
