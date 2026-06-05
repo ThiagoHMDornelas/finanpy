@@ -722,6 +722,143 @@ Fonte carregada via Google Fonts: `<link href="https://fonts.googleapis.com/css2
 
 ---
 
-## 13. Lista de tarefas
+## 13. Agente de IA Financeiro
+
+### 13.1 Visão geral
+
+O Finanpy contará com um **Agente de IA Financeiro** capaz de analisar os dados financeiros do usuário (transações, receitas, despesas e categorias) e gerar **insights e dicas personalizadas**. Cada análise é individual por usuário e persistida no banco de dados, permitindo histórico e comparação ao longo do tempo.
+
+### 13.2 Objetivo
+
+Proporcionar ao usuário uma camada de inteligência sobre seus dados financeiros, oferecendo recomendações proativas, identificação de padrões de gastos e sugestões de economia — sem necessidade de análise manual.
+
+### 13.3 Fluxo de funcionamento
+
+```mermaid
+flowchart TD
+    A[Django Command: run_finance_analysis] --> B[AnalysisService]
+    B --> C[Selecionar usuarios ativos]
+    C --> D[Para cada usuario]
+    D --> E[Agent Tools consultam DB]
+    E --> F[get_user_transactions]
+    E --> G[get_user_accounts]
+    E --> H[get_user_categories]
+    E --> I2[get_spending_by_category]
+    E --> J2[get_income_vs_expense]
+    F --> I[Agente LangChain processa dados]
+    G --> I
+    H --> I
+    I2 --> I
+    J2 --> I
+    I --> J[Gera insights e recomendacoes]
+    J --> K[Persiste AIAnalysis no banco]
+    K --> D
+    K --> L[Ultima analise visivel no Dashboard]
+```
+
+1. O comando `python manage.py run_finance_analysis` é executado manualmente
+2. O `AnalysisService` itera sobre todos os usuários ativos
+3. Para cada usuário, o agente LangChain utiliza **tools** para consultar transações, contas e categorias
+4. O agente processa os dados e gera uma análise textual com insights e dicas
+5. A análise é salva no model `AIAnalysis`, vinculada ao usuário
+6. A análise mais recente de cada usuário é exibida no dashboard
+
+### 13.4 Modelo de dados — AIAnalysis
+
+| Campo | Tipo | Detalhes |
+|-------|------|---------|
+| id | BigAutoField | PK |
+| user | ForeignKey(User) | on_delete=CASCADE, related_name='ai_analyses' |
+| analysis_text | TextField | conteúdo completo da análise gerada pela IA |
+| key_insights | JSONField | default=list, principais insights extraídos |
+| recommendations | JSONField | default=list, recomendações geradas |
+| period_analyzed | CharField | max_length=100, período analisado (ex: "Últimos 30 dias") |
+| model_used | CharField | max_length=50, modelo LLM utilizado (valor de settings.OPENAI_MODEL) |
+| tokens_input | IntegerField | default=0, tokens de entrada consumidos |
+| tokens_output | IntegerField | default=0, tokens de saída consumidos |
+| is_latest | BooleanField | default=True, marca a análise mais recente do usuário |
+| created_at | DateTimeField | auto_now_add |
+| updated_at | DateTimeField | auto_now |
+
+- `Meta.ordering = ['-created_at']`
+- `Meta.verbose_name = 'análise IA'`, `Meta.verbose_name_plural = 'análises IA'`
+- Indexes em `(user, -created_at)` e `(user, is_latest)`
+- Ao criar uma nova análise para o usuário, `is_latest=True` da análise anterior é setado para `False`
+- Rate limiting: não gerar nova análise se a última for há menos de 24h (configurável)
+
+### 13.5 Estrutura da app `ai`
+
+```
+ai/
+├── __init__.py
+├── agents/
+│   ├── __init__.py
+│   └── finance_insight_agent.py      # agente LangChain que gera análises financeiras
+├── management/
+│   └── commands/
+│       └── run_finance_analysis.py    # Django Command para executar a análise
+├── migrations/
+│   └── __init__.py
+├── models.py                         # modelo AIAnalysis
+├── services/
+│   ├── __init__.py
+│   └── analysis_service.py           # orquestra análise e integração com o agente
+├── tools/
+│   ├── __init__.py
+│   └── database_tools.py             # LangChain tools para consultar dados do banco
+├── admin.py
+├── apps.py
+└── views.py                          # AIAnalysisDetailView
+```
+
+### 13.6 Tecnologias e dependências
+
+| Tecnologia | Versão | Uso |
+|------------|--------|-----|
+| LangChain | 1.0+ | Framework para orquestração do agente de IA |
+| OpenAI API | — | Provedor do modelo LLM |
+| GPT-5-mini | — | Modelo LLM padrão (configurável via `OPENAI_MODEL` no `.env`) |
+| python-dotenv | — | Gerenciamento de variáveis de ambiente |
+
+> **Configuração de ambiente:** As variáveis `OPENAI_API_KEY`, `OPENAI_MODEL`, `AI_MAX_TOKENS` e `AI_TEMPERATURE` ficam no arquivo `.env` (nunca commitado). O `settings.py` lê com `os.getenv()` e define valores padrão. O `.env.example` serve como referência sem chaves reais.
+
+### 13.7 Execução via Django Command
+
+```bash
+# Ativar venv
+.venv\Scripts\activate
+
+# Executar análise financeira para todos os usuários
+python manage.py run_finance_analysis
+
+# Executar análise para um usuário específico
+python manage.py run_finance_analysis --user-id 1
+```
+
+O comando:
+- Seleciona usuários ativos (ou um usuário específico via `--user-id`)
+- Para cada usuário, chama o `AnalysisService`
+- O `AnalysisService` instancia o agente LangChain com as tools de banco de dados
+- O agente consulta transações, contas e categorias do usuário
+- O agente gera a análise e retorna o conteúdo
+- O `AnalysisService` persiste o resultado no model `AIAnalysis`
+
+### 13.8 Integração com o Dashboard
+
+A análise mais recente (marcada com `is_latest=True`) será exibida no dashboard do usuário como um card com o resumo e um link para ver a análise completa.
+
+### 13.9 Riscos e mitigações
+
+| # | Risco | Mitigação |
+|---|-------|-----------|
+| 1 | Custo da API OpenAI | Limitar execuções manuais, usar modelo econômico (configurável via `OPENAI_MODEL`), monitorar tokens |
+| 2 | Análise genérica / pouco útil | Prompt engineering robusto, dados contextuais do usuário no prompt |
+| 3 | Dependência de serviço externo | Tratar falhas de API gracefully, permitir reexecução |
+| 4 | Performance do comando | Execução síncrona e manual (sem agendamento nesta fase) |
+| 5 | Vazamento de chave API | Chave e modelo ficam no `.env` (nunca commitado), `.env.example` como referência |
+
+---
+
+## 14. Lista de tarefas
 
 ### Lista de tarefas está no diretório corrente, no arquivo [TASKS.md](TASKS.md)

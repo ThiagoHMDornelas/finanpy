@@ -23,6 +23,9 @@ Models planejados, campos e relacionamentos.
 ### 6. [Design system](design-system.md)
 Design system, cores, componentes e padroes visuais.
 
+### 7. [Agente de IA Financeiro](ai-finance-agent.md)
+Documentacao tecnica do agente de IA financeiro com LangChain 1.0.
+
 
 ## Referencia
 

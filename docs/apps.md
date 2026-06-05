@@ -124,6 +124,34 @@ Receitas: Salario, Freelance, Investimentos, Outros
 
 ---
 
+## ai
+
+**Responsabilidade:** Agente de IA financeira — analises personalizadas com LangChain 1.0 e OpenAI.
+
+| Arquivo | Funcao |
+|---------|--------|
+| `models.py` | Model `AIAnalysis` (analises geradas pelo agente) |
+| `agents/finance_insight_agent.py` | Agente LangChain com tools e prompt do sistema |
+| `services/analysis_service.py` | Camada de servico: orquestra analise e persistencia |
+| `management/commands/run_finance_analysis.py` | Django Command para executar analises |
+| `admin.py` | Registro do model AIAnalysis no admin |
+| `apps.py` | Configuracao da app |
+
+**Funcionamento:**
+
+1. O Django Command `run_finance_analysis` e executado manualmente
+2. O `AnalysisService` itera sobre usuarios ativos
+3. Para cada usuario, o `FinanceInsightAgent` consulta transacoes, contas e categorias via tools
+4. O agente envia os dados ao LLM (GPT-5-mini) e recebe uma analise personalizada
+5. O resultado e salvo no model `AIAnalysis`
+6. A analise mais recente (`is_latest=True`) e exibida no dashboard
+
+**Dependencias:** `langchain`, `langchain-openai`, `python-dotenv`
+
+**URL:** `/analise/<id>/` — detalhe da analise
+
+---
+
 ## core
 
 **Responsabilidade:** Configuracoes globais do projeto (settings, urls, wsgi, asgi).

@@ -50,6 +50,7 @@ Always activate `.venv` before any `python manage.py` command.
 - **`accounts/`** — bank accounts (Account model)
 - **`categories/`** — transaction categories (Category model) + default categories signal
 - **`transactions/`** — financial transactions (Transaction model) + balance update signals
+- **`ai/`** — AI finance agent (AIAnalysis model, LangChain agent, analysis service)
 - **`templates/`** — global templates: `layouts/`, `components/`, `pages/`, `partials/`
 - **`static/`** — CSS/JS/images
 
@@ -65,6 +66,7 @@ Each app will get `forms.py`, `urls.py`, `signals.py` added as needed.
 | `/contas/...` | accounts |
 | `/categorias/...` | categories |
 | `/transacoes/...` | transactions |
+| `/analise/<id>/` | ai |
 | `/perfil/...` | profiles |
 
 ## Design system

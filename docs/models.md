@@ -10,6 +10,7 @@ erDiagram
     User ||--o{ Account : owns
     User ||--o{ Category : owns
     User ||--o{ Transaction : creates
+    User ||--o{ AIAnalysis : generates
     Account ||--o{ Transaction : has
     Category ||--o{ Transaction : belongs_to
 
@@ -66,6 +67,21 @@ erDiagram
         decimal amount
         string transaction_type
         date date
+        datetime created_at
+        datetime updated_at
+    }
+
+    AIAnalysis {
+        int id PK
+        int user_id FK
+        string analysis_text
+        list key_insights
+        list recommendations
+        string period_analyzed
+        string model_used
+        int tokens_input
+        int tokens_output
+        boolean is_latest
         datetime created_at
         datetime updated_at
     }
@@ -180,3 +196,49 @@ Model customizado que herda de `AbstractUser`.
 ### Signal de saldo
 
 Ao criar uma transacao do tipo "entrada", o saldo da conta e incrementado. Ao criar do tipo "saida", o saldo e decrementado. Ao editar, a diferenca e aplicada. Ao excluir, o valor e revertido.
+
+---
+
+## AIAnalysis (ai app)
+
+Model que armazena as analises financeiras geradas pelo agente de IA.
+
+| Campo | Tipo | Detalhes |
+|-------|------|---------|
+| id | BigAutoField | PK |
+| user | ForeignKey(User) | on_delete=CASCADE, related_name='ai_analyses' |
+| analysis_text | TextField | conteudo completo da analise gerada pela IA |
+| key_insights | JSONField | default=list, principais insights extraidos |
+| recommendations | JSONField | default=list, recomendacoes geradas |
+| period_analyzed | CharField | max_length=100, periodo analisado (ex: "Ultimos 30 dias") |
+| model_used | CharField | max_length=50, modelo LLM utilizado (valor de settings.OPENAI_MODEL) |
+| tokens_input | IntegerField | default=0, tokens de entrada consumidos |
+| tokens_output | IntegerField | default=0, tokens de saida consumidos |
+| is_latest | BooleanField | default=True, marca a analise mais recente do usuario |
+| created_at | DateTimeField | auto_now_add |
+| updated_at | DateTimeField | auto_now |
+
+- `Meta.ordering = ['-created_at']`
+- `Meta.verbose_name = 'analise IA'`, `Meta.verbose_name_plural = 'analises IA'`
+- Indexes em `(user, -created_at)` e `(user, is_latest)`
+- `__str__` retorna `f'{self.user.email} - {self.period_analyzed}'`
+- Ao criar nova analise com `is_latest=True`, `is_latest` das analises anteriores do mesmo usuario e setado para `False`
+- Rate limiting: nao gerar nova analise se a ultima for ha menos de 24h (configuravel)
+
+### Logica de is_latest
+
+Apenas uma analise por usuario pode ter `is_latest=True`. Ao criar uma nova analise:
+1. Todas as analises anteriores do mesmo usuario recebem `is_latest=False`
+2. A nova analise e salva com `is_latest=True`
+3. O dashboard sempre busca a analise com `is_latest=True`
+
+### Configuracao de ambiente
+
+Variaveis no `.env` (nunca commitar valores reais):
+
+| Variavel | Padrao | Descricao |
+|----------|--------|-----------|
+| OPENAI_API_KEY | (vazio) | Chave da API OpenAI |
+| OPENAI_MODEL | gpt-5-mini | Modelo LLM utilizado |
+| AI_MAX_TOKENS | 2000 | Maximo de tokens na resposta |
+| AI_TEMPERATURE | 0.7 | Temperatura do modelo (criatividade) |

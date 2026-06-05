@@ -17,6 +17,13 @@
 ```
 finanpy/
 ├── accounts/          # contas bancarias (app Django)
+├── ai/                # agente de IA financeira (app Django)
+│   ├── agents/        # agentes LangChain
+│   ├── management/
+│   │   └── commands/  # Django Command: run_finance_analysis
+│   ├── services/      # camada de servico (analysis_service)
+│   ├── models.py      # model AIAnalysis
+│   └── apps.py
 ├── categories/        # categorias de lancamentos (app Django)
 ├── core/              # configuracoes globais do projeto
 │   ├── settings.py
@@ -105,6 +112,7 @@ Rotas principais (a configurar em `core/urls.py`):
 | `/contas/<id>/excluir/` | accounts | AccountDeleteView |
 | `/categorias/` | categories | CategoryListView |
 | `/transacoes/` | transactions | TransactionListView |
+| `/analise/<id>/` | ai | AIAnalysisDetailView |
 | `/perfil/` | profiles | ProfileDetailView |
 
 ## Diagrama ER
@@ -115,6 +123,17 @@ erDiagram
     User ||--o{ Account : owns
     User ||--o{ Category : owns
     User ||--o{ Transaction : creates
+    User ||--o{ AIAnalysis : generates
     Account ||--o{ Transaction : has
     Category ||--o{ Transaction : belongs_to
 ```
+
+## Agente de IA
+
+A app `ai` integra o Finanpy com LangChain 1.0 e OpenAI API para gerar analises financeiras personalizadas.
+
+- **Agente**: `FinanceInsightAgent` usando LangChain com `ChatOpenAI(model='gpt-5-mini')`
+- **Tools**: Consultam transacoes, contas, categorias e resumo financeiro do usuario
+- **Execucao**: Via Django Command `python manage.py run_finance_analysis`
+- **Persistencia**: Model `AIAnalysis` com historico e `is_latest` para marcar a analise mais recente
+- **Documentacao**: [docs/ai-finance-agent.md](ai-finance-agent.md)

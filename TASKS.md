@@ -249,16 +249,177 @@
 
 ---
 
-### Sprint 8 — Docker e Deploy (sprint futura)
+### Sprint 8 — Agente de IA Financeiro (LangChain 1.0)
 
-#### T8.1 — Containerização
-- [ ] 8.1.1 — Criar `Dockerfile` para a aplicação
-- [ ] 8.1.2 — Criar `docker-compose.yml` com serviços (app, banco)
-- [ ] 8.1.3 — Configurar variáveis de ambiente para produção
-- [ ] 8.1.4 — Configurar `requirements.txt` com dependências de produção
+#### T8.1 — Configuração de dependências e variáveis de ambiente
+- [ ] 8.1.1 — Verificar que `langchain`, `langchain-openai` e `python-dotenv` estão em `requirements.txt` e executar `pip install -r requirements.txt`
+- [ ] 8.1.2 — Adicionar ao `.env` as variáveis de IA: `OPENAI_API_KEY=sk-...`, `OPENAI_MODEL=gpt-5-mini`, `AI_MAX_TOKENS=2000`, `AI_TEMPERATURE=0.7`
+- [ ] 8.1.3 — Atualizar `.env.example` com as variáveis de IA (sem valores reais): `OPENAI_API_KEY=sk-your-openai-api-key-here`, `OPENAI_MODEL=gpt-5-mini`, `AI_MAX_TOKENS=2000`, `AI_TEMPERATURE=0.7`
+- [ ] 8.1.4 — Configurar leitura em `settings.py`: `OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', '')`, `OPENAI_MODEL = os.getenv('OPENAI_MODEL', 'gpt-5-mini')`, `AI_MAX_TOKENS = int(os.getenv('AI_MAX_TOKENS', '2000'))`, `AI_TEMPERATURE = float(os.getenv('AI_TEMPERATURE', '0.7'))`
+- [ ] 8.1.5 — Testar import de `langchain` e `langchain_openai` no shell Django: `python manage.py shell -c "from langchain_openai import ChatOpenAI; print('OK')"`
+- [ ] 8.1.6 — Verificar que app `ai` está em `INSTALLED_APPS`
+- [ ] 8.1.7 — Verificar que `.env` está no `.gitignore` (nunca commitar chave real)
 
-#### T8.2 — Deploy
-- [ ] 8.2.1 — Configurar `settings.py` para produção (DEBUG=False, ALLOWED_HOSTS, SECRET_KEY do env)
-- [ ] 8.2.2 — Configurar coleta de arquivos estáticos (`collectstatic`)
-- [ ] 8.2.3 — Configurar WSGI com Gunicorn
-- [ ] 8.2.4 — Testar deploy em ambiente de staging
+#### T8.2 — Estrutura de diretórios da app `ai`
+- [ ] 8.2.1 — Executar `python manage.py startapp ai` (se ainda não existir)
+- [ ] 8.2.2 — Criar diretório `ai/agents/` e arquivo `ai/agents/__init__.py`
+- [ ] 8.2.3 — Criar diretório `ai/tools/` e arquivo `ai/tools/__init__.py`
+- [ ] 8.2.4 — Criar diretório `ai/services/` e arquivo `ai/services/__init__.py`
+- [ ] 8.2.5 — Criar diretório `ai/management/` e arquivo `ai/management/__init__.py`
+- [ ] 8.2.6 — Criar diretório `ai/management/commands/` e arquivo `ai/management/commands/__init__.py`
+- [ ] 8.2.7 — Criar `ai/apps.py` com configuração adequada e método `ready()`
+
+#### T8.3 — Model AIAnalysis
+- [ ] 8.3.1 — Criar model `AIAnalysis` em `ai/models.py` com campos: `user` (FK→User, on_delete=CASCADE, related_name='ai_analyses'), `analysis_text` (TextField), `key_insights` (JSONField, default=list), `recommendations` (JSONField, default=list), `period_analyzed` (CharField max_length=100), `model_used` (CharField max_length=50), `tokens_input` (IntegerField, default=0), `tokens_output` (IntegerField, default=0), `is_latest` (BooleanField, default=True), `created_at`, `updated_at`
+- [ ] 8.3.2 — Adicionar `__str__` retornando `f'{self.user.email} - {self.period_analyzed}'`
+- [ ] 8.3.3 — Adicionar `class Meta` com `ordering = ['-created_at']`, `verbose_name = 'análise IA'`, `verbose_name_plural = 'análises IA'`
+- [ ] 8.3.4 — Adicionar indexes em `user` e `created_at`: `indexes = [models.Index(fields=['user', '-created_at']), models.Index(fields=['user', 'is_latest'])]`
+- [ ] 8.3.5 — Implementar lógica de `is_latest` no `save()`: ao salvar nova análise com `is_latest=True`, setar `is_latest=False` nas análises anteriores do mesmo usuário
+- [ ] 8.3.6 — Adicionar método `get_latest_for_user(user_id)` como class method: `AIAnalysis.objects.filter(user_id=user_id, is_latest=True).first()`
+
+#### T8.4 — Admin de AIAnalysis
+- [ ] 8.4.1 — Criar `AIAnalysisAdmin` em `ai/admin.py` com `list_display`: user, period_analyzed, model_used, created_at
+- [ ] 8.4.2 — Configurar `list_filter`: created_at
+- [ ] 8.4.3 — Configurar `search_fields`: user__email, analysis_text
+- [ ] 8.4.4 — Configurar `readonly_fields`: created_at, updated_at, tokens_input, tokens_output
+- [ ] 8.4.5 — Configurar `date_hierarchy`: created_at
+- [ ] 8.4.6 — Registrar `AIAnalysis` com `AIAnalysisAdmin`
+
+#### T8.5 — Migration de AIAnalysis
+- [ ] 8.5.1 — Executar `python manage.py makemigrations ai`
+- [ ] 8.5.2 — Revisar arquivo de migration gerado
+- [ ] 8.5.3 — Executar `python manage.py migrate`
+- [ ] 8.5.4 — Verificar tabela no banco de dados
+- [ ] 8.5.5 — Testar criação manual de `AIAnalysis` no Django shell
+
+#### T8.6 — LangChain Database Tools
+- [ ] 8.6.1 — Criar arquivo `ai/tools/database_tools.py`
+- [ ] 8.6.2 — Importar `@tool` decorator do `langchain_core.tools`
+- [ ] 8.6.3 — Criar `@tool get_user_transactions(user_id: int, period: str = 'month')` — busca transações dos últimos 30/90/365 dias, retorna lista formatada com data, valor, tipo, categoria, descrição
+- [ ] 8.6.4 — Criar `@tool get_user_accounts(user_id: int)` — retorna contas com nome, tipo, instituição e saldo
+- [ ] 8.6.5 — Criar `@tool get_user_categories(user_id: int)` — retorna categorias com nome e tipo
+- [ ] 8.6.6 — Criar `@tool get_spending_by_category(user_id: int)` — retorna total gasto por categoria nos últimos 30 dias, ordenado do maior para o menor
+- [ ] 8.6.7 — Criar `@tool get_income_vs_expense(user_id: int)` — retorna total de receitas, despesas e saldo dos últimos 30 dias
+- [ ] 8.6.8 — Adicionar docstrings detalhadas em cada tool (o agente usa para decidir qual tool chamar)
+- [ ] 8.6.9 — Adicionar tratamento de exceções em cada tool (retornar string de erro amigável)
+- [ ] 8.6.10 — Garantir que todas as tools filtram dados por `user_id` (isolamento de dados)
+- [ ] 8.6.11 — Otimizar queries com `select_related` onde aplicável
+- [ ] 8.6.12 — Testar tools individualmente no Django shell
+
+#### T8.7 — Agente LangChain (finance_insight_agent)
+- [ ] 8.7.1 — Criar arquivo `ai/agents/finance_insight_agent.py`
+- [ ] 8.7.2 — Importar `ChatOpenAI` do `langchain_openai`, `create_tool_calling_agent` e `AgentExecutor` do `langchain.agents`, `ChatPromptTemplate` do `langchain_core.prompts`
+- [ ] 8.7.3 — Importar tools de `ai.tools.database_tools`
+- [ ] 8.7.4 — Configurar ChatOpenAI com `model=settings.OPENAI_MODEL`, `temperature=settings.AI_TEMPERATURE`, `max_tokens=settings.AI_MAX_TOKENS`, `api_key=settings.OPENAI_API_KEY`
+- [ ] 8.7.5 — Criar system prompt detalhado: analista financeiro pessoal, responde em pt-BR, estrutura com visão geral, insights, recomendações, alertas
+- [ ] 8.7.6 — Criar `ChatPromptTemplate` com system message, user message e placeholder para agent_scratchpad
+- [ ] 8.7.7 — Criar agente com `create_tool_calling_agent(llm, tools, prompt)`
+- [ ] 8.7.8 — Criar `AgentExecutor` com `agent`, `tools`, `verbose=True`, `handle_parsing_errors=True`
+- [ ] 8.7.9 — Criar função `run_analysis(user_id: int) -> dict` que invoca o agente e retorna dict com `analysis_text`, `insights`, `recommendations`
+- [ ] 8.7.10 — Adicionar logging de execução (tempo, tokens, usuário)
+- [ ] 8.7.11 — Adicionar tratamento de erros: `AuthenticationError`, `RateLimitError`, `APIError` do OpenAI
+- [ ] 8.7.12 — Adicionar fallback se API OpenAI falhar (retornar mensagem de erro amigável)
+
+#### T8.8 — Serviço de Análise (analysis_service)
+- [ ] 8.8.1 — Criar arquivo `ai/services/analysis_service.py`
+- [ ] 8.8.2 — Importar `AIAnalysis`, `get_user_model`, funções do `finance_insight_agent`
+- [ ] 8.8.3 — Criar função `generate_analysis_for_user(user_id: int) -> AIAnalysis`
+- [ ] 8.8.4 — Validar que usuário existe e está ativo
+- [ ] 8.8.5 — Implementar rate limiting: não gerar nova análise se a última for há menos de 24h (configurável)
+- [ ] 8.8.6 — Chamar `run_analysis(user_id)` do agente
+- [ ] 8.8.7 — Parsear resultado: extrair `analysis_text`, `key_insights`, `recommendations`, `period_analyzed`
+- [ ] 8.8.8 — Criar objeto `AIAnalysis` e salvar no banco com `is_latest=True`
+- [ ] 8.8.9 — Implementar lógica de `is_latest`: marcar `is_latest=False` nas análises anteriores do mesmo usuário
+- [ ] 8.8.10 — Registrar `model_used`, `tokens_input`, `tokens_output` na análise
+- [ ] 8.8.11 — Adicionar logging detalhado (início, fim, duração, erros)
+- [ ] 8.8.12 — Adicionar tratamento de exceções completo (continuar para próximo usuário em caso de erro)
+- [ ] 8.8.13 — Criar função `get_latest_analysis(user_id: int) -> AIAnalysis | None` que retorna a análise mais recente
+
+#### T8.9 — Django Command (run_finance_analysis)
+- [ ] 8.9.1 — Criar arquivo `ai/management/commands/run_finance_analysis.py` com `BaseCommand`
+- [ ] 8.9.2 — Definir help text descritivo
+- [ ] 8.9.3 — Adicionar argumento `--user-email` (opcional) para executar análise para um usuário específico por email
+- [ ] 8.9.4 — Adicionar flag `--all` para executar análise para todos os usuários ativos
+- [ ] 8.9.5 — Implementar lógica: se `--user-email`, processar apenas esse usuário; se `--all` ou sem argumentos, iterar sobre todos os ativos
+- [ ] 8.9.6 — Adicionar output informativo com `self.stdout.write`: "Analisando usuário X...", "Análise concluída", "Erro ao analisar..."
+- [ ] 8.9.7 — Adicionar tratamento de erros por usuário (continuar para o próximo em caso de falha)
+- [ ] 8.9.8 — Testar comando: `python manage.py run_finance_analysis --user-email test@example.com`
+- [ ] 8.9.9 — Testar comando: `python manage.py run_finance_analysis --all`
+
+#### T8.10 — Exibição no Dashboard
+- [ ] 8.10.1 — Atualizar `DashboardView` em `core/views.py` para incluir `latest_analysis = AIAnalysis.objects.filter(user=request.user).order_by('-created_at').first()`
+- [ ] 8.10.2 — Adicionar `latest_analysis` ao context do template
+- [ ] 8.10.3 — Criar seção "Análise Financeira IA" no template do dashboard após as estatísticas
+- [ ] 8.10.4 — Verificar `{% if latest_analysis %}` e exibir card com gradiente destacado
+- [ ] 8.10.5 — Exibir ícone, título "Sua Análise Financeira Personalizada", data e `analysis_text` formatado
+- [ ] 8.10.6 — Se não houver análise, exibir call-to-action informativo
+- [ ] 8.10.7 — Estilizar card com TailwindCSS seguindo design system (gradiente violet/indigo)
+
+#### T8.11 — Template do Card de Análise
+- [ ] 8.11.1 — Criar parcial `templates/includes/ai_analysis_card.html`
+- [ ] 8.11.2 — Receber `analysis` como parâmetro do include
+- [ ] 8.11.3 — Criar card com bg-gradient (roxo/azul) seguindo design system
+- [ ] 8.11.4 — Header com ícone e título "Sua Análise Financeira Personalizada"
+- [ ] 8.11.5 — Data de geração em formato legível (`created_at`)
+- [ ] 8.11.6 — Corpo com `analysis_text` formatado (usar `white-space: pre-wrap`)
+- [ ] 8.11.7 — Seção de insights destacada (se `key_insights` existir)
+- [ ] 8.11.8 — Seção de recomendações destacada (se `recommendations` existir)
+- [ ] 8.11.9 — Footer com período analisado (`period_analyzed`) e modelo usado
+- [ ] 8.11.10 — Responsividade mobile
+- [ ] 8.11.11 — Incluir no dashboard: `{% include 'includes/ai_analysis_card.html' with analysis=latest_analysis %}`
+
+#### T8.12 — View de Detalhe da Análise
+- [ ] 8.12.1 — Criar view `AIAnalysisDetailView` (DetailView) em `ai/views.py` com `LoginRequiredMixin`
+- [ ] 8.12.2 — Garantir que apenas o dono da análise pode acessá-la (verificar `request.user == obj.user`)
+- [ ] 8.12.3 — Criar `templates/ai/analysis_detail.html` herdando de `layouts/app.html`
+- [ ] 8.12.4 — Exibir análise completa com `analysis_text`, `key_insights`, `recommendations`, `period_analyzed`, `model_used`, `created_at`
+- [ ] 8.12.5 — Criar `ai/urls.py` com `app_name = 'ai'` e rota `path('analise/<int:pk>/', AIAnalysisDetailView.as_view(), name='analysis_detail')`
+- [ ] 8.12.6 — Incluir URLs de `ai` em `core/urls.py`
+- [ ] 8.12.7 — Adicionar link no card do dashboard para "Ver análise completa"
+
+#### T8.13 — Testes manuais
+- [ ] 8.13.1 — Criar usuário de teste com dados financeiros variados (5+ contas, 20+ transações)
+- [ ] 8.13.2 — Executar `python manage.py run_finance_analysis --user-email test@example.com`
+- [ ] 8.13.3 — Verificar que análise foi gerada no terminal
+- [ ] 8.13.4 — Verificar que `AIAnalysis` foi criado no banco (via Django Admin)
+- [ ] 8.13.5 — Acessar dashboard e verificar exibição do card de análise
+- [ ] 8.13.6 — Verificar formatação e estilo do card
+- [ ] 8.13.7 — Tentar gerar nova análise antes de 24h (deve ser impedido pelo rate limiting)
+- [ ] 8.13.8 — Testar com usuário sem transações (deve lidar graciosamente com dados vazios)
+- [ ] 8.13.9 — Testar comando `--all` com múltiplos usuários
+- [ ] 8.13.10 — Verificar logs de execução
+
+#### T8.14 — Segurança e isolamento de dados
+- [ ] 8.14.1 — Verificar que `OPENAI_API_KEY` não está em nenhum arquivo versionado (apenas no `.env`)
+- [ ] 8.14.2 — Verificar isolamento de dados: todas as tools filtram por `user_id`
+- [ ] 8.14.3 — Verificar que prompts não vazam dados de outros usuários
+- [ ] 8.14.4 — Adicionar validação de `user_id` em todas as tools (tipo int, usuário ativo)
+- [ ] 8.14.5 — Testar que usuário A não acessa análise de usuário B
+- [ ] 8.14.6 — Verificar que logs não expõem dados financeiros sensíveis
+- [ ] 8.14.7 — Adicionar disclaimer sobre uso de IA (dados enviados à OpenAI)
+
+#### T8.15 — Documentação técnica
+- [ ] 8.15.1 — Atualizar `docs/apps.md` com informações da app `ai`
+- [ ] 8.15.2 — Atualizar `docs/models.md` com o model `AIAnalysis`
+- [ ] 8.15.3 — Atualizar `docs/arquitetura.md` com a app `ai` e diagrama ER
+- [ ] 8.15.4 — Atualizar `docs/ai-finance-agent.md` com documentação técnica completa (arquitetura, fluxo, tools, configuração, execução, segurança, troubleshooting)
+- [ ] 8.15.5 — Atualizar `docs/README.md` com referência à documentação de IA
+- [ ] 8.15.6 — Atualizar `AGENTS.md` com referência ao agente especialista de IA
+- [ ] 8.15.7 — Atualizar `agents/README.md` com entrada do `ai_integration_expert`
+- [ ] 8.15.8 — Adicionar comando `run_finance_analysis` na documentação com exemplos de uso
+
+---
+
+### Sprint 9 — Docker e Deploy (sprint futura)
+
+#### T9.1 — Containerização
+- [ ] 9.1.1 — Criar `Dockerfile` para a aplicação
+- [ ] 9.1.2 — Criar `docker-compose.yml` com serviços (app, banco)
+- [ ] 9.1.3 — Configurar variáveis de ambiente para produção
+- [ ] 9.1.4 — Configurar `requirements.txt` com dependências de produção
+
+#### T9.2 — Deploy
+- [ ] 9.2.1 — Configurar `settings.py` para produção (DEBUG=False, ALLOWED_HOSTS, SECRET_KEY do env)
+- [ ] 9.2.2 — Configurar coleta de arquivos estáticos (`collectstatic`)
+- [ ] 9.2.3 — Configurar WSGI com Gunicorn
+- [ ] 9.2.4 — Testar deploy em ambiente de staging
