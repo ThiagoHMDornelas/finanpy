@@ -230,22 +230,22 @@
 
 ---
 
-### Sprint 7 — Testes (sprint futura)
+### Sprint 7 — Testes ✅
 
-#### T7.1 — Testes unitários
-- [ ] 7.1.1 — Testes do model User (criação, email como campo de login)
-- [ ] 7.1.2 — Testes do model Account (CRUD, filtros por usuário)
-- [ ] 7.1.3 — Testes do model Category (CRUD, categorias padrão)
-- [ ] 7.1.4 — Testes do model Transaction (CRUD, cálculos)
-- [ ] 7.1.5 — Testes do model Profile (criação automática)
+#### T7.1 — Testes unitários ✅
+- [X] 7.1.1 — Testes do model User (criação, email como campo de login)
+- [X] 7.1.2 — Testes do model Account (CRUD, filtros por usuário)
+- [X] 7.1.3 — Testes do model Category (CRUD, categorias padrão)
+- [X] 7.1.4 — Testes do model Transaction (CRUD, cálculos)
+- [X] 7.1.5 — Testes do model Profile (criação automática)
 
-#### T7.2 — Testes de integração e views
-- [ ] 7.2.1 — Testes de cadastro de usuário (fluxo completo)
-- [ ] 7.2.2 — Testes de login/logout (fluxo completo)
-- [ ] 7.2.3 — Testes de CRUD de contas (autenticado)
-- [ ] 7.2.4 — Testes de CRUD de categorias (autenticado)
-- [ ] 7.2.5 — Testes de CRUD de transações (autenticado)
-- [ ] 7.2.6 — Testes de proteção de rotas (não autenticado)
+#### T7.2 — Testes de integração e views ✅
+- [X] 7.2.1 — Testes de cadastro de usuário (fluxo completo)
+- [X] 7.2.2 — Testes de login/logout (fluxo completo)
+- [X] 7.2.3 — Testes de CRUD de contas (autenticado)
+- [X] 7.2.4 — Testes de CRUD de categorias (autenticado)
+- [X] 7.2.5 — Testes de CRUD de transações (autenticado)
+- [X] 7.2.6 — Testes de proteção de rotas (não autenticado)
 
 ---
 
