@@ -18,6 +18,7 @@ class Category(models.Model):
     category_type = models.CharField('tipo', max_length=10, choices=CATEGORY_TYPE_CHOICES)
     color = models.CharField('cor', max_length=7, default='#7c3aed')
     icon = models.CharField('ícone', max_length=50, blank=True, null=True)
+    is_active = models.BooleanField('ativa', default=True)
     created_at = models.DateTimeField('criado em', auto_now_add=True)
     updated_at = models.DateTimeField('atualizado em', auto_now=True)
 
@@ -25,7 +26,7 @@ class Category(models.Model):
         verbose_name = 'categoria'
         verbose_name_plural = 'categorias'
         ordering = ['category_type', 'name']
-        unique_together = ('user', 'name')
+        unique_together = ('user', 'name', 'category_type')
 
     def __str__(self):
         return self.name

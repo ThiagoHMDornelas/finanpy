@@ -26,8 +26,8 @@ def create_default_categories(sender, instance, created, **kwargs):
             Category.objects.get_or_create(
                 user=instance,
                 name=cat_data['name'],
+                category_type=cat_data['category_type'],
                 defaults={
-                    'category_type': cat_data['category_type'],
                     'color': cat_data['color'],
                 },
             )

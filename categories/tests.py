@@ -58,13 +58,61 @@ class CategoryModelTest(TestCase):
         other_cats = Category.objects.filter(user=other_user)
         self.assertEqual(user_cats.count(), other_cats.count())
 
-    def test_unique_together_user_name(self):
+    def test_unique_together_user_name_type(self):
+        Category.objects.create(
+            user=self.user,
+            name='Teste',
+            category_type='despesa',
+        )
         with self.assertRaises(IntegrityError):
             Category.objects.create(
                 user=self.user,
-                name='Alimentação',
-                category_type='receita',
+                name='Teste',
+                category_type='despesa',
             )
+
+    def test_same_name_different_type(self):
+        Category.objects.create(
+            user=self.user,
+            name='Teste',
+            category_type='despesa',
+        )
+        cat = Category.objects.create(
+            user=self.user,
+            name='Teste',
+            category_type='receita',
+        )
+        self.assertEqual(cat.category_type, 'receita')
+
+    def test_case_insensitive_duplicate_blocked(self):
+        from .forms import CategoryForm
+        Category.objects.create(
+            user=self.user,
+            name='CustomUnique',
+            category_type='despesa',
+            color='#ef4444',
+        )
+        form = CategoryForm(
+            data={'name': 'customunique', 'category_type': 'despesa', 'color': '#ef4444'},
+            user=self.user,
+        )
+        self.assertFalse(form.is_valid())
+        self.assertIn('name', form.errors)
+
+    def test_case_insensitive_update_same_name_allowed(self):
+        from .forms import CategoryForm
+        cat = Category.objects.create(
+            user=self.user,
+            name='CustomUnique2',
+            category_type='despesa',
+            color='#ef4444',
+        )
+        form = CategoryForm(
+            instance=cat,
+            data={'name': 'CustomUnique2', 'category_type': 'despesa', 'color': '#ef4444'},
+            user=self.user,
+        )
+        self.assertTrue(form.is_valid())
 
     def test_cascade_delete_user(self):
         temp_user = User.objects.create_user(
@@ -86,8 +134,7 @@ class DefaultCategoriesSignalTest(TestCase):
             first_name='New',
         )
         categories = Category.objects.filter(user=user)
-        expected = len(DEFAULT_CATEGORIES) - 1
-        self.assertEqual(categories.count(), expected)
+        self.assertEqual(categories.count(), len(DEFAULT_CATEGORIES))
 
     def test_default_categories_not_duplicated_on_save(self):
         user = User.objects.create_user(
@@ -97,8 +144,7 @@ class DefaultCategoriesSignalTest(TestCase):
         )
         user.first_name = 'Updated'
         user.save()
-        expected = len(DEFAULT_CATEGORIES) - 1
-        self.assertEqual(Category.objects.filter(user=user).count(), expected)
+        self.assertEqual(Category.objects.filter(user=user).count(), len(DEFAULT_CATEGORIES))
 
     def test_default_categories_content(self):
         user = User.objects.create_user(
@@ -109,4 +155,4 @@ class DefaultCategoriesSignalTest(TestCase):
         despesa_count = Category.objects.filter(user=user, category_type='despesa').count()
         receita_count = Category.objects.filter(user=user, category_type='receita').count()
         self.assertEqual(despesa_count, 7)
-        self.assertEqual(receita_count, 3)
+        self.assertEqual(receita_count, 4)

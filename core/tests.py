@@ -84,7 +84,7 @@ class RegisterViewTest(TestCase):
             'password2': 'StrongPass123!',
         })
         user = User.objects.get(email='cats@example.com')
-        self.assertEqual(Category.objects.filter(user=user).count(), 10)
+        self.assertEqual(Category.objects.filter(user=user).count(), 11)
 
     def test_authenticated_user_redirected_from_register(self):
         user = User.objects.create_user(

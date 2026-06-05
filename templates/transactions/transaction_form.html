@@ -4,6 +4,7 @@
 {% block title %}{% if form.instance.pk %}Editar Transação{% else %}Nova Transação{% endif %} — Finanpy{% endblock %}
 
 {% block app_content %}
+{% now "Y-m-d" as today %}
 <div class='max-w-xl mx-auto'>
   <div class='flex items-center justify-between mb-6'>
     <h1 class='text-2xl font-bold text-[#f0eef5]'>{% if form.instance.pk %}Editar Transação{% else %}Nova Transação{% endif %}</h1>
@@ -43,7 +44,7 @@
 
       <div>
         <label for='id_date' class='block text-sm font-medium text-[#a09cb5] mb-1.5'>Data</label>
-        <input type='date' id='id_date' name='date' value='{% if form.date.value %}{{ form.date.value|date:"Y-m-d" }}{% elif form.data.date %}{{ form.data.date }}{% endif %}' class='w-full px-4 py-2.5 rounded-lg bg-[#0f0d1a] border border-[#2d2754] text-[#f0eef5] focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200 {% if form.date.errors %}border-red-500{% endif %}'>
+        <input type='date' id='id_date' name='date' value='{% if form.date.value %}{{ form.date.value|date:"Y-m-d" }}{% elif form.data.date %}{{ form.data.date }}{% elif not form.instance.pk %}{{ today }}{% endif %}' class='w-full px-4 py-2.5 rounded-lg bg-[#0f0d1a] border border-[#2d2754] text-[#f0eef5] focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200 {% if form.date.errors %}border-red-500{% endif %}'>
         {% for error in form.date.errors %}
         <p class='text-red-400 text-sm mt-1'>{{ error }}</p>
         {% endfor %}

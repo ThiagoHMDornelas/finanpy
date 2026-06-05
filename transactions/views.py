@@ -41,7 +41,7 @@ class TransactionListView(LoginRequiredMixin, ListView):
         if search:
             queryset = queryset.filter(description__icontains=search)
 
-        return queryset
+        return queryset.order_by('date', '-created_at')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

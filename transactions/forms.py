@@ -51,7 +51,7 @@ class TransactionForm(forms.ModelForm):
 
         if self.user:
             self.fields['account'].queryset = Account.objects.filter(user=self.user, is_active=True)
-            self.fields['category'].queryset = Category.objects.filter(user=self.user)
+            self.fields['category'].queryset = Category.objects.filter(user=self.user, is_active=True)
 
     def clean(self):
         cleaned_data = super().clean()

@@ -13,9 +13,9 @@
       {% endfor %}
     </select>
     {% elif field.field.widget.input_type == 'checkbox' %}
-    <div class='flex items-center gap-3'>
+    <div class='flex items-center gap-3 mt-1'>
       <input type='checkbox' id='{{ field.id_for_label }}' name='{{ field.html_name }}' class='w-4 h-4 rounded bg-[#0f0d1a] border-[#2d2754] text-violet-500 focus:ring-violet-500 focus:ring-offset-0 transition-all duration-200' {% if field.value %}checked{% endif %}>
-      <span class='text-sm text-[#a09cb5]'>{{ field.help_text }}</span>
+      <label for='{{ field.id_for_label }}' class='text-sm text-[#a09cb5]'>{{ field.label }}</label>
     </div>
     {% elif field.field.widget.input_type == 'date' %}
     <input type='date' id='{{ field.id_for_label }}' name='{{ field.html_name }}' value='{{ field.value|date:"Y-m-d"|default:"" }}' class='w-full px-4 py-2.5 rounded-lg bg-[#0f0d1a] border border-[#2d2754] text-[#f0eef5] focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all duration-200 {% if field.errors %}border-red-500{% endif %}'>
