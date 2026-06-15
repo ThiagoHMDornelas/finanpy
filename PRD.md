@@ -817,7 +817,7 @@ ai/
 |------------|--------|-----|
 | LangChain | 1.0+ | Framework para orquestração do agente de IA |
 | OpenAI API | — | Provedor do modelo LLM |
-| GPT-5-mini | — | Modelo LLM padrão (configurável via `OPENAI_MODEL` no `.env`) |
+| GPT-4o-mini | — | Modelo LLM padrão (configurável via `OPENAI_MODEL` no `.env`) |
 | python-dotenv | — | Gerenciamento de variáveis de ambiente |
 
 > **Configuração de ambiente:** As variáveis `OPENAI_API_KEY`, `OPENAI_MODEL`, `AI_MAX_TOKENS` e `AI_TEMPERATURE` ficam no arquivo `.env` (nunca commitado). O `settings.py` lê com `os.getenv()` e define valores padrão. O `.env.example` serve como referência sem chaves reais.

@@ -157,7 +157,7 @@ from dotenv import load_dotenv
 load_dotenv(BASE_DIR / '.env')
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', '')
-OPENAI_MODEL = os.getenv('OPENAI_MODEL', 'gpt-5-mini')
+OPENAI_MODEL = os.getenv('OPENAI_MODEL', 'gpt-4o-mini')
 AI_MAX_TOKENS = int(os.getenv('AI_MAX_TOKENS', '2000'))
 AI_TEMPERATURE = float(os.getenv('AI_TEMPERATURE', '0.7'))
 ```
@@ -166,7 +166,7 @@ Variaveis no `.env`:
 
 ```
 OPENAI_API_KEY=sk-...
-OPENAI_MODEL=gpt-5-mini
+OPENAI_MODEL=gpt-4o-mini
 AI_MAX_TOKENS=2000
 AI_TEMPERATURE=0.7
 ```
@@ -180,7 +180,7 @@ ALLOWED_HOSTS=localhost,127.0.0.1
 
 # OpenAI API (agente de IA financeiro)
 OPENAI_API_KEY=sk-your-openai-api-key-here
-OPENAI_MODEL=gpt-5-mini
+OPENAI_MODEL=gpt-4o-mini
 AI_MAX_TOKENS=2000
 AI_TEMPERATURE=0.7
 ```
@@ -188,7 +188,7 @@ AI_TEMPERATURE=0.7
 | Variavel | Padrao | Descricao |
 |----------|--------|-----------|
 | OPENAI_API_KEY | (vazio) | Chave da API OpenAI |
-| OPENAI_MODEL | gpt-5-mini | Modelo LLM utilizado |
+| OPENAI_MODEL | gpt-4o-mini | Modelo LLM utilizado |
 | AI_MAX_TOKENS | 2000 | Maximo de tokens na resposta |
 | AI_TEMPERATURE | 0.7 | Temperatura do modelo |
 
@@ -285,10 +285,10 @@ Para adicionar uma nova tool ao agente:
 
 ### Troca de modelo LLM
 
-O agente e configurado via `ChatOpenAI(model=settings.OPENAI_MODEL)`. O modelo padrao e `gpt-5-mini`, definido na variavel `OPENAI_MODEL` do `.env`. Para trocar o modelo:
+O agente e configurado via `ChatOpenAI(model=settings.OPENAI_MODEL)`. O modelo padrao e `gpt-4o-mini`, definido na variavel `OPENAI_MODEL` do `.env`. Para trocar o modelo:
 
 1. Alterar a variavel `OPENAI_MODEL` no arquivo `.env`
-2. O `settings.py` le automaticamente: `OPENAI_MODEL = os.getenv('OPENAI_MODEL', 'gpt-5-mini')`
+2. O `settings.py` le automaticamente: `OPENAI_MODEL = os.getenv('OPENAI_MODEL', 'gpt-4o-mini')`
 3. O agente usa `settings.OPENAI_MODEL` — sem hardcoded values
 4. Atualizar `model_used` no `AIAnalysis` para refletir o modelo utilizado
 

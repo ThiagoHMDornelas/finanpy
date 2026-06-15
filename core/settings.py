@@ -142,6 +142,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # OpenAI / AI Agent settings
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', '')
-OPENAI_MODEL = os.getenv('OPENAI_MODEL', 'gpt-5-mini')
+OPENAI_MODEL = os.getenv('OPENAI_MODEL', 'gpt-4o-mini')
 AI_MAX_TOKENS = int(os.getenv('AI_MAX_TOKENS', '2000'))
 AI_TEMPERATURE = float(os.getenv('AI_TEMPERATURE', '0.7'))

@@ -239,6 +239,6 @@ Variaveis no `.env` (nunca commitar valores reais):
 | Variavel | Padrao | Descricao |
 |----------|--------|-----------|
 | OPENAI_API_KEY | (vazio) | Chave da API OpenAI |
-| OPENAI_MODEL | gpt-5-mini | Modelo LLM utilizado |
+| OPENAI_MODEL | gpt-4o-mini | Modelo LLM utilizado |
 | AI_MAX_TOKENS | 2000 | Maximo de tokens na resposta |
 | AI_TEMPERATURE | 0.7 | Temperatura do modelo (criatividade) |

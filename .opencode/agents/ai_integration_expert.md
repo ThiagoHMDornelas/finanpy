@@ -59,7 +59,7 @@ Todas as chaves e configuracoes da OpenAI ficam no arquivo `.env` (nunca commita
 Deve existir no `.env`:
 ```
 OPENAI_API_KEY=sk-...
-OPENAI_MODEL=gpt-5-mini
+OPENAI_MODEL=gpt-4o-mini
 AI_MAX_TOKENS=2000
 AI_TEMPERATURE=0.7
 ```
@@ -67,7 +67,7 @@ AI_TEMPERATURE=0.7
 E no `.env.example` (sem chaves reais):
 ```
 OPENAI_API_KEY=sk-your-openai-api-key-here
-OPENAI_MODEL=gpt-5-mini
+OPENAI_MODEL=gpt-4o-mini
 AI_MAX_TOKENS=2000
 AI_TEMPERATURE=0.7
 ```
@@ -80,7 +80,7 @@ from dotenv import load_dotenv
 load_dotenv(BASE_DIR / '.env')
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', '')
-OPENAI_MODEL = os.getenv('OPENAI_MODEL', 'gpt-5-mini')
+OPENAI_MODEL = os.getenv('OPENAI_MODEL', 'gpt-4o-mini')
 AI_MAX_TOKENS = int(os.getenv('AI_MAX_TOKENS', '2000'))
 AI_TEMPERATURE = float(os.getenv('AI_TEMPERATURE', '0.7'))
 ```
@@ -165,7 +165,7 @@ class AIAnalysis(models.Model):
     key_insights = models.JSONField(default=list)
     recommendations = models.JSONField(default=list)
     period_analyzed = models.CharField(max_length=100)
-    model_used = models.CharField(max_length=50, default='gpt-5-mini')
+    model_used = models.CharField(max_length=50, default='gpt-4o-mini')
     tokens_input = models.IntegerField(default=0)
     tokens_output = models.IntegerField(default=0)
     is_latest = models.BooleanField(default=True)
@@ -406,7 +406,7 @@ Ao criar um novo agente de IA no Finanpy, verifique:
 Sempre que houver duvidas sobre a API do LangChain, use a ferramenta Context7 para consultar documentacao atualizada. Queries uteis:
 
 - "Como criar um agente ReAct com tools customizadas no LangChain 1.0"
-- "Como usar ChatOpenAI com gpt-5-mini no LangChain"
+- "Como usar ChatOpenAI com gpt-4o-mini no LangChain"
 - "Como configurar AgentExecutor com memory no LangChain"
 - "Como criar custom tools com decorator @tool no LangChain"
 
@@ -414,7 +414,7 @@ Sempre que houver duvidas sobre a API do LangChain, use a ferramenta Context7 pa
 
 | Parametro | Valor padrao | Descricao |
 |-----------|-------------|-----------|
-| model | settings.OPENAI_MODEL | Modelo configurado via .env (padrao: gpt-5-mini) |
+| model | settings.OPENAI_MODEL | Modelo configurado via .env (padrao: gpt-4o-mini) |
 | temperature | settings.AI_TEMPERATURE | Equilibrio criatividade/consistencia (padrao: 0.7) |
 | max_tokens | settings.AI_MAX_TOKENS | Limite de tokens na resposta (padrao: 2000) |
 | api_key | settings.OPENAI_API_KEY | Chave obtida do .env via settings.py |

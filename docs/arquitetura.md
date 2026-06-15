@@ -132,7 +132,7 @@ erDiagram
 
 A app `ai` integra o Finanpy com LangChain 1.0 e OpenAI API para gerar analises financeiras personalizadas.
 
-- **Agente**: `FinanceInsightAgent` usando LangChain com `ChatOpenAI(model='gpt-5-mini')`
+- **Agente**: `FinanceInsightAgent` usando LangChain com `ChatOpenAI(model='gpt-4o-mini')`
 - **Tools**: Consultam transacoes, contas, categorias e resumo financeiro do usuario
 - **Execucao**: Via Django Command `python manage.py run_finance_analysis`
 - **Persistencia**: Model `AIAnalysis` com historico e `is_latest` para marcar a analise mais recente

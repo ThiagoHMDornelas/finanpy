@@ -251,60 +251,60 @@
 
 ### Sprint 8 — Agente de IA Financeiro (LangChain 1.0)
 
-#### T8.1 — Configuração de dependências e variáveis de ambiente
-- [ ] 8.1.1 — Verificar que `langchain`, `langchain-openai` e `python-dotenv` estão em `requirements.txt` e executar `pip install -r requirements.txt`
-- [ ] 8.1.2 — Adicionar ao `.env` as variáveis de IA: `OPENAI_API_KEY=sk-...`, `OPENAI_MODEL=gpt-5-mini`, `AI_MAX_TOKENS=2000`, `AI_TEMPERATURE=0.7`
-- [ ] 8.1.3 — Atualizar `.env.example` com as variáveis de IA (sem valores reais): `OPENAI_API_KEY=sk-your-openai-api-key-here`, `OPENAI_MODEL=gpt-5-mini`, `AI_MAX_TOKENS=2000`, `AI_TEMPERATURE=0.7`
-- [ ] 8.1.4 — Configurar leitura em `settings.py`: `OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', '')`, `OPENAI_MODEL = os.getenv('OPENAI_MODEL', 'gpt-5-mini')`, `AI_MAX_TOKENS = int(os.getenv('AI_MAX_TOKENS', '2000'))`, `AI_TEMPERATURE = float(os.getenv('AI_TEMPERATURE', '0.7'))`
-- [ ] 8.1.5 — Testar import de `langchain` e `langchain_openai` no shell Django: `python manage.py shell -c "from langchain_openai import ChatOpenAI; print('OK')"`
-- [ ] 8.1.6 — Verificar que app `ai` está em `INSTALLED_APPS`
-- [ ] 8.1.7 — Verificar que `.env` está no `.gitignore` (nunca commitar chave real)
+#### T8.1 — Configuração de dependências e variáveis de ambiente ✅
+- [X] 8.1.1 — Verificar que `langchain`, `langchain-openai` e `python-dotenv` estão em `requirements.txt` e executar `pip install -r requirements.txt`
+- [X] 8.1.2 — Adicionar ao `.env` as variáveis de IA: `OPENAI_API_KEY=sk-...`, `OPENAI_MODEL=gpt-4o-mini`, `AI_MAX_TOKENS=2000`, `AI_TEMPERATURE=0.7`
+- [X] 8.1.3 — Atualizar `.env.example` com as variáveis de IA (sem valores reais): `OPENAI_API_KEY=sk-your-openai-api-key-here`, `OPENAI_MODEL=gpt-4o-mini`, `AI_MAX_TOKENS=2000`, `AI_TEMPERATURE=0.7`
+- [X] 8.1.4 — Configurar leitura em `settings.py`: `OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', '')`, `OPENAI_MODEL = os.getenv('OPENAI_MODEL', 'gpt-4o-mini')`, `AI_MAX_TOKENS = int(os.getenv('AI_MAX_TOKENS', '2000'))`, `AI_TEMPERATURE = float(os.getenv('AI_TEMPERATURE', '0.7'))`
+- [X] 8.1.5 — Testar import de `langchain` e `langchain_openai` no shell Django: `python manage.py shell -c "from langchain_openai import ChatOpenAI; print('OK')"`
+- [X] 8.1.6 — Verificar que app `ai` está em `INSTALLED_APPS`
+- [X] 8.1.7 — Verificar que `.env` está no `.gitignore` (nunca commitar chave real)
 
-#### T8.2 — Estrutura de diretórios da app `ai`
-- [ ] 8.2.1 — Executar `python manage.py startapp ai` (se ainda não existir)
-- [ ] 8.2.2 — Criar diretório `ai/agents/` e arquivo `ai/agents/__init__.py`
-- [ ] 8.2.3 — Criar diretório `ai/tools/` e arquivo `ai/tools/__init__.py`
-- [ ] 8.2.4 — Criar diretório `ai/services/` e arquivo `ai/services/__init__.py`
-- [ ] 8.2.5 — Criar diretório `ai/management/` e arquivo `ai/management/__init__.py`
-- [ ] 8.2.6 — Criar diretório `ai/management/commands/` e arquivo `ai/management/commands/__init__.py`
-- [ ] 8.2.7 — Criar `ai/apps.py` com configuração adequada e método `ready()`
+#### T8.2 — Estrutura de diretórios da app `ai` ✅
+- [X] 8.2.1 — Executar `python manage.py startapp ai` (se ainda não existir)
+- [X] 8.2.2 — Criar diretório `ai/agents/` e arquivo `ai/agents/__init__.py`
+- [X] 8.2.3 — Criar diretório `ai/tools/` e arquivo `ai/tools/__init__.py`
+- [X] 8.2.4 — Criar diretório `ai/services/` e arquivo `ai/services/__init__.py`
+- [X] 8.2.5 — Criar diretório `ai/management/` e arquivo `ai/management/__init__.py`
+- [X] 8.2.6 — Criar diretório `ai/management/commands/` e arquivo `ai/management/commands/__init__.py`
+- [X] 8.2.7 — Criar `ai/apps.py` com configuração adequada e método `ready()`
 
-#### T8.3 — Model AIAnalysis
-- [ ] 8.3.1 — Criar model `AIAnalysis` em `ai/models.py` com campos: `user` (FK→User, on_delete=CASCADE, related_name='ai_analyses'), `analysis_text` (TextField), `key_insights` (JSONField, default=list), `recommendations` (JSONField, default=list), `period_analyzed` (CharField max_length=100), `model_used` (CharField max_length=50), `tokens_input` (IntegerField, default=0), `tokens_output` (IntegerField, default=0), `is_latest` (BooleanField, default=True), `created_at`, `updated_at`
-- [ ] 8.3.2 — Adicionar `__str__` retornando `f'{self.user.email} - {self.period_analyzed}'`
-- [ ] 8.3.3 — Adicionar `class Meta` com `ordering = ['-created_at']`, `verbose_name = 'análise IA'`, `verbose_name_plural = 'análises IA'`
-- [ ] 8.3.4 — Adicionar indexes em `user` e `created_at`: `indexes = [models.Index(fields=['user', '-created_at']), models.Index(fields=['user', 'is_latest'])]`
-- [ ] 8.3.5 — Implementar lógica de `is_latest` no `save()`: ao salvar nova análise com `is_latest=True`, setar `is_latest=False` nas análises anteriores do mesmo usuário
-- [ ] 8.3.6 — Adicionar método `get_latest_for_user(user_id)` como class method: `AIAnalysis.objects.filter(user_id=user_id, is_latest=True).first()`
+#### T8.3 — Model AIAnalysis ✅
+- [X] 8.3.1 — Criar model `AIAnalysis` em `ai/models.py` com campos: `user` (FK→User, on_delete=CASCADE, related_name='ai_analyses'), `analysis_text` (TextField), `key_insights` (JSONField, default=list), `recommendations` (JSONField, default=list), `period_analyzed` (CharField max_length=100), `model_used` (CharField max_length=50), `tokens_input` (IntegerField, default=0), `tokens_output` (IntegerField, default=0), `is_latest` (BooleanField, default=True), `created_at`, `updated_at`
+- [X] 8.3.2 — Adicionar `__str__` retornando `f'{self.user.email} - {self.period_analyzed}'`
+- [X] 8.3.3 — Adicionar `class Meta` com `ordering = ['-created_at']`, `verbose_name = 'análise IA'`, `verbose_name_plural = 'análises IA'`
+- [X] 8.3.4 — Adicionar indexes em `user` e `created_at`: `indexes = [models.Index(fields=['user', '-created_at']), models.Index(fields=['user', 'is_latest'])]`
+- [X] 8.3.5 — Implementar lógica de `is_latest` no `save()`: ao salvar nova análise com `is_latest=True`, setar `is_latest=False` nas análises anteriores do mesmo usuário
+- [X] 8.3.6 — Adicionar método `get_latest_for_user(user_id)` como class method: `AIAnalysis.objects.filter(user_id=user_id, is_latest=True).first()`
 
-#### T8.4 — Admin de AIAnalysis
-- [ ] 8.4.1 — Criar `AIAnalysisAdmin` em `ai/admin.py` com `list_display`: user, period_analyzed, model_used, created_at
-- [ ] 8.4.2 — Configurar `list_filter`: created_at
-- [ ] 8.4.3 — Configurar `search_fields`: user__email, analysis_text
-- [ ] 8.4.4 — Configurar `readonly_fields`: created_at, updated_at, tokens_input, tokens_output
-- [ ] 8.4.5 — Configurar `date_hierarchy`: created_at
-- [ ] 8.4.6 — Registrar `AIAnalysis` com `AIAnalysisAdmin`
+#### T8.4 — Admin de AIAnalysis ✅
+- [X] 8.4.1 — Criar `AIAnalysisAdmin` em `ai/admin.py` com `list_display`: user, period_analyzed, model_used, created_at
+- [X] 8.4.2 — Configurar `list_filter`: created_at
+- [X] 8.4.3 — Configurar `search_fields`: user__email, analysis_text
+- [X] 8.4.4 — Configurar `readonly_fields`: created_at, updated_at, tokens_input, tokens_output
+- [X] 8.4.5 — Configurar `date_hierarchy`: created_at
+- [X] 8.4.6 — Registrar `AIAnalysis` com `AIAnalysisAdmin`
 
-#### T8.5 — Migration de AIAnalysis
-- [ ] 8.5.1 — Executar `python manage.py makemigrations ai`
-- [ ] 8.5.2 — Revisar arquivo de migration gerado
-- [ ] 8.5.3 — Executar `python manage.py migrate`
-- [ ] 8.5.4 — Verificar tabela no banco de dados
-- [ ] 8.5.5 — Testar criação manual de `AIAnalysis` no Django shell
+#### T8.5 — Migration de AIAnalysis ✅
+- [X] 8.5.1 — Executar `python manage.py makemigrations ai`
+- [X] 8.5.2 — Revisar arquivo de migration gerado
+- [X] 8.5.3 — Executar `python manage.py migrate`
+- [X] 8.5.4 — Verificar tabela no banco de dados
+- [X] 8.5.5 — Testar criação manual de `AIAnalysis` no Django shell
 
-#### T8.6 — LangChain Database Tools
-- [ ] 8.6.1 — Criar arquivo `ai/tools/database_tools.py`
-- [ ] 8.6.2 — Importar `@tool` decorator do `langchain_core.tools`
-- [ ] 8.6.3 — Criar `@tool get_user_transactions(user_id: int, period: str = 'month')` — busca transações dos últimos 30/90/365 dias, retorna lista formatada com data, valor, tipo, categoria, descrição
-- [ ] 8.6.4 — Criar `@tool get_user_accounts(user_id: int)` — retorna contas com nome, tipo, instituição e saldo
-- [ ] 8.6.5 — Criar `@tool get_user_categories(user_id: int)` — retorna categorias com nome e tipo
-- [ ] 8.6.6 — Criar `@tool get_spending_by_category(user_id: int)` — retorna total gasto por categoria nos últimos 30 dias, ordenado do maior para o menor
-- [ ] 8.6.7 — Criar `@tool get_income_vs_expense(user_id: int)` — retorna total de receitas, despesas e saldo dos últimos 30 dias
-- [ ] 8.6.8 — Adicionar docstrings detalhadas em cada tool (o agente usa para decidir qual tool chamar)
-- [ ] 8.6.9 — Adicionar tratamento de exceções em cada tool (retornar string de erro amigável)
-- [ ] 8.6.10 — Garantir que todas as tools filtram dados por `user_id` (isolamento de dados)
-- [ ] 8.6.11 — Otimizar queries com `select_related` onde aplicável
-- [ ] 8.6.12 — Testar tools individualmente no Django shell
+#### T8.6 — LangChain Database Tools ✅
+- [X] 8.6.1 — Criar arquivo `ai/tools/database_tools.py`
+- [X] 8.6.2 — Importar `@tool` decorator do `langchain_core.tools`
+- [X] 8.6.3 — Criar `@tool get_user_transactions(user_id: int, period: str = 'month')` — busca transações dos últimos 30/90/365 dias, retorna lista formatada com data, valor, tipo, categoria, descrição
+- [X] 8.6.4 — Criar `@tool get_user_accounts(user_id: int)` — retorna contas com nome, tipo, instituição e saldo
+- [X] 8.6.5 — Criar `@tool get_user_categories(user_id: int)` — retorna categorias com nome e tipo
+- [X] 8.6.6 — Criar `@tool get_spending_by_category(user_id: int)` — retorna total gasto por categoria nos últimos 30 dias, ordenado do maior para o menor
+- [X] 8.6.7 — Criar `@tool get_income_vs_expense(user_id: int)` — retorna total de receitas, despesas e saldo dos últimos 30 dias
+- [X] 8.6.8 — Adicionar docstrings detalhadas em cada tool (o agente usa para decidir qual tool chamar)
+- [X] 8.6.9 — Adicionar tratamento de exceções em cada tool (retornar string de erro amigável)
+- [X] 8.6.10 — Garantir que todas as tools filtram dados por `user_id` (isolamento de dados)
+- [X] 8.6.11 — Otimizar queries com `select_related` onde aplicável
+- [X] 8.6.12 — Testar tools individualmente no Django shell
 
 #### T8.7 — Agente LangChain (finance_insight_agent)
 - [ ] 8.7.1 — Criar arquivo `ai/agents/finance_insight_agent.py`
