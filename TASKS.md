@@ -306,76 +306,76 @@
 - [X] 8.6.11 — Otimizar queries com `select_related` onde aplicável
 - [X] 8.6.12 — Testar tools individualmente no Django shell
 
-#### T8.7 — Agente LangChain (finance_insight_agent)
-- [ ] 8.7.1 — Criar arquivo `ai/agents/finance_insight_agent.py`
-- [ ] 8.7.2 — Importar `ChatOpenAI` do `langchain_openai`, `create_tool_calling_agent` e `AgentExecutor` do `langchain.agents`, `ChatPromptTemplate` do `langchain_core.prompts`
-- [ ] 8.7.3 — Importar tools de `ai.tools.database_tools`
-- [ ] 8.7.4 — Configurar ChatOpenAI com `model=settings.OPENAI_MODEL`, `temperature=settings.AI_TEMPERATURE`, `max_tokens=settings.AI_MAX_TOKENS`, `api_key=settings.OPENAI_API_KEY`
-- [ ] 8.7.5 — Criar system prompt detalhado: analista financeiro pessoal, responde em pt-BR, estrutura com visão geral, insights, recomendações, alertas
-- [ ] 8.7.6 — Criar `ChatPromptTemplate` com system message, user message e placeholder para agent_scratchpad
-- [ ] 8.7.7 — Criar agente com `create_tool_calling_agent(llm, tools, prompt)`
-- [ ] 8.7.8 — Criar `AgentExecutor` com `agent`, `tools`, `verbose=True`, `handle_parsing_errors=True`
-- [ ] 8.7.9 — Criar função `run_analysis(user_id: int) -> dict` que invoca o agente e retorna dict com `analysis_text`, `insights`, `recommendations`
-- [ ] 8.7.10 — Adicionar logging de execução (tempo, tokens, usuário)
-- [ ] 8.7.11 — Adicionar tratamento de erros: `AuthenticationError`, `RateLimitError`, `APIError` do OpenAI
-- [ ] 8.7.12 — Adicionar fallback se API OpenAI falhar (retornar mensagem de erro amigável)
+#### T8.7 — Agente LangChain (finance_insight_agent) ✅
+- [X] 8.7.1 — Criar arquivo `ai/agents/finance_insight_agent.py`
+- [X] 8.7.2 — Importar `ChatOpenAI` do `langchain_openai`, `create_tool_calling_agent` e `AgentExecutor` do `langchain.agents`, `ChatPromptTemplate` do `langchain_core.prompts`
+- [X] 8.7.3 — Importar tools de `ai.tools.database_tools`
+- [X] 8.7.4 — Configurar ChatOpenAI com `model=settings.OPENAI_MODEL`, `temperature=settings.AI_TEMPERATURE`, `max_tokens=settings.AI_MAX_TOKENS`, `api_key=settings.OPENAI_API_KEY`
+- [X] 8.7.5 — Criar system prompt detalhado: analista financeiro pessoal, responde em pt-BR, estrutura com visão geral, insights, recomendações, alertas
+- [X] 8.7.6 — Criar `ChatPromptTemplate` com system message, user message e placeholder para agent_scratchpad
+- [X] 8.7.7 — Criar agente com `create_tool_calling_agent(llm, tools, prompt)`
+- [X] 8.7.8 — Criar `AgentExecutor` com `agent`, `tools`, `verbose=True`, `handle_parsing_errors=True`
+- [X] 8.7.9 — Criar função `run_analysis(user_id: int) -> dict` que invoca o agente e retorna dict com `analysis_text`, `insights`, `recommendations`
+- [X] 8.7.10 — Adicionar logging de execução (tempo, tokens, usuário)
+- [X] 8.7.11 — Adicionar tratamento de erros: `AuthenticationError`, `RateLimitError`, `APIError` do OpenAI
+- [X] 8.7.12 — Adicionar fallback se API OpenAI falhar (retornar mensagem de erro amigável)
 
-#### T8.8 — Serviço de Análise (analysis_service)
-- [ ] 8.8.1 — Criar arquivo `ai/services/analysis_service.py`
-- [ ] 8.8.2 — Importar `AIAnalysis`, `get_user_model`, funções do `finance_insight_agent`
-- [ ] 8.8.3 — Criar função `generate_analysis_for_user(user_id: int) -> AIAnalysis`
-- [ ] 8.8.4 — Validar que usuário existe e está ativo
-- [ ] 8.8.5 — Implementar rate limiting: não gerar nova análise se a última for há menos de 24h (configurável)
-- [ ] 8.8.6 — Chamar `run_analysis(user_id)` do agente
-- [ ] 8.8.7 — Parsear resultado: extrair `analysis_text`, `key_insights`, `recommendations`, `period_analyzed`
-- [ ] 8.8.8 — Criar objeto `AIAnalysis` e salvar no banco com `is_latest=True`
-- [ ] 8.8.9 — Implementar lógica de `is_latest`: marcar `is_latest=False` nas análises anteriores do mesmo usuário
-- [ ] 8.8.10 — Registrar `model_used`, `tokens_input`, `tokens_output` na análise
-- [ ] 8.8.11 — Adicionar logging detalhado (início, fim, duração, erros)
-- [ ] 8.8.12 — Adicionar tratamento de exceções completo (continuar para próximo usuário em caso de erro)
-- [ ] 8.8.13 — Criar função `get_latest_analysis(user_id: int) -> AIAnalysis | None` que retorna a análise mais recente
+#### T8.8 — Serviço de Análise (analysis_service) ✅
+- [X] 8.8.1 — Criar arquivo `ai/services/analysis_service.py`
+- [X] 8.8.2 — Importar `AIAnalysis`, `get_user_model`, funções do `finance_insight_agent`
+- [X] 8.8.3 — Criar função `generate_analysis_for_user(user_id: int) -> AIAnalysis`
+- [X] 8.8.4 — Validar que usuário existe e está ativo
+- [X] 8.8.5 — Implementar rate limiting: não gerar nova análise se a última for há menos de 24h (configurável)
+- [X] 8.8.6 — Chamar `run_analysis(user_id)` do agente
+- [X] 8.8.7 — Parsear resultado: extrair `analysis_text`, `key_insights`, `recommendations`, `period_analyzed`
+- [X] 8.8.8 — Criar objeto `AIAnalysis` e salvar no banco com `is_latest=True`
+- [X] 8.8.9 — Implementar lógica de `is_latest`: marcar `is_latest=False` nas análises anteriores do mesmo usuário
+- [X] 8.8.10 — Registrar `model_used`, `tokens_input`, `tokens_output` na análise
+- [X] 8.8.11 — Adicionar logging detalhado (início, fim, duração, erros)
+- [X] 8.8.12 — Adicionar tratamento de exceções completo (continuar para próximo usuário em caso de erro)
+- [X] 8.8.13 — Criar função `get_latest_analysis(user_id: int) -> AIAnalysis | None` que retorna a análise mais recente
 
-#### T8.9 — Django Command (run_finance_analysis)
-- [ ] 8.9.1 — Criar arquivo `ai/management/commands/run_finance_analysis.py` com `BaseCommand`
-- [ ] 8.9.2 — Definir help text descritivo
-- [ ] 8.9.3 — Adicionar argumento `--user-email` (opcional) para executar análise para um usuário específico por email
-- [ ] 8.9.4 — Adicionar flag `--all` para executar análise para todos os usuários ativos
-- [ ] 8.9.5 — Implementar lógica: se `--user-email`, processar apenas esse usuário; se `--all` ou sem argumentos, iterar sobre todos os ativos
-- [ ] 8.9.6 — Adicionar output informativo com `self.stdout.write`: "Analisando usuário X...", "Análise concluída", "Erro ao analisar..."
-- [ ] 8.9.7 — Adicionar tratamento de erros por usuário (continuar para o próximo em caso de falha)
+#### T8.9 — Django Command (run_finance_analysis) ✅
+- [X] 8.9.1 — Criar arquivo `ai/management/commands/run_finance_analysis.py` com `BaseCommand`
+- [X] 8.9.2 — Definir help text descritivo
+- [X] 8.9.3 — Adicionar argumento `--user-email` (opcional) para executar análise para um usuário específico por email
+- [X] 8.9.4 — Adicionar flag `--all` para executar análise para todos os usuários ativos
+- [X] 8.9.5 — Implementar lógica: se `--user-email`, processar apenas esse usuário; se `--all` ou sem argumentos, iterar sobre todos os ativos
+- [X] 8.9.6 — Adicionar output informativo com `self.stdout.write`: "Analisando usuário X...", "Análise concluída", "Erro ao analisar..."
+- [X] 8.9.7 — Adicionar tratamento de erros por usuário (continuar para o próximo em caso de falha)
 - [ ] 8.9.8 — Testar comando: `python manage.py run_finance_analysis --user-email test@example.com`
 - [ ] 8.9.9 — Testar comando: `python manage.py run_finance_analysis --all`
 
-#### T8.10 — Exibição no Dashboard
-- [ ] 8.10.1 — Atualizar `DashboardView` em `core/views.py` para incluir `latest_analysis = AIAnalysis.objects.filter(user=request.user).order_by('-created_at').first()`
-- [ ] 8.10.2 — Adicionar `latest_analysis` ao context do template
-- [ ] 8.10.3 — Criar seção "Análise Financeira IA" no template do dashboard após as estatísticas
-- [ ] 8.10.4 — Verificar `{% if latest_analysis %}` e exibir card com gradiente destacado
-- [ ] 8.10.5 — Exibir ícone, título "Sua Análise Financeira Personalizada", data e `analysis_text` formatado
-- [ ] 8.10.6 — Se não houver análise, exibir call-to-action informativo
-- [ ] 8.10.7 — Estilizar card com TailwindCSS seguindo design system (gradiente violet/indigo)
+#### T8.10 — Exibição no Dashboard ✅
+- [X] 8.10.1 — Atualizar `DashboardView` em `core/views.py` para incluir `latest_analysis = AIAnalysis.objects.filter(user=request.user).order_by('-created_at').first()`
+- [X] 8.10.2 — Adicionar `latest_analysis` ao context do template
+- [X] 8.10.3 — Criar seção "Análise Financeira IA" no template do dashboard após as estatísticas
+- [X] 8.10.4 — Verificar `{% if latest_analysis %}` e exibir card com gradiente destacado
+- [X] 8.10.5 — Exibir ícone, título "Sua Análise Financeira Personalizada", data e `analysis_text` formatado
+- [X] 8.10.6 — Se não houver análise, exibir call-to-action informativo
+- [X] 8.10.7 — Estilizar card com TailwindCSS seguindo design system (gradiente violet/indigo)
 
-#### T8.11 — Template do Card de Análise
-- [ ] 8.11.1 — Criar parcial `templates/includes/ai_analysis_card.html`
-- [ ] 8.11.2 — Receber `analysis` como parâmetro do include
-- [ ] 8.11.3 — Criar card com bg-gradient (roxo/azul) seguindo design system
-- [ ] 8.11.4 — Header com ícone e título "Sua Análise Financeira Personalizada"
-- [ ] 8.11.5 — Data de geração em formato legível (`created_at`)
-- [ ] 8.11.6 — Corpo com `analysis_text` formatado (usar `white-space: pre-wrap`)
-- [ ] 8.11.7 — Seção de insights destacada (se `key_insights` existir)
-- [ ] 8.11.8 — Seção de recomendações destacada (se `recommendations` existir)
-- [ ] 8.11.9 — Footer com período analisado (`period_analyzed`) e modelo usado
-- [ ] 8.11.10 — Responsividade mobile
-- [ ] 8.11.11 — Incluir no dashboard: `{% include 'includes/ai_analysis_card.html' with analysis=latest_analysis %}`
+#### T8.11 — Template do Card de Análise ✅
+- [X] 8.11.1 — Criar parcial `templates/includes/ai_analysis_card.html`
+- [X] 8.11.2 — Receber `analysis` como parâmetro do include
+- [X] 8.11.3 — Criar card com bg-gradient (roxo/azul) seguindo design system
+- [X] 8.11.4 — Header com ícone e título "Sua Análise Financeira Personalizada"
+- [X] 8.11.5 — Data de geração em formato legível (`created_at`)
+- [X] 8.11.6 — Corpo com `analysis_text` formatado (usar `white-space: pre-wrap`)
+- [X] 8.11.7 — Seção de insights destacada (se `key_insights` existir)
+- [X] 8.11.8 — Seção de recomendações destacada (se `recommendations` existir)
+- [X] 8.11.9 — Footer com período analisado (`period_analyzed`) e modelo usado
+- [X] 8.11.10 — Responsividade mobile
+- [X] 8.11.11 — Incluir no dashboard: `{% include 'includes/ai_analysis_card.html' with analysis=latest_analysis %}`
 
-#### T8.12 — View de Detalhe da Análise
-- [ ] 8.12.1 — Criar view `AIAnalysisDetailView` (DetailView) em `ai/views.py` com `LoginRequiredMixin`
-- [ ] 8.12.2 — Garantir que apenas o dono da análise pode acessá-la (verificar `request.user == obj.user`)
-- [ ] 8.12.3 — Criar `templates/ai/analysis_detail.html` herdando de `layouts/app.html`
-- [ ] 8.12.4 — Exibir análise completa com `analysis_text`, `key_insights`, `recommendations`, `period_analyzed`, `model_used`, `created_at`
-- [ ] 8.12.5 — Criar `ai/urls.py` com `app_name = 'ai'` e rota `path('analise/<int:pk>/', AIAnalysisDetailView.as_view(), name='analysis_detail')`
-- [ ] 8.12.6 — Incluir URLs de `ai` em `core/urls.py`
-- [ ] 8.12.7 — Adicionar link no card do dashboard para "Ver análise completa"
+#### T8.12 — View de Detalhe da Análise ✅
+- [X] 8.12.1 — Criar view `AIAnalysisDetailView` (DetailView) em `ai/views.py` com `LoginRequiredMixin`
+- [X] 8.12.2 — Garantir que apenas o dono da análise pode acessá-la (verificar `request.user == obj.user`)
+- [X] 8.12.3 — Criar `templates/ai/analysis_detail.html` herdando de `layouts/app.html`
+- [X] 8.12.4 — Exibir análise completa com `analysis_text`, `key_insights`, `recommendations`, `period_analyzed`, `model_used`, `created_at`
+- [X] 8.12.5 — Criar `ai/urls.py` com `app_name = 'ai'` e rota `path('analise/<int:pk>/', AIAnalysisDetailView.as_view(), name='analysis_detail')`
+- [X] 8.12.6 — Incluir URLs de `ai` em `core/urls.py`
+- [X] 8.12.7 — Adicionar link no card do dashboard para "Ver análise completa"
 
 #### T8.13 — Testes manuais
 - [ ] 8.13.1 — Criar usuário de teste com dados financeiros variados (5+ contas, 20+ transações)

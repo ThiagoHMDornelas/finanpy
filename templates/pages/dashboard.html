@@ -9,6 +9,8 @@
     <p class='text-sm text-[#6b6785]'>Visão geral das suas finanças</p>
   </div>
 
+  {% include 'includes/ai_analysis_card.html' with analysis=latest_analysis %}
+
   <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
     <div class='rounded-xl bg-gradient-to-br from-indigo-600 to-violet-700 p-6 shadow-lg shadow-violet-500/20'>
       <div class='flex items-center justify-between'>

@@ -1,0 +1,73 @@
+{% extends 'layouts/app.html' %}
+
+{% block title %}Análise Financeira — Finanpy{% endblock %}
+
+{% block app_content %}
+<div class='space-y-6'>
+  <div class='flex items-center justify-between'>
+    <h1 class='text-2xl font-bold text-[#f0eef5]'>Análise Financeira</h1>
+    <a href='{% url "dashboard" %}' class='px-4 py-2 rounded-lg border border-[#2d2754] text-[#a09cb5] text-sm font-medium hover:bg-[#241f3c] transition-all duration-200 flex items-center gap-2'>
+      <svg class='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M15 19l-7-7 7-7'/></svg>
+      Voltar
+    </a>
+  </div>
+
+  <div class='rounded-xl bg-gradient-to-br from-indigo-600 to-violet-700 p-6 shadow-lg shadow-violet-500/20'>
+    <div class='flex items-center gap-3 mb-4'>
+      <div class='w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center'>
+        <svg class='w-5 h-5 text-white' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+          <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M13 10V3L4 14h7v7l9-11h-7z'/>
+        </svg>
+      </div>
+      <div>
+        <h2 class='text-xl font-bold text-white'>Sua Análise Financeira Personalizada</h2>
+        <p class='text-sm text-indigo-200'>Gerada em {{ analysis.created_at|date:"d/m/Y \à\s H:i" }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class='rounded-xl bg-[#1a1730] border border-[#2d2754] p-6 shadow-lg shadow-black/20'>
+    <div class='prose prose-invert max-w-none'>
+      <div class='text-[#f0eef5] whitespace-pre-wrap leading-relaxed text-xl'>
+        {{ analysis.analysis_text }}
+      </div>
+    </div>
+  </div>
+
+  {% if analysis.key_insights %}
+  <div class='rounded-xl bg-[#1a1730] border border-[#2d2754] p-6 shadow-lg shadow-black/20'>
+    <h3 class='text-lg font-semibold text-[#f0eef5] mb-4'>💡 Principais Insights</h3>
+    <ul class='space-y-2'>
+      {% for insight in analysis.key_insights %}
+      <li class='flex items-start gap-2'>
+        <span class='text-violet-400 mt-0.5'>•</span>
+        <span class='text-lg text-[#a09cb5]'>{{ insight }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  {% if analysis.recommendations %}
+  <div class='rounded-xl bg-[#1a1730] border border-[#2d2754] p-6 shadow-lg shadow-black/20'>
+    <h3 class='text-lg font-semibold text-[#f0eef5] mb-4'>🎯 Recomendações</h3>
+    <ul class='space-y-2'>
+      {% for rec in analysis.recommendations %}
+      <li class='flex items-start gap-2'>
+        <span class='text-green-400 mt-0.5'>•</span>
+        <span class='text-lg text-[#a09cb5]'>{{ rec }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  <div class='rounded-xl bg-[#1a1730] border border-[#2d2754] p-4 shadow-lg shadow-black/20'>
+    <div class='flex flex-wrap items-center gap-4 text-sm text-[#6b6785]'>
+      <span>Período analisado: <span class='text-[#a09cb5]'>{{ analysis.period_analyzed }}</span></span>
+      <span>Modelo: <span class='text-[#a09cb5]'>{{ analysis.model_used }}</span></span>
+      <span>Criada em: <span class='text-[#a09cb5]'>{{ analysis.created_at|date:"d/m/Y H:i" }}</span></span>
+    </div>
+  </div>
+</div>
+{% endblock %}

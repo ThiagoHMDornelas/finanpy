@@ -6,6 +6,7 @@ from django.db.models import Sum
 from django.utils import timezone
 
 from accounts.models import Account
+from ai.models import AIAnalysis
 from transactions.models import Transaction
 
 
@@ -82,4 +83,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['recent_transactions'] = recent_transactions
         context['accounts'] = accounts
         context['monthly_data'] = monthly_data
+
+        context['latest_analysis'] = AIAnalysis.get_latest_for_user(user.id)
+
         return context
