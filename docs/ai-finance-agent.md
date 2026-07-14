@@ -16,11 +16,11 @@ flowchart TD
     AGENT --> T1[Tool: get_user_transactions]
     AGENT --> T2[Tool: get_user_accounts]
     AGENT --> T3[Tool: get_user_categories]
-    AGENT --> T4[Tool: get_user_summary]
+    AGENT --> T4[Tool: get_income_vs_expense]
     T1 --> DB[(SQLite<br/>Transactions)]
     T2 --> DB2[(SQLite<br/>Accounts)]
     T3 --> DB3[(SQLite<br/>Categories)]
-    T4 --> DB4[(SQLite<br/>Summary)]
+    T4 --> DB4[(SQLite<br/>Income x Expense)]
     AGENT --> LLM[GPT-5-mini<br/>OpenAI API]
     LLM --> AGENT
     AGENT --> RESULT[Conteudo da analise]
@@ -46,7 +46,7 @@ flowchart TD
 3. Para cada usuario:
    - O `FinanceInsightAgent` e instanciado com as tools configuradas
    - O agente consulta as transacoes, contas e categorias do usuario
-   - O agente envia os dados consolidados ao LLM (GPT-5-mini)
+   - O agente envia os dados consolidados ao LLM (gpt-4o-mini)
    - O LLM retorna uma analise completa com insights e dicas
    - O resultado e salvo no model `AIAnalysis`
    - A analise anterior do mesmo usuario tem `is_latest` atualizado para `False`
@@ -196,32 +196,27 @@ AI_TEMPERATURE=0.7
 
 ## 7. Execucao do Django Command
 
-### Analise para todos os usuarios ativos
-
-```bash
-.venv\Scripts\activate
-python manage.py run_finance_analysis
-```
-
 ### Analise para um usuario especifico
 
 ```bash
 .venv\Scripts\activate
-python manage.py run_finance_analysis --user-id 1
+python manage.py run_finance_analysis --user-email usuario@exemplo.com
+```
+
+### Analise para todos os usuarios ativos
+
+```bash
+.venv\Scripts\activate
+python manage.py run_finance_analysis --all
 ```
 
 ### Exemplo de saida
 
 ```
-Analisando usuario: joao@email.com (ID: 1)...
-Analise concluida com sucesso para joao@email.com
-  - Resumo: Seus gastos com alimentacao representam 35% da renda...
-  - Tokens: 1200 entrada, 800 saida
-
-Analisando usuario: maria@email.com (ID: 2)...
-Analise concluida com sucesso para maria@email.com
-  - Resumo: Voce esta economizando 20% da renda mensal...
-  - Tokens: 980 entrada, 750 saida
+Analisando usuario ID 1...
+Analise ID 5 concluida para usuario ID 1
+---
+Total: 1 | Sucesso: 1 | Erros: 0
 ```
 
 ---
@@ -278,9 +273,9 @@ O card de analise no dashboard exibira:
 
 Para adicionar uma nova tool ao agente:
 
-1. Criar a funcao da tool em `ai/agents/finance_insight_agent.py`
+1. Criar a funcao da tool em `ai/tools/database_tools.py`
 2. Decorar com `@tool` do LangChain
-3. Adicionar a tool na lista de tools do agente
+3. Importar e adicionar a tool na lista de tools em `ai/agents/finance_insight_agent.py`
 4. Atualizar o prompt do agente para incluir a nova capacidade
 
 ### Troca de modelo LLM
@@ -299,9 +294,12 @@ O agente e configurado via `ChatOpenAI(model=settings.OPENAI_MODEL)`. O modelo p
 - As variaveis `OPENAI_API_KEY`, `OPENAI_MODEL`, `AI_MAX_TOKENS` e `AI_TEMPERATURE` ficam no arquivo `.env` (nunca commitado)
 - O arquivo `.env.example` serve como referencia e **nao** contem chaves reais
 - Todas as tools filtram dados por `user_id` — isolamento completo de dados entre usuarios
+- Todas as tools validam `user_id` (tipo inteiro, positivo, usuario ativo) antes de executar
 - O servico implementa rate limiting (1 analise por usuario a cada 24h)
 - Os dados do usuario sao enviados a API da OpenAI apenas no contexto da analise
 - Cada analise e isolada por usuario — nao ha compartilhamento de dados entre usuarios
+- A view de detalhe (`AIAnalysisDetailView`) restringe acesso ao proprio dono da analise
 - O comando so e executado manualmente pelo administrador do sistema
-- Logs nao expõem dados financeiros sensiveis
+- Logs nao expoem emails, nomes ou dados financeiros sensiveis — apenas IDs numericos
 - Prompts nao vazam dados de outros usuarios
+- Um disclaimer e exibido na pagina de detalhe informando que dados sao enviados a OpenAI

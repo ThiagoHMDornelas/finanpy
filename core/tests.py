@@ -87,7 +87,7 @@ class RegisterViewTest(TestCase):
         self.assertEqual(Category.objects.filter(user=user).count(), 11)
 
     def test_authenticated_user_redirected_from_register(self):
-        user = User.objects.create_user(
+        User.objects.create_user(
             email='auth@example.com',
             password='authpass123',
             first_name='Auth',
@@ -254,9 +254,10 @@ class CategoryCRUDTest(TestCase):
             password='otherpass123',
             first_name='Other2',
         )
-        other_cats_count = Category.objects.filter(user=other_user).count()
         response = self.client.get(reverse('categories:list'))
         self.assertEqual(response.status_code, 200)
+        for cat in Category.objects.filter(user=other_user):
+            self.assertNotContains(response, cat.name)
 
 
 class TransactionCRUDTest(TestCase):
@@ -346,7 +347,7 @@ class RouteProtectionTest(TestCase):
             )
 
     def test_authenticated_access(self):
-        user = User.objects.create_user(
+        User.objects.create_user(
             email='auth@example.com',
             password='authpass123',
             first_name='Auth',

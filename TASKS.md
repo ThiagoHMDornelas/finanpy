@@ -249,7 +249,7 @@
 
 ---
 
-### Sprint 8 — Agente de IA Financeiro (LangChain 1.0)
+### Sprint 8 — Agente de IA Financeiro (LangChain 1.0) ✅
 
 #### T8.1 — Configuração de dependências e variáveis de ambiente ✅
 - [X] 8.1.1 — Verificar que `langchain`, `langchain-openai` e `python-dotenv` estão em `requirements.txt` e executar `pip install -r requirements.txt`
@@ -389,24 +389,24 @@
 - [X] 8.13.9 — Testar comando `--all` com múltiplos usuários
 - [X] 8.13.10 — Verificar logs de execução
 
-#### T8.14 — Segurança e isolamento de dados
-- [ ] 8.14.1 — Verificar que `OPENAI_API_KEY` não está em nenhum arquivo versionado (apenas no `.env`)
-- [ ] 8.14.2 — Verificar isolamento de dados: todas as tools filtram por `user_id`
-- [ ] 8.14.3 — Verificar que prompts não vazam dados de outros usuários
-- [ ] 8.14.4 — Adicionar validação de `user_id` em todas as tools (tipo int, usuário ativo)
-- [ ] 8.14.5 — Testar que usuário A não acessa análise de usuário B
-- [ ] 8.14.6 — Verificar que logs não expõem dados financeiros sensíveis
-- [ ] 8.14.7 — Adicionar disclaimer sobre uso de IA (dados enviados à OpenAI)
+#### T8.14 — Segurança e isolamento de dados ✅
+- [X] 8.14.1 — Verificar que `OPENAI_API_KEY` não está em nenhum arquivo versionado (apenas no `.env`)
+- [X] 8.14.2 — Verificar isolamento de dados: todas as tools filtram por `user_id`
+- [X] 8.14.3 — Verificar que prompts não vazam dados de outros usuários
+- [X] 8.14.4 — Adicionar validação de `user_id` em todas as tools (tipo int, usuário ativo)
+- [X] 8.14.5 — Testar que usuário A não acessa análise de usuário B
+- [X] 8.14.6 — Verificar que logs não expõem dados financeiros sensíveis
+- [X] 8.14.7 — Adicionar disclaimer sobre uso de IA (dados enviados à OpenAI)
 
-#### T8.15 — Documentação técnica
-- [ ] 8.15.1 — Atualizar `docs/apps.md` com informações da app `ai`
-- [ ] 8.15.2 — Atualizar `docs/models.md` com o model `AIAnalysis`
-- [ ] 8.15.3 — Atualizar `docs/arquitetura.md` com a app `ai` e diagrama ER
-- [ ] 8.15.4 — Atualizar `docs/ai-finance-agent.md` com documentação técnica completa (arquitetura, fluxo, tools, configuração, execução, segurança, troubleshooting)
-- [ ] 8.15.5 — Atualizar `docs/README.md` com referência à documentação de IA
-- [ ] 8.15.6 — Atualizar `AGENTS.md` com referência ao agente especialista de IA
-- [ ] 8.15.7 — Atualizar `agents/README.md` com entrada do `ai_integration_expert`
-- [ ] 8.15.8 — Adicionar comando `run_finance_analysis` na documentação com exemplos de uso
+#### T8.15 — Documentação técnica ✅
+- [X] 8.15.1 — Atualizar `docs/apps.md` com informações da app `ai`
+- [X] 8.15.2 — Atualizar `docs/models.md` com o model `AIAnalysis`
+- [X] 8.15.3 — Atualizar `docs/arquitetura.md` com a app `ai` e diagrama ER
+- [X] 8.15.4 — Atualizar `docs/ai-finance-agent.md` com documentação técnica completa (arquitetura, fluxo, tools, configuração, execução, segurança, troubleshooting)
+- [X] 8.15.5 — Atualizar `docs/README.md` com referência à documentação de IA
+- [X] 8.15.6 — Atualizar `AGENTS.md` com referência ao agente especialista de IA
+- [X] 8.15.7 — Atualizar `agents/README.md` com entrada do `ai_integration_expert`
+- [X] 8.15.8 — Adicionar comando `run_finance_analysis` na documentação com exemplos de uso
 
 ---
 

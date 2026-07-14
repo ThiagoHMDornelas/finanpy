@@ -35,7 +35,7 @@ def generate_analysis_for_user(user_id: int) -> AIAnalysis:
                 f'Aguarde aproximadamente {hours}h{minutes}min para gerar uma nova analise.'
             )
 
-    logger.info('Gerando analise financeira para usuario ID=%s (%s)', user.id, user.email)
+    logger.info('Gerando analise financeira para usuario ID=%s', user.id)
 
     try:
         result = run_analysis(user_id=user.id, user_name=user.get_full_name() or user.email)
@@ -57,10 +57,9 @@ def generate_analysis_for_user(user_id: int) -> AIAnalysis:
         )
 
         logger.info(
-            'Analise ID=%s criada para usuario ID=%s (%s)',
+            'Analise ID=%s criada para usuario ID=%s',
             analysis.id,
             user.id,
-            user.email,
         )
 
         return analysis

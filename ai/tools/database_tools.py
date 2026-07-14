@@ -1,4 +1,25 @@
+from django.contrib.auth import get_user_model
+
 from langchain_core.tools import tool
+
+
+def _validate_user_id(user_id: int) -> str | None:
+    '''Valida que user_id e um inteiro positivo e que o usuario existe e esta ativo.
+
+    Args:
+        user_id: ID do usuario no sistema
+
+    Returns:
+        None se valido, string de erro caso contrario
+    '''
+    if not isinstance(user_id, int) or user_id <= 0:
+        return 'ID de usuario invalido.'
+
+    User = get_user_model()
+    if not User.objects.filter(pk=user_id, is_active=True).exists():
+        return 'Usuario nao encontrado ou inativo.'
+
+    return None
 
 
 @tool
@@ -14,6 +35,9 @@ def get_user_transactions(user_id: int, period: str = 'month') -> str:
         String formatada com as transacoes do periodo
     '''
     try:
+        error = _validate_user_id(user_id)
+        if error:
+            return error
         from transactions.models import Transaction
         from django.utils import timezone
         from datetime import timedelta
@@ -54,6 +78,9 @@ def get_user_accounts(user_id: int) -> str:
         String formatada com as contas ativas do usuario
     '''
     try:
+        error = _validate_user_id(user_id)
+        if error:
+            return error
         from accounts.models import Account
 
         accounts = Account.objects.filter(
@@ -87,6 +114,9 @@ def get_user_categories(user_id: int) -> str:
         String formatada com as categorias do usuario
     '''
     try:
+        error = _validate_user_id(user_id)
+        if error:
+            return error
         from categories.models import Category
 
         categories = Category.objects.filter(user_id=user_id)
@@ -115,6 +145,9 @@ def get_spending_by_category(user_id: int) -> str:
         String formatada com os gastos por categoria
     '''
     try:
+        error = _validate_user_id(user_id)
+        if error:
+            return error
         from transactions.models import Transaction
         from django.utils import timezone
         from datetime import timedelta
@@ -158,6 +191,9 @@ def get_income_vs_expense(user_id: int) -> str:
         String formatada com receitas, despesas e saldo
     '''
     try:
+        error = _validate_user_id(user_id)
+        if error:
+            return error
         from transactions.models import Transaction
         from django.utils import timezone
         from datetime import timedelta

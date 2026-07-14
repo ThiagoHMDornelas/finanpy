@@ -45,22 +45,22 @@ class Command(BaseCommand):
         error_count = 0
 
         for user in users:
-            self.stdout.write(f'Analisando usuario: {user.email} (ID: {user.id})...')
+            self.stdout.write(f'Analisando usuario ID {user.id}...')
             try:
                 analysis = generate_analysis_for_user(user.id)
                 success_count += 1
                 self.stdout.write(self.style.SUCCESS(
-                    f'Analise ID {analysis.id} concluida para {user.email}'
+                    f'Analise ID {analysis.id} concluida para usuario ID {user.id}'
                 ))
             except ValueError as e:
                 error_count += 1
                 self.stdout.write(self.style.WARNING(
-                    f'{user.email}: {str(e)}'
+                    f'Usuario ID {user.id}: {str(e)}'
                 ))
             except Exception as e:
                 error_count += 1
                 self.stdout.write(self.style.ERROR(
-                    f'Erro ao analisar {user.email}: {str(e)}'
+                    f'Erro ao analisar usuario ID {user.id}: {str(e)}'
                 ))
 
         total = success_count + error_count

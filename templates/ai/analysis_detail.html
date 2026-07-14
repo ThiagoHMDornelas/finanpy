@@ -69,5 +69,16 @@
       <span>Criada em: <span class='text-[#a09cb5]'>{{ analysis.created_at|date:"d/m/Y H:i" }}</span></span>
     </div>
   </div>
+
+  <div class='rounded-xl bg-[#1a1730] border border-[#2d2754]/50 p-4 shadow-lg shadow-black/20'>
+    <p class='text-xs text-[#6b6785] leading-relaxed'>
+      <span class='text-violet-400 font-medium'>Sobre esta análise:</span>
+      Esta análise foi gerada automaticamente por inteligência artificial (IA) usando o modelo {{ analysis.model_used }} da OpenAI.
+      Os dados financeiros do seu cadastro — incluindo transações, contas e categorias — são enviados temporariamente à OpenAI para
+      processamento. Nenhum dado é armazenado permanentemente pela OpenAI. Recomendamos não incluir informações pessoais sensíveis
+      nas descrições de suas transações. Para mais informações, consulte nossa
+      <a href='#' class='text-violet-400 hover:text-violet-300 underline'>Política de Privacidade</a>.
+    </p>
+  </div>
 </div>
 {% endblock %}

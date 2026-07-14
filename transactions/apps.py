@@ -6,4 +6,4 @@ class TransactionsConfig(AppConfig):
     name = 'transactions'
 
     def ready(self):
-        import transactions.signals
+        import transactions.signals  # noqa: F401

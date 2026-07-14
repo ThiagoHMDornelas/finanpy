@@ -6,4 +6,4 @@ class CategoriesConfig(AppConfig):
     name = 'categories'
 
     def ready(self):
-        import categories.signals
+        import categories.signals  # noqa: F401

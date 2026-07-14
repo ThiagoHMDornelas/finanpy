@@ -80,9 +80,8 @@ agent = _build_agent(_build_llm())
 
 def run_analysis(user_id: int, user_name: str = '') -> dict:
     logger.info(
-        'Iniciando analise financeira para usuario ID=%s (%s)',
+        'Iniciando analise financeira para usuario ID=%s',
         user_id,
-        user_name,
     )
     start_time = time.time()
 

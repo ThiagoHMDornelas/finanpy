@@ -73,7 +73,18 @@ Each app will get `forms.py`, `urls.py`, `signals.py` added as needed.
 
 Dark theme with violet/indigo accents. TailwindCSS via CDN. Font: Inter. All specs in `docs/design-system.md`.
 
+## Specialized agents
+
+| Agent | Purpose |
+|-------|---------|
+| `ai_integration_expert` | LangChain 1.0 + Django AI integration |
+| `django-tailwind-frontend` | Django Template Language + TailwindCSS frontend |
+| `django-web-tester` | End-to-end web testing with Playwright |
+| `explore` | Fast codebase exploration and file search |
+
 ## Key references
 
 - `PRD.md` — full product requirements, sprint task list, user stories
 - `docs/` — architecture, code conventions, models, design system, setup guide
+- `docs/ai-finance-agent.md` — AI finance agent technical documentation
+- `agents/` — specialized agent documentation and configurations
