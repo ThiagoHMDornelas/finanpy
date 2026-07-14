@@ -343,8 +343,8 @@
 - [X] 8.9.5 — Implementar lógica: se `--user-email`, processar apenas esse usuário; se `--all` ou sem argumentos, iterar sobre todos os ativos
 - [X] 8.9.6 — Adicionar output informativo com `self.stdout.write`: "Analisando usuário X...", "Análise concluída", "Erro ao analisar..."
 - [X] 8.9.7 — Adicionar tratamento de erros por usuário (continuar para o próximo em caso de falha)
-- [ ] 8.9.8 — Testar comando: `python manage.py run_finance_analysis --user-email test@example.com`
-- [ ] 8.9.9 — Testar comando: `python manage.py run_finance_analysis --all`
+- [X] 8.9.8 — Testar comando: `python manage.py run_finance_analysis --user-email test@example.com`
+- [X] 8.9.9 — Testar comando: `python manage.py run_finance_analysis --all`
 
 #### T8.10 — Exibição no Dashboard ✅
 - [X] 8.10.1 — Atualizar `DashboardView` em `core/views.py` para incluir `latest_analysis = AIAnalysis.objects.filter(user=request.user).order_by('-created_at').first()`
@@ -378,16 +378,16 @@
 - [X] 8.12.7 — Adicionar link no card do dashboard para "Ver análise completa"
 
 #### T8.13 — Testes manuais
-- [ ] 8.13.1 — Criar usuário de teste com dados financeiros variados (5+ contas, 20+ transações)
-- [ ] 8.13.2 — Executar `python manage.py run_finance_analysis --user-email test@example.com`
-- [ ] 8.13.3 — Verificar que análise foi gerada no terminal
-- [ ] 8.13.4 — Verificar que `AIAnalysis` foi criado no banco (via Django Admin)
-- [ ] 8.13.5 — Acessar dashboard e verificar exibição do card de análise
-- [ ] 8.13.6 — Verificar formatação e estilo do card
-- [ ] 8.13.7 — Tentar gerar nova análise antes de 24h (deve ser impedido pelo rate limiting)
-- [ ] 8.13.8 — Testar com usuário sem transações (deve lidar graciosamente com dados vazios)
-- [ ] 8.13.9 — Testar comando `--all` com múltiplos usuários
-- [ ] 8.13.10 — Verificar logs de execução
+- [X] 8.13.1 — Criar usuário de teste com dados financeiros variados (5+ contas, 20+ transações)
+- [X] 8.13.2 — Executar `python manage.py run_finance_analysis --user-email test@example.com`
+- [X] 8.13.3 — Verificar que análise foi gerada no terminal
+- [X] 8.13.4 — Verificar que `AIAnalysis` foi criado no banco (via Django Admin)
+- [X] 8.13.5 — Acessar dashboard e verificar exibição do card de análise
+- [X] 8.13.6 — Verificar formatação e estilo do card
+- [X] 8.13.7 — Tentar gerar nova análise antes de 24h (deve ser impedido pelo rate limiting)
+- [X] 8.13.8 — Testar com usuário sem transações (deve lidar graciosamente com dados vazios)
+- [X] 8.13.9 — Testar comando `--all` com múltiplos usuários
+- [X] 8.13.10 — Verificar logs de execução
 
 #### T8.14 — Segurança e isolamento de dados
 - [ ] 8.14.1 — Verificar que `OPENAI_API_KEY` não está em nenhum arquivo versionado (apenas no `.env`)
