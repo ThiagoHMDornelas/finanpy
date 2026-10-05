@@ -1,0 +1,17 @@
+name: finanpy
+services:
+
+    finanpy_web:
+        build: .
+        env_file:
+            - .env
+        environment:
+            SQLITE_PATH: /data/db.sqlite3
+        restart: always
+        ports:
+            - 8000:8000
+        volumes:
+            - sqlite_data:/data
+
+volumes:
+    sqlite_data:

@@ -254,10 +254,16 @@ class CategoryCRUDTest(TestCase):
             password='otherpass123',
             first_name='Other2',
         )
+        other_category = Category.objects.create(
+            user=other_user,
+            name='Categoria Exclusiva Outro',
+            category_type='despesa',
+        )
         response = self.client.get(reverse('categories:list'))
         self.assertEqual(response.status_code, 200)
-        for cat in Category.objects.filter(user=other_user):
-            self.assertNotContains(response, cat.name)
+        own_category = Category.objects.filter(user=self.user).first()
+        self.assertContains(response, own_category.name)
+        self.assertNotContains(response, other_category.name)
 
 
 class TransactionCRUDTest(TestCase):

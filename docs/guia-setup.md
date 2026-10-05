@@ -30,18 +30,19 @@ pip install -r requirements.txt
 O arquivo `core/settings.py` contem a configuracao atual do projeto:
 
 - `LANGUAGE_CODE = 'pt-br'` — internacionalizacao para pt-BR
-- `TIME_ZONE = 'UTC'` — (a ajustar para `'America/Sao_Paulo'`)
+- `TIME_ZONE = 'America/Sao_Paulo'` — fuso horario do projeto
 - Banco de dados: SQLite (padrao)
 - Apps registrados: `accounts`, `categories`, `profiles`, `transactions`, `users`
 
 ## Superuser
 
-Um superuser ja foi criado:
+Crie um superusuario para acessar o painel administrativo:
 
-- **Usuario:** dornelas
-- **Senha:** [REDACTED]
+```bash
+python manage.py createsuperuser
+```
 
-> **Nota:** Ao implementar o model User customizado (`AUTH_USER_MODEL = 'users.User'`), sera necessario apagar o `db.sqlite3` e recriar o superuser.
+> **Nota:** o projeto usa um model User customizado (`AUTH_USER_MODEL = 'users.User'`), definido antes da primeira migracao.
 
 ## Comandos principais
 
@@ -68,15 +69,10 @@ python manage.py runserver
 python manage.py check
 ```
 
-## Dependencias atuais
+## Dependencias
 
-Arquivo `requirements.txt`:
+As dependencias do projeto estao em `requirements.txt` (Django, LangChain/LangGraph, OpenAI, Pillow, python-dotenv, entre outras). Para desenvolvimento (lint):
 
+```bash
+pip install -r requirements_dev.txt
 ```
-asgiref==3.11.1
-Django==5.2.14
-sqlparse==0.5.5
-tzdata==2026.2
-```
-
-Novas dependencias serao adicionadas conforme necessario (ex: django-tailwind).
