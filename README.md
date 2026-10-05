@@ -143,8 +143,8 @@ Copie o `.env.example` para `.env` e ajuste os valores:
     ALLOWED_HOSTS=localhost,127.0.0.1
 
     # Superusuário (usado com createsuperuser --noinput)
-    DJANGO_SUPERUSER_USERNAME=
     DJANGO_SUPERUSER_EMAIL=
+    DJANGO_SUPERUSER_FIRST_NAME=
     DJANGO_SUPERUSER_PASSWORD=
 
     # Agente de IA (opcional)
