@@ -203,7 +203,7 @@ Serviço:
 
 ## Testes
 
-A suíte cobre modelos, formulários, views, *signals* de atualização de saldo e o isolamento de dados por usuário. Execute:
+A suíte cobre modelos, formulários, views, *signals* de atualização de saldo, o isolamento de dados por usuário e o agente de IA. Execute:
 
     python manage.py test
 
