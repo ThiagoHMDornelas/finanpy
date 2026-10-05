@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, password_validation
+from django.core.exceptions import ValidationError
 
 User = get_user_model()
 
@@ -45,6 +46,15 @@ class UserRegisterForm(forms.ModelForm):
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError('As senhas não coincidem.')
         return password2
+
+    def _post_clean(self):
+        super()._post_clean()
+        password = self.cleaned_data.get('password2')
+        if password:
+            try:
+                password_validation.validate_password(password, self.instance)
+            except ValidationError as error:
+                self.add_error('password2', error)
 
     def save(self, commit=True):
         user = super().save(commit=False)

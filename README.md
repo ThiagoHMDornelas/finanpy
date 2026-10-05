@@ -38,7 +38,7 @@ O projeto prioriza simplicidade, usando recursos nativos do Django (Class Based 
 - CRUD de categorias (receita/despesa, cor e ícone) com **categorias padrão** criadas automaticamente no cadastro
 - CRUD de transações com filtros por tipo, categoria, conta, período e busca
 - Atualização automática do saldo das contas via *signals* (criar, editar e excluir transações)
-- Perfil do usuário com edição de dados, avatar e alteração de senha
+- Perfil do usuário com edição de dados e alteração de senha
 - **Agente de IA financeiro** com análise, insights e recomendações (LangChain + OpenAI)
 - Isolamento de dados por usuário (cada usuário acessa apenas seus registros)
 - Painel administrativo do Django
@@ -47,6 +47,8 @@ O projeto prioriza simplicidade, usando recursos nativos do Django (Class Based 
 
 A app `ai` integra um agente construído com **LangChain** (`create_agent`) sobre o modelo **OpenAI** (`ChatOpenAI`). O agente recebe ferramentas que consultam os dados do usuário (transações, contas, categorias, gastos por categoria e comparativo de receitas vs. despesas) e devolve uma análise estruturada com visão geral, insights, recomendações e alertas. Cada análise é persistida no modelo `AIAnalysis`, com limite de geração de uma nova a cada 24 horas.
 
+Pela interface, o botão **Gerar Análise** no dashboard dispara a geração (rota POST `/analise/gerar/`). Também é possível rodar via comando: `python manage.py run_finance_analysis --user-email <email>`.
+
 A funcionalidade de IA é **opcional**: sem `OPENAI_API_KEY` a aplicação funciona normalmente, apenas a geração de análise fica indisponível.
 
 ## Tecnologias
@@ -54,7 +56,7 @@ A funcionalidade de IA é **opcional**: sem `OPENAI_API_KEY` a aplicação funci
 - Python
 - Django 5.2
 - LangChain / LangGraph + OpenAI
-- Pillow (avatar)
+- Pillow (ImageField)
 - python-dotenv (variáveis de ambiente)
 - TailwindCSS (via CDN)
 - SQLite
@@ -68,7 +70,7 @@ A funcionalidade de IA é **opcional**: sem `OPENAI_API_KEY` a aplicação funci
 finanpy/
 ├── core/                # configurações, urls raiz, landing e dashboard
 ├── users/               # User customizado (login por e-mail) e autenticação
-├── profiles/            # perfil (avatar) e alteração de senha
+├── profiles/            # perfil e alteração de senha
 ├── accounts/            # contas bancárias
 ├── categories/          # categorias de lançamento
 ├── transactions/        # transações e atualização de saldo (signals)
@@ -221,6 +223,7 @@ A suíte e o lint também rodam automaticamente a cada `push` e `pull request` v
 | `/categorias/`, `/categorias/nova/`, `/categorias/<id>/editar/`, `/categorias/<id>/excluir/` | CRUD de categorias |
 | `/transacoes/`, `/transacoes/nova/`, `/transacoes/<id>/editar/`, `/transacoes/<id>/excluir/` | CRUD de transações |
 | `/perfil/`, `/perfil/editar/`, `/perfil/alterar-senha/` | Perfil do usuário |
+| `/analise/gerar/` | Gera uma nova análise de IA (POST) |
 | `/analise/<id>/` | Detalhe de uma análise de IA |
 | `/admin/` | Painel administrativo |
 

@@ -51,8 +51,8 @@ def generate_analysis_for_user(user_id: int) -> AIAnalysis:
             recommendations=recommendations,
             period_analyzed='Últimos 30 dias',
             model_used=settings.OPENAI_MODEL,
-            tokens_input=0,
-            tokens_output=0,
+            tokens_input=result.get('tokens_input', 0),
+            tokens_output=result.get('tokens_output', 0),
             is_latest=True,
         )
 

@@ -832,11 +832,11 @@ ai/
 python manage.py run_finance_analysis
 
 # Executar análise para um usuário específico
-python manage.py run_finance_analysis --user-id 1
+python manage.py run_finance_analysis --user-email usuario@exemplo.com
 ```
 
 O comando:
-- Seleciona usuários ativos (ou um usuário específico via `--user-id`)
+- Seleciona usuários ativos (ou um usuário específico via `--user-email`)
 - Para cada usuário, chama o `AnalysisService`
 - O `AnalysisService` instancia o agente LangChain com as tools de banco de dados
 - O agente consulta transações, contas e categorias do usuário

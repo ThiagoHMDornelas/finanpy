@@ -1,6 +1,6 @@
 # Models
 
-Definicao dos models planejados para o projeto Finanpy. Todos os models possuem campos `created_at` e `updated_at`.
+Definicao dos models do projeto Finanpy. Todos os models possuem campos `created_at` e `updated_at`.
 
 ## Diagrama de relacionamentos
 

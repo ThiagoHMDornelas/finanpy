@@ -182,7 +182,8 @@ cython_debug/
 .cursorindexingignore
 
 # Arquivos internos de desenvolvimento / tooling (nao versionados)
-AGENTS.md
-TASKS.md
-.opencode/
-agents/
+/AGENTS.md
+/TASKS.md
+/TASKS_AJUSTES.md
+/.opencode/
+/agents/

@@ -2,20 +2,18 @@
   <div class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
     <div class='flex items-center justify-between h-16'>
       <div class='flex items-center'>
-        <a href='/' class='text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent'>
+        <a href='{% url "landing" %}' class='text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent'>
           Finanpy
         </a>
       </div>
       <div class='hidden md:flex items-center gap-8'>
-        <a href='/' class='text-[#a09cb5] hover:text-[#f0eef5] transition-all duration-200 text-sm font-medium'>Início</a>
-        <a href='/recursos/' class='text-[#a09cb5] hover:text-[#f0eef5] transition-all duration-200 text-sm font-medium'>Recursos</a>
-        <a href='/sobre/' class='text-[#a09cb5] hover:text-[#f0eef5] transition-all duration-200 text-sm font-medium'>Sobre</a>
+        <a href='{% url "landing" %}' class='text-[#a09cb5] hover:text-[#f0eef5] transition-all duration-200 text-sm font-medium'>Início</a>
       </div>
       <div class='flex items-center gap-3'>
-        <a href='/login/' class='px-4 py-2 rounded-lg border border-[#2d2754] text-[#a09cb5] hover:text-[#f0eef5] hover:border-[#6b6785] transition-all duration-200 text-sm font-medium'>
+        <a href='{% url "login" %}' class='px-4 py-2 rounded-lg border border-[#2d2754] text-[#a09cb5] hover:text-[#f0eef5] hover:border-[#6b6785] transition-all duration-200 text-sm font-medium'>
           Login
         </a>
-        <a href='/register/' class='px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-medium text-sm shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 transition-all duration-200'>
+        <a href='{% url "register" %}' class='px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-medium text-sm shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 transition-all duration-200'>
           Cadastre-se
         </a>
       </div>
@@ -28,12 +26,10 @@
   </div>
   <div id='mobile-menu' class='hidden md:hidden border-t border-[#2d2754]'>
     <div class='px-4 py-3 space-y-2'>
-      <a href='/' class='block px-4 py-2 rounded-lg text-[#a09cb5] hover:text-[#f0eef5] hover:bg-[#1a1730] transition-all duration-200 text-sm font-medium'>Início</a>
-      <a href='/recursos/' class='block px-4 py-2 rounded-lg text-[#a09cb5] hover:text-[#f0eef5] hover:bg-[#1a1730] transition-all duration-200 text-sm font-medium'>Recursos</a>
-      <a href='/sobre/' class='block px-4 py-2 rounded-lg text-[#a09cb5] hover:text-[#f0eef5] hover:bg-[#1a1730] transition-all duration-200 text-sm font-medium'>Sobre</a>
+      <a href='{% url "landing" %}' class='block px-4 py-2 rounded-lg text-[#a09cb5] hover:text-[#f0eef5] hover:bg-[#1a1730] transition-all duration-200 text-sm font-medium'>Início</a>
       <div class='flex items-center gap-3 pt-2'>
-        <a href='/login/' class='flex-1 text-center px-4 py-2 rounded-lg border border-[#2d2754] text-[#a09cb5] hover:text-[#f0eef5] hover:border-[#6b6785] transition-all duration-200 text-sm font-medium'>Login</a>
-        <a href='/register/' class='flex-1 text-center px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-medium text-sm shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 transition-all duration-200'>Cadastre-se</a>
+        <a href='{% url "login" %}' class='flex-1 text-center px-4 py-2 rounded-lg border border-[#2d2754] text-[#a09cb5] hover:text-[#f0eef5] hover:border-[#6b6785] transition-all duration-200 text-sm font-medium'>Login</a>
+        <a href='{% url "register" %}' class='flex-1 text-center px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-medium text-sm shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 transition-all duration-200'>Cadastre-se</a>
       </div>
     </div>
   </div>

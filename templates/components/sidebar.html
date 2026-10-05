@@ -5,7 +5,7 @@
 <div id='sidebar-overlay' class='fixed inset-0 bg-black/50 z-40 hidden lg:hidden' onclick='toggleMobileSidebar()'></div>
 <aside id='sidebar' class='fixed left-0 top-0 z-40 w-64 min-h-screen bg-[#0f0d1a] border-r border-[#2d2754] flex flex-col transform -translate-x-full lg:translate-x-0 transition-transform duration-300'>
   <div class='flex items-center h-16 px-6 border-b border-[#2d2754]'>
-    <a href='/' class='text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent'>
+    <a href='{% url "landing" %}' class='text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent'>
       Finanpy
     </a>
   </div>

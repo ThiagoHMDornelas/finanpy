@@ -1,4 +1,5 @@
 import logging
+import re
 import time
 
 from django.conf import settings
@@ -7,6 +8,7 @@ from langchain.agents import create_agent
 from langchain_openai import ChatOpenAI
 from openai import APIError, AuthenticationError, RateLimitError
 
+from ai.exceptions import AIAnalysisError
 from ai.tools.database_tools import (
     get_income_vs_expense,
     get_spending_by_category,
@@ -75,7 +77,46 @@ def _build_agent(llm):
     )
 
 
-agent = _build_agent(_build_llm())
+_agent = None
+
+
+def _get_agent():
+    global _agent
+    if _agent is None:
+        _agent = _build_agent(_build_llm())
+    return _agent
+
+
+def _extract_section_items(text: str, keyword: str) -> list[str]:
+    '''Extrai os itens (bullets/numerados) da secao cujo titulo contem "keyword".'''
+    if not text:
+        return []
+    pattern = re.compile(
+        r'##[^\n]*' + re.escape(keyword) + r'[^\n]*\n(.*?)(?=\n##|\Z)',
+        re.IGNORECASE | re.DOTALL,
+    )
+    match = pattern.search(text)
+    if not match:
+        return []
+    items = []
+    for line in match.group(1).splitlines():
+        line = re.sub(r'^\s*(?:[-*•]|\d+[.)])\s*', '', line)
+        line = line.replace('**', '').strip()
+        if line:
+            items.append(line)
+    return items
+
+
+def _extract_token_usage(messages) -> tuple[int, int]:
+    '''Soma os tokens de entrada/saida a partir dos metadados das mensagens.'''
+    input_tokens = 0
+    output_tokens = 0
+    for message in messages:
+        usage = getattr(message, 'usage_metadata', None)
+        if usage:
+            input_tokens += usage.get('input_tokens', 0) or 0
+            output_tokens += usage.get('output_tokens', 0) or 0
+    return input_tokens, output_tokens
 
 
 def run_analysis(user_id: int, user_name: str = '') -> dict:
@@ -93,6 +134,7 @@ def run_analysis(user_id: int, user_name: str = '') -> dict:
     )
 
     try:
+        agent = _get_agent()
         result = agent.invoke({'messages': [{'role': 'user', 'content': prompt_text}]})
 
         elapsed = time.time() - start_time
@@ -109,45 +151,34 @@ def run_analysis(user_id: int, user_name: str = '') -> dict:
             if hasattr(last, 'content'):
                 analysis_text = last.content
 
+        tokens_input, tokens_output = _extract_token_usage(output_messages)
+
         return {
             'analysis_text': analysis_text,
-            'insights': [],
-            'recommendations': [],
+            'insights': _extract_section_items(analysis_text, 'Insight'),
+            'recommendations': _extract_section_items(analysis_text, 'Recomenda'),
+            'tokens_input': tokens_input,
+            'tokens_output': tokens_output,
         }
 
     except AuthenticationError:
         logger.error('Chave de API OpenAI invalida ao analisar usuario ID=%s', user_id)
-        return {
-            'analysis_text': (
-                'Não foi possível realizar a análise financeira no momento. '
-                'O serviço de IA está com problemas de autenticação. '
-                'Entre em contato com o suporte.'
-            ),
-            'insights': [],
-            'recommendations': [],
-        }
+        raise AIAnalysisError(
+            'Não foi possível realizar a análise financeira: falha de autenticação '
+            'com o serviço de IA.'
+        )
 
     except RateLimitError:
         logger.warning('Limite de taxa da API OpenAI atingido para usuario ID=%s', user_id)
-        return {
-            'analysis_text': (
-                'A análise financeira não pôde ser concluída devido a '
-                'limitações de taxa do serviço de IA. Tente novamente em alguns minutos.'
-            ),
-            'insights': [],
-            'recommendations': [],
-        }
+        raise AIAnalysisError(
+            'Limite de uso do serviço de IA atingido. Tente novamente em alguns minutos.'
+        )
 
     except APIError as e:
         logger.error('Erro na API OpenAI para usuario ID=%s: %s', user_id, str(e))
-        return {
-            'analysis_text': (
-                'Ocorreu um erro ao comunicar com o serviço de IA. '
-                'Tente novamente mais tarde.'
-            ),
-            'insights': [],
-            'recommendations': [],
-        }
+        raise AIAnalysisError(
+            'Ocorreu um erro ao comunicar com o serviço de IA. Tente novamente mais tarde.'
+        )
 
     except Exception as e:
         logger.error(
@@ -156,11 +187,7 @@ def run_analysis(user_id: int, user_name: str = '') -> dict:
             str(e),
             exc_info=True,
         )
-        return {
-            'analysis_text': (
-                'Ocorreu um erro inesperado durante a análise financeira. '
-                'Tente novamente mais tarde.'
-            ),
-            'insights': [],
-            'recommendations': [],
-        }
+        raise AIAnalysisError(
+            'Ocorreu um erro inesperado durante a análise financeira. '
+            'Tente novamente mais tarde.'
+        )

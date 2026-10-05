@@ -11,6 +11,7 @@ O **Agente de IA Financeiro** e uma funcionalidade do Finanpy que utiliza **Lang
 ```mermaid
 flowchart TD
     CMD[Django Command<br/>run_finance_analysis] --> SVC[AnalysisService]
+    UI[Botao no Dashboard<br/>POST /analise/gerar/] --> SVC[AnalysisService]
     SVC --> LOOP[Itera sobre usuarios ativos]
     LOOP --> AGENT[FinanceInsightAgent<br/>LangChain Agent]
     AGENT --> T1[Tool: get_user_transactions]
@@ -21,7 +22,7 @@ flowchart TD
     T2 --> DB2[(SQLite<br/>Accounts)]
     T3 --> DB3[(SQLite<br/>Categories)]
     T4 --> DB4[(SQLite<br/>Income x Expense)]
-    AGENT --> LLM[GPT-5-mini<br/>OpenAI API]
+    AGENT --> LLM[gpt-4o-mini<br/>OpenAI API]
     LLM --> AGENT
     AGENT --> RESULT[Conteudo da analise]
     RESULT --> SAVE[Salva AIAnalysis<br/>no banco]
@@ -38,7 +39,7 @@ flowchart TD
    ```bash
    python manage.py run_finance_analysis
    # ou para um usuario especifico:
-   python manage.py run_finance_analysis --user-id 1
+   python manage.py run_finance_analysis --user-email usuario@exemplo.com
    ```
 
 2. O `AnalysisService` consulta os usuarios ativos (ou o usuario especifico).
@@ -119,7 +120,7 @@ ai/
 ├── admin.py
 ├── apps.py
 ├── urls.py                           # Rotas da app ai
-└── views.py                          # AIAnalysisDetailView
+└── views.py                          # AIAnalysisDetailView, GenerateAnalysisView
 ```
 
 ### Responsabilidades de cada modulo
@@ -225,7 +226,7 @@ Total: 1 | Sucesso: 1 | Erros: 0
 
 ### 8.1 Dashboard
 
-O `DashboardView` (em `core/views.py`) sera atualizado para incluir:
+O `DashboardView` (em `core/views.py`) inclui a analise mais recente no contexto:
 
 ```python
 from ai.models import AIAnalysis
@@ -243,16 +244,21 @@ context['latest_analysis'] = latest_analysis
 # ai/urls.py
 app_name = 'ai'
 urlpatterns = [
+    path('analise/gerar/', GenerateAnalysisView.as_view(), name='generate_analysis'),
     path('analise/<int:pk>/', AIAnalysisDetailView.as_view(), name='analysis_detail'),
 ]
 ```
 
 ### 8.3 Template
 
-O card de analise no dashboard exibira:
-- Resumo (`summary`) da analise
+O card de analise no dashboard exibe:
 - Data da analise (`created_at`)
+- Periodo analisado (`period_analyzed`) e modelo utilizado (`model_used`)
 - Botao "Ver analise completa" linkando para `ai:analysis_detail`
+- Botao "Gerar Analise" / "Gerar nova analise" (POST para `ai:generate_analysis`)
+
+A geracao tambem pode ser disparada pela interface: o botao faz POST para
+`/analise/gerar/`, executa o servico e redireciona para o detalhe da analise.
 
 ---
 
@@ -263,11 +269,10 @@ O card de analise no dashboard exibira:
 | Fase | Funcionalidade | Descricao |
 |------|---------------|-----------|
 | Fase 2 | Agendamento automatico | Usar Celery ou cron para executar analises periodicamente |
-| Fase 3 | Endpoint HTTP | Criar view para disparar analise via requisicao POST |
-| Fase 4 | Multiplos tipos de analise | Adicionar `analysis_type` como health_check, budget_review, etc. |
-| Fase 5 | Historico e comparacao | Permitir comparacao entre analises de periodos diferentes |
-| Fase 6 | Notificacoes | Notificar usuario quando nova analise estiver disponivel |
-| Fase 7 | Testes | Testes unitarios e de integracao para o agente e servico |
+| Fase 3 | Multiplos tipos de analise | Adicionar `analysis_type` como health_check, budget_review, etc. |
+| Fase 4 | Historico e comparacao | Permitir comparacao entre analises de periodos diferentes |
+| Fase 5 | Notificacoes | Notificar usuario quando nova analise estiver disponivel |
+| Fase 6 | Testes | Testes unitarios e de integracao para o agente e servico |
 
 ### Adicionando novas tools
 
@@ -299,7 +304,7 @@ O agente e configurado via `ChatOpenAI(model=settings.OPENAI_MODEL)`. O modelo p
 - Os dados do usuario sao enviados a API da OpenAI apenas no contexto da analise
 - Cada analise e isolada por usuario — nao ha compartilhamento de dados entre usuarios
 - A view de detalhe (`AIAnalysisDetailView`) restringe acesso ao proprio dono da analise
-- O comando so e executado manualmente pelo administrador do sistema
+- A analise pode ser disparada pela interface (botao no dashboard, POST `/analise/gerar/`) ou pelo comando `run_finance_analysis`
 - Logs nao expoem emails, nomes ou dados financeiros sensiveis — apenas IDs numericos
 - Prompts nao vazam dados de outros usuarios
 - Um disclaimer e exibido na pagina de detalhe informando que dados sao enviados a OpenAI

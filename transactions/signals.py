@@ -7,12 +7,13 @@ from .models import Transaction
 @receiver(pre_save, sender=Transaction)
 def store_original_transaction(sender, instance, **kwargs):
     if instance.pk:
-        try:
-            instance._original_amount = Transaction.objects.get(pk=instance.pk).amount
-            instance._original_type = Transaction.objects.get(pk=instance.pk).transaction_type
-            instance._original_account_id = Transaction.objects.get(pk=instance.pk).account_id
-        except Transaction.DoesNotExist:
-            pass
+        original = Transaction.objects.filter(pk=instance.pk).values(
+            'amount', 'transaction_type', 'account_id',
+        ).first()
+        if original:
+            instance._original_amount = original['amount']
+            instance._original_type = original['transaction_type']
+            instance._original_account_id = original['account_id']
 
 
 @receiver(post_save, sender=Transaction)

@@ -18,7 +18,7 @@ Padrões de código, convenções e regras do projeto.
 Apps do Django, responsabilidades e estrutura de cada app.
 
 ### 5. [Models](models.md)
-Models planejados, campos e relacionamentos.
+Models, campos e relacionamentos.
 
 ### 6. [Design system](design-system.md)
 Design system, cores, componentes e padroes visuais.

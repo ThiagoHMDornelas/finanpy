@@ -14,7 +14,7 @@ O projeto Finanpy e dividido em apps Django, cada um isolando uma responsabilida
 | `urls.py` | Rotas: `/register/`, `/login/`, `/logout/` |
 | `admin.py` | Registro do model User no admin |
 
-**Model User (planejado):**
+**Model User:**
 
 - Herda de `AbstractUser`
 - `USERNAME_FIELD = 'email'`
@@ -36,7 +36,7 @@ O projeto Finanpy e dividido em apps Django, cada um isolando uma responsabilida
 | `urls.py` | Rotas: `/perfil/`, `/perfil/editar/`, `/perfil/alterar-senha/` |
 | `signals.py` | Signal `post_save` para criar Profile ao criar User |
 
-**Model Profile (planejado):**
+**Model Profile:**
 
 - `user` (OneToOneField -> User)
 - `avatar` (ImageField, opcional)
@@ -56,7 +56,7 @@ O projeto Finanpy e dividido em apps Django, cada um isolando uma responsabilida
 | `urls.py` | Rotas CRUD: `/contas/`, `/contas/nova/`, `/contas/<id>/editar/`, `/contas/<id>/excluir/` |
 | `admin.py` | Registro do model Account |
 
-**Model Account (planejado):**
+**Model Account:**
 
 - `user` (FK -> User)
 - `name` (CharField)
@@ -82,7 +82,7 @@ O projeto Finanpy e dividido em apps Django, cada um isolando uma responsabilida
 | `signals.py` | Signal para criar categorias padrao ao registrar novo usuario |
 | `admin.py` | Registro do model Category |
 
-**Model Category (planejado):**
+**Model Category:**
 
 - `user` (FK -> User)
 - `name` (CharField)
@@ -111,7 +111,7 @@ Receitas: Salario, Freelance, Investimentos, Outros
 | `signals.py` | Signals para atualizar saldo da conta ao criar/editar/excluir transacao |
 | `admin.py` | Registro do model Transaction |
 
-**Model Transaction (planejado):**
+**Model Transaction:**
 
 - `user` (FK -> User)
 - `account` (FK -> Account)
@@ -142,7 +142,7 @@ Receitas: Salario, Freelance, Investimentos, Outros
 1. O Django Command `run_finance_analysis` e executado manualmente
 2. O `AnalysisService` itera sobre usuarios ativos
 3. Para cada usuario, o `FinanceInsightAgent` consulta transacoes, contas e categorias via tools
-4. O agente envia os dados ao LLM (GPT-5-mini) e recebe uma analise personalizada
+4. O agente envia os dados ao LLM (gpt-4o-mini) e recebe uma analise personalizada
 5. O resultado e salvo no model `AIAnalysis`
 6. A analise mais recente (`is_latest=True`) e exibida no dashboard
 
@@ -163,7 +163,7 @@ Receitas: Salario, Freelance, Investimentos, Outros
 | `wsgi.py` | Configuracao WSGI |
 | `asgi.py` | Configuracao ASGI |
 
-**Views planejadas para core:**
+**Views do core:**
 
 - `DashboardView` (TemplateView) - dashboard principal
 - `LandingPageView` (TemplateView) - landing page publica

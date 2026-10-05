@@ -52,7 +52,7 @@ class PasswordChangeView(LoginRequiredMixin, UpdateView):
         return self.request.user.profile
 
     def form_valid(self, form):
-        form.save()
+        response = super().form_valid(form)
         update_session_auth_hash(self.request, form.user)
         messages.success(self.request, 'Senha alterada com sucesso!')
-        return super().form_valid(form)
+        return response
