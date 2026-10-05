@@ -38,7 +38,7 @@ O projeto prioriza simplicidade, usando recursos nativos do Django (Class Based 
 - CRUD de categorias (receita/despesa, cor e ícone) com **categorias padrão** criadas automaticamente no cadastro
 - CRUD de transações com filtros por tipo, categoria, conta, período e busca
 - Atualização automática do saldo das contas via *signals* (criar, editar e excluir transações)
-- Perfil do usuário com edição de dados e alteração de senha
+- Perfil do usuário com edição de dados, avatar e alteração de senha
 - **Agente de IA financeiro** com análise, insights e recomendações (LangChain + OpenAI)
 - Isolamento de dados por usuário (cada usuário acessa apenas seus registros)
 - Painel administrativo do Django
@@ -56,7 +56,7 @@ A funcionalidade de IA é **opcional**: sem `OPENAI_API_KEY` a aplicação funci
 - Python
 - Django 5.2
 - LangChain / LangGraph + OpenAI
-- Pillow (ImageField)
+- Pillow (avatar)
 - python-dotenv (variáveis de ambiente)
 - TailwindCSS (via CDN)
 - SQLite
@@ -70,13 +70,14 @@ A funcionalidade de IA é **opcional**: sem `OPENAI_API_KEY` a aplicação funci
 finanpy/
 ├── core/                # configurações, urls raiz, landing e dashboard
 ├── users/               # User customizado (login por e-mail) e autenticação
-├── profiles/            # perfil e alteração de senha
+├── profiles/            # perfil (avatar) e alteração de senha
 ├── accounts/            # contas bancárias
 ├── categories/          # categorias de lançamento
 ├── transactions/        # transações e atualização de saldo (signals)
 ├── ai/                  # agente de IA (LangChain + OpenAI) e análises
 ├── templates/           # templates globais (layouts, components, pages)
 ├── static/              # arquivos estáticos de origem (CSS/JS/imagens)
+├── media/               # uploads de usuário (avatares) — não versionado
 ├── docs/                # documentação do projeto
 ├── .github/workflows/   # pipeline de CI (GitHub Actions)
 ├── Dockerfile

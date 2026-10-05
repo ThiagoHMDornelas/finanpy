@@ -22,10 +22,26 @@ class ProfileUpdateForm(forms.ModelForm):
             'placeholder': 'Seu email',
         }),
     )
+    avatar = forms.ImageField(
+        label='Avatar',
+        required=False,
+        widget=forms.ClearableFileInput(attrs={
+            'class': 'w-full text-sm text-[#a09cb5] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-violet-600 file:text-white hover:file:bg-violet-700 cursor-pointer',
+            'accept': 'image/*',
+        }),
+    )
 
     class Meta:
         model = User
         fields = ('first_name', 'email')
+
+    def save(self, commit=True):
+        user = super().save(commit=commit)
+        avatar = self.cleaned_data.get('avatar')
+        if commit and avatar and hasattr(user, 'profile'):
+            user.profile.avatar = avatar
+            user.profile.save()
+        return user
 
 
 class CustomPasswordChangeForm(PasswordChangeForm):

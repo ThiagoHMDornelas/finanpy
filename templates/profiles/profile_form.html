@@ -10,7 +10,7 @@
     <a href='{% url "profiles:detail" %}' class='text-sm text-[#a09cb5] hover:text-[#f0eef5] transition-all duration-200'>Voltar</a>
   </div>
   <div class='rounded-xl bg-[#1a1730] border border-[#2d2754] p-6 shadow-lg shadow-black/20'>
-    <form method='post' class='space-y-5'>
+    <form method='post' enctype='multipart/form-data' class='space-y-5'>
       {% csrf_token %}
       {% for field in form %}
       <div>

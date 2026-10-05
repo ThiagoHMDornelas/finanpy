@@ -7,6 +7,7 @@ from django.urls import reverse
 from users.models import User
 from accounts.models import Account
 from categories.models import Category
+from transactions.models import Transaction
 
 
 PROTECTED_URLS = [
@@ -377,3 +378,58 @@ class RouteProtectionTest(TestCase):
     def test_landing_page_accessible(self):
         response = self.client.get(reverse('landing'))
         self.assertEqual(response.status_code, 200)
+
+
+class DashboardViewTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user(
+            email='dash@example.com',
+            password='dashpass123',
+            first_name='Dash',
+        )
+        self.client.login(email='dash@example.com', password='dashpass123')
+        self.account = Account.objects.create(
+            user=self.user,
+            name='Conta',
+            account_type='corrente',
+            balance=Decimal('0.00'),
+        )
+        self.receita = Category.objects.filter(
+            user=self.user, category_type='receita',
+        ).first()
+        self.despesa = Category.objects.filter(
+            user=self.user, category_type='despesa',
+        ).first()
+
+    def test_monthly_totals_and_chart_data(self):
+        hoje = date.today()
+        Transaction.objects.create(
+            user=self.user,
+            account=self.account,
+            category=self.receita,
+            description='Salário',
+            amount=Decimal('1000.00'),
+            transaction_type='entrada',
+            date=hoje,
+        )
+        Transaction.objects.create(
+            user=self.user,
+            account=self.account,
+            category=self.despesa,
+            description='Mercado',
+            amount=Decimal('300.00'),
+            transaction_type='saida',
+            date=hoje,
+        )
+
+        response = self.client.get(reverse('dashboard'))
+        self.assertEqual(response.status_code, 200)
+
+        self.assertEqual(len(response.context['monthly_data']), 6)
+        self.assertEqual(response.context['monthly_income'], 1000.0)
+        self.assertEqual(response.context['monthly_expense'], 300.0)
+        self.assertEqual(response.context['monthly_balance'], 700.0)
+        self.assertEqual(response.context['total_balance'], Decimal('700.00'))
+        self.assertEqual(response.context['monthly_data'][-1]['income'], 1000.0)
+        self.assertEqual(response.context['monthly_data'][-1]['expense'], 300.0)

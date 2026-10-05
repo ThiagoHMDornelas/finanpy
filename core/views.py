@@ -1,13 +1,21 @@
-from datetime import timedelta
+from datetime import date
+from decimal import Decimal
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView
-from django.db.models import Sum
+from django.db.models import Q, Sum
+from django.db.models.functions import TruncMonth
 from django.utils import timezone
+from django.views.generic import TemplateView
 
 from accounts.models import Account
 from ai.models import AIAnalysis
 from transactions.models import Transaction
+
+
+def _month_start(reference, offset):
+    '''Primeiro dia do mes, deslocado por "offset" meses (negativo = passado).'''
+    index = reference.year * 12 + (reference.month - 1) + offset
+    return date(index // 12, index % 12 + 1, 1)
 
 
 class LandingPageView(TemplateView):
@@ -20,70 +28,62 @@ class DashboardView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        today = timezone.now().date()
-        current_month = today.month
-        current_year = today.year
+        current_start = timezone.now().date().replace(day=1)
+        first_start = _month_start(current_start, -5)
 
-        accounts = Account.objects.filter(user=user, is_active=True)
-        total_balance = accounts.aggregate(total=Sum('balance'))['total'] or 0
+        accounts = list(Account.objects.filter(user=user, is_active=True))
+        total_balance = sum((account.balance for account in accounts), Decimal('0'))
 
-        transactions_month = Transaction.objects.filter(
-            user=user,
-            date__year=current_year,
-            date__month=current_month,
+        grouped = (
+            Transaction.objects.filter(user=user, date__gte=first_start)
+            .annotate(month=TruncMonth('date'))
+            .values('month')
+            .annotate(
+                income=Sum('amount', filter=Q(transaction_type='entrada')),
+                expense=Sum('amount', filter=Q(transaction_type='saida')),
+            )
         )
+        by_month = {
+            (row['month'].year, row['month'].month): (
+                float(row['income'] or 0),
+                float(row['expense'] or 0),
+            )
+            for row in grouped
+        }
 
-        monthly_income = transactions_month.filter(
-            transaction_type='entrada',
-        ).aggregate(total=Sum('amount'))['total'] or 0
+        monthly_data = []
+        for offset in range(-5, 1):
+            month_start = _month_start(current_start, offset)
+            income, expense = by_month.get((month_start.year, month_start.month), (0.0, 0.0))
+            monthly_data.append({
+                'month': month_start.strftime('%b/%y'),
+                'income': income,
+                'expense': expense,
+            })
 
-        monthly_expense = transactions_month.filter(
-            transaction_type='saida',
-        ).aggregate(total=Sum('amount'))['total'] or 0
+        max_value = max(
+            max(item['income'] for item in monthly_data),
+            max(item['expense'] for item in monthly_data),
+            1,
+        )
+        for item in monthly_data:
+            item['income_pct'] = int((item['income'] / max_value) * 100)
+            item['expense_pct'] = int((item['expense'] / max_value) * 100)
 
-        monthly_balance = monthly_income - monthly_expense
+        monthly_income = monthly_data[-1]['income']
+        monthly_expense = monthly_data[-1]['expense']
 
         recent_transactions = Transaction.objects.filter(
             user=user,
         ).select_related('account', 'category')[:5]
 
-        monthly_data = []
-        for i in range(5, -1, -1):
-            month_date = today - timedelta(days=30 * i)
-            month_trans = Transaction.objects.filter(
-                user=user,
-                date__year=month_date.year,
-                date__month=month_date.month,
-            )
-            income = month_trans.filter(
-                transaction_type='entrada',
-            ).aggregate(total=Sum('amount'))['total'] or 0
-            expense = month_trans.filter(
-                transaction_type='saida',
-            ).aggregate(total=Sum('amount'))['total'] or 0
-            monthly_data.append({
-                'month': month_date.strftime('%b/%y'),
-                'income': float(income),
-                'expense': float(expense),
-            })
-
-        max_value = max(
-            max(d['income'] for d in monthly_data),
-            max(d['expense'] for d in monthly_data),
-            1,
-        )
-        for d in monthly_data:
-            d['income_pct'] = int((d['income'] / max_value) * 100) if max_value else 0
-            d['expense_pct'] = int((d['expense'] / max_value) * 100) if max_value else 0
-
         context['total_balance'] = total_balance
         context['monthly_income'] = monthly_income
         context['monthly_expense'] = monthly_expense
-        context['monthly_balance'] = monthly_balance
+        context['monthly_balance'] = monthly_income - monthly_expense
         context['recent_transactions'] = recent_transactions
         context['accounts'] = accounts
         context['monthly_data'] = monthly_data
-
         context['latest_analysis'] = AIAnalysis.get_latest_for_user(user.id)
 
         return context

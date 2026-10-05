@@ -187,3 +187,7 @@ cython_debug/
 /TASKS_AJUSTES.md
 /.opencode/
 /agents/
+
+# Media (uploads de usuario) / arquivos coletados
+/media/
+/staticfiles/

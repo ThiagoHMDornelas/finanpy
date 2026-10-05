@@ -75,7 +75,3 @@ def generate_analysis_for_user(user_id: int) -> AIAnalysis:
             exc_info=True,
         )
         raise
-
-
-def get_latest_analysis(user_id: int) -> AIAnalysis | None:
-    return AIAnalysis.get_latest_for_user(user_id)
