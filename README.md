@@ -220,7 +220,7 @@ Espere o `finanpy_web` como `Up`. As migrações são aplicadas automaticamente 
 - Aplicação: `http://localhost:8000/`
 - Login: `http://localhost:8000/login/`
 
-**6. Crie o superusuário** (usa as variáveis `DJANGO_SUPERUSER_*` do `.env`):
+**6. Crie o superusuário.** Antes, preencha `DJANGO_SUPERUSER_EMAIL`, `DJANGO_SUPERUSER_FIRST_NAME` e `DJANGO_SUPERUSER_PASSWORD` no `.env` — com esses campos vazios (como no `.env.example`), o `--noinput` falha com o erro *"Email cannot be blank"*:
 
 ```powershell
 docker compose exec finanpy_web python manage.py createsuperuser --noinput
