@@ -162,44 +162,104 @@ O projeto usa **SQLite** (`db.sqlite3`), sem necessidade de serviços externos. 
 
 ## Executar com Docker
 
-Com o Docker (Desktop) e o Docker Compose instalados, é possível subir a aplicação sem configurar o ambiente Python manualmente. A porta `8000` precisa estar livre.
+A forma recomendada de rodar a aplicação. O Docker Compose sobe o serviço já configurado (Django + SQLite), sem precisar montar o ambiente Python manualmente.
 
-1. Suba o serviço (a primeira execução compila a imagem):
+**Pré-requisitos:**
 
-       docker compose up --build -d
+- Docker Desktop instalado e em execução (engine)
+- Docker Compose (já vem com o Docker Desktop)
+- Git instalado (para clonar o repositório)
+- A porta `8000` livre
 
-2. Acompanhe até a aplicação ficar `Up`:
+> **Importante:** o Docker Desktop sozinho **não** faz o setup inicial — ele é o *engine* e o painel de gerenciamento. Criar o `.env` e rodar `docker compose up --build` são feitos pelo **terminal**; o Docker Desktop é ótimo para acompanhar logs, iniciar/parar e abrir um terminal dentro do container **depois** que a stack subiu.
 
-       docker compose ps
+> **Atenção:** neste projeto o `docker-compose.yml` usa `env_file: .env`, então o arquivo `.env` é **obrigatório** — sem ele o `docker compose up` falha. Crie-o no passo 2.
 
-   As migrações são aplicadas automaticamente na inicialização.
+### Passo a passo (via shell / PowerShell)
 
-Serviço:
+**1. Clone o repositório**
 
-- `finanpy_web` → aplicação Django em `http://localhost:8000/` (banco SQLite persistido em volume)
+```powershell
+git clone https://github.com/ThiagoHMDornelas/finanpy.git
+cd finanpy
+```
 
-3. Acesse:
+> O `git clone` cria a pasta `finanpy` dentro da pasta atual, e o `cd` entra nela. Se você **já está dentro** da pasta do projeto, **pule o `cd`**.
+
+**2. Crie o arquivo de ambiente**
+
+```powershell
+copy .env.example .env        # Windows
+# cp .env.example .env        # Linux/macOS
+```
+
+> Atenção: se você **já tem** um `.env` na pasta, o comando acima vai **sobrescrevê-lo**. Nesse caso, **pule este passo** e apenas edite o `.env` existente.
+
+A chave `OPENAI_API_KEY` é **opcional**: sem ela a aplicação funciona normalmente, apenas a geração de análise por IA fica indisponível. Veja a seção [Variáveis de ambiente](#variáveis-de-ambiente).
+
+**3. Suba a stack.** Na primeira execução o Docker compila a imagem da aplicação — pode levar alguns minutos:
+
+```powershell
+docker compose up --build -d
+```
+
+**4. Confira os containers:**
+
+```powershell
+docker compose ps
+```
+
+Espere o `finanpy_web` como `Up`. As migrações são aplicadas automaticamente na inicialização.
+
+| Serviço | Porta | Acesso |
+|---|---|---|
+| `finanpy_web` | 8000 | `http://localhost:8000` |
+
+**5. Acesse:**
 
 - Aplicação: `http://localhost:8000/`
 - Login: `http://localhost:8000/login/`
 
-4. Crie o superusuário (usa as variáveis `DJANGO_SUPERUSER_*` do `.env`):
+**6. Crie o superusuário** (usa as variáveis `DJANGO_SUPERUSER_*` do `.env`):
 
-       docker compose exec finanpy_web python manage.py createsuperuser --noinput
+```powershell
+docker compose exec finanpy_web python manage.py createsuperuser --noinput
+```
 
-   Para digitar usuário e senha manualmente, remova o `--noinput`.
+> Para digitar usuário e senha manualmente, remova o `--noinput`.
 
-5. Para acompanhar os logs (opcional):
+**7. Comandos úteis:**
 
-       docker compose logs -f finanpy_web
+```powershell
+docker compose logs -f finanpy_web     # logs da aplicação
+docker compose restart finanpy_web     # reinicia a aplicação
+docker compose down                    # para e remove o container
+docker compose down -v                 # remove também o volume (banco de dados)
+```
 
-6. Para parar e remover o container:
+> O banco SQLite fica no volume `sqlite_data` e **persiste** entre reinícios. O `docker compose down -v` apaga o banco.
 
-       docker compose down
+### Usando o Docker Desktop (interface gráfica)
 
-   Para remover também o banco de dados (volume):
+Depois que a stack estiver no ar (passo 3), o Docker Desktop ajuda a operar. Na aba **Containers** você verá o grupo `finanpy` com o serviço `finanpy_web`:
 
-       docker compose down -v
+- **Logs**: clique no container → aba *Logs* (equivale a `docker compose logs`).
+- **Start / Stop / Restart**: botões no topo do container.
+- **Terminal no container**: botão *Exec* (útil para depurar dentro do container).
+- **Abrir no navegador**: clique na porta publicada (`8000:8000`).
+- **Limpeza**: *Delete* remove o container; em **Volumes** você apaga o banco.
+
+O que **não** dá para fazer pela interface gráfica: criar o `.env` e rodar `docker compose up --build` em um clone novo (isso é feito pelo terminal).
+
+### Problemas comuns
+
+- **A aplicação não abre**
+  - Veja os logs: `docker compose logs -f finanpy_web`
+  - Confirme que o container está `Up`: `docker compose ps`
+- **`docker compose up` falha com "env file .env not found"** → crie o `.env` (passo 2)
+- **A geração de análise por IA não funciona** → sem `OPENAI_API_KEY` no `.env` a funcionalidade fica indisponível (o restante da aplicação funciona normalmente)
+- **Erro de porta em uso** (`8000`) → pare o serviço que ocupa a porta ou ajuste o mapeamento no `docker-compose.yml` (ex.: `8001:8000`) e acesse em `http://localhost:8001`
+- **Os dados sumiram** → você rodou `docker compose down -v` (remove o volume do banco). Use `docker compose down` para manter os dados
 
 ## Testes
 
