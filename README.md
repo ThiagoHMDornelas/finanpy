@@ -8,9 +8,14 @@
 
 Sistema web de gestão de finanças pessoais desenvolvido com Django. Permite controlar contas, categorias e transações (entradas e saídas), acompanhar a saúde financeira em um dashboard e ainda contar com um **agente de IA** (LangChain + OpenAI) que analisa os dados do usuário e gera insights e recomendações personalizadas.
 
+![Landing page do Finanpy](docs/img/finanpy_landing.png)
+
+*Landing page — apresentação do produto.*
+
 ## Sumário
 
 - [Visão geral](#visão-geral)
+- [Telas do projeto](#telas-do-projeto)
 - [Funcionalidades](#funcionalidades)
 - [Agente de IA](#agente-de-ia)
 - [Tecnologias](#tecnologias)
@@ -29,6 +34,20 @@ Sistema web de gestão de finanças pessoais desenvolvido com Django. Permite co
 O **Finanpy** é uma aplicação web monolítica para o controle de finanças pessoais. Cada usuário gerencia suas próprias contas bancárias, categorias e transações; os saldos das contas são atualizados automaticamente conforme as movimentações, via *signals* do Django. A tela inicial (landing page) apresenta o produto, e o **dashboard** consolida saldo total, receitas e despesas do mês, além de um gráfico dos últimos seis meses.
 
 O projeto prioriza simplicidade, usando recursos nativos do Django (Class Based Views, autenticação, ORM) e banco **SQLite**.
+
+## Telas do projeto
+
+**Dashboard** — saldo total, receitas e despesas do mês, gráfico de 6 meses, transações recentes, contas e a análise de IA:
+
+![Dashboard](docs/img/finanpy_dashboard.png)
+
+**Transações** — listagem com filtros por tipo, categoria, conta e período:
+
+![Transações](docs/img/finanpy_transactions.png)
+
+**Contas** — CRUD de contas bancárias com tipo, saldo, instituição e cor:
+
+![Contas](docs/img/finanpy_accounts.png)
 
 ## Funcionalidades
 
