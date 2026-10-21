@@ -30,8 +30,11 @@ Finanpy — personal finance management system. Django 5.2 full-stack monolith w
 ## Commands
 
 ```bash
-# Activate venv (Windows)
+# Activate venv
+# Windows:
 .venv\Scripts\activate
+# Linux/macOS:
+source .venv/bin/activate
 
 python manage.py makemigrations
 python manage.py migrate
