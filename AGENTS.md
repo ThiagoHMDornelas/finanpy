@@ -1,47 +1,90 @@
-# AGENTS.md — finanpy
+# AGENTS.md
 
-> Gerado automaticamente na clonagem para a VPS (21/10/2026). **Revisar**: ajuste o que não bater com a realidade do projeto.
+## Project
 
-## Visão geral
-Sistema de **gestão de finanças pessoais** em Django, com agente de IA (LangChain/LangGraph) para análise dos lançamentos. Existe um `PRD.md` na raiz — consultar antes de implementar features.
+Finanpy — personal finance management system. Django 5.2 full-stack monolith with Django Template Language + TailwindCSS. No API, no REST, no Docker, no tests (yet).
 
-**Stack:** Django 5.2.14 · Python 3.11 · LangChain 1.x + LangGraph · SQLite · OpenAI · Docker
+## Critical constraints
 
-## Contexto em camadas
-`~/.hermes/SOUL.md` (regras globais) → `~/projetos/python/AGENTS.md` (regras da linguagem) → este arquivo (particularidades do projeto).
-Em conflito, vale o mais específico (este arquivo), exceto em regras de segurança/global.
+- **Single quotes** in all Python code — no double quotes unless necessary
+- **Code in English**; **UI text in Brazilian Portuguese** (all labels, buttons, messages, templates)
+- **Class Based Views** always — no function-based views
+- **SQLite only** — no other database
+- **`AUTH_USER_MODEL = 'users.User'`** must be set in `core/settings.py` before any migration
+- Every model **must** have `created_at` and `updated_at` fields
+- Signals go in `<app>/signals.py`, loaded via `apps.py` `ready()` method
+- No over-engineering: use Django built-ins, don't add libraries unless truly needed
 
-## Estrutura
-- `core/` — projeto Django (`core/settings.py`)
-- `accounts/`, `users/`, `profiles/` — autenticação e perfil
-- `categories/`, `transactions/` — domínio financeiro
-- `ai/` — agente de análise (LangChain + OpenAI)
-- `PRD.md` — requisitos do produto
+## Current state
 
-## Como rodar
+- Apps `accounts`, `categories`, `profiles`, `transactions`, `users` exist via `startapp` — only boilerplate files, no models/forms/views yet
+- `core/settings.py` has apps registered and `LANGUAGE_CODE='pt-br'`
+- `TEMPLATES[0]['DIRS']` is empty — needs `BASE_DIR / 'templates'` added
+- `TIME_ZONE` is `'UTC'` — should be `'America/Sao_Paulo'`
+- `AUTH_USER_MODEL` not set yet
+- `templates/` and `static/` directories don't exist yet
+- No `urls.py` files in any app yet
+- No `forms.py` or `signals.py` files exist yet
+- Superuser exists (`dornelas` / `[REDACTED]`) but uses default User model — **must delete `db.sqlite3` and recreate after custom User model**
+
+## Commands
+
 ```bash
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt -r requirements_dev.txt
-cp .env.example .env
+# Activate venv (Windows)
+.venv\Scripts\activate
+
+python manage.py makemigrations
 python manage.py migrate
+python manage.py createsuperuser
 python manage.py runserver
+python manage.py check
 ```
 
-## Testes e lint
-```bash
-python manage.py test
-flake8
-```
+Always activate `.venv` before any `python manage.py` command.
 
-## Particularidades
-- Login é por **email**; `first_name` é obrigatório na criação do usuário.
-- Superusuário automatizado via `DJANGO_SUPERUSER_EMAIL/FIRST_NAME/PASSWORD` (`createsuperuser --noinput`).
-- Sem `OPENAI_API_KEY` o módulo de análise por IA fica indisponível (o resto funciona).
-- No Docker, o caminho do SQLite pode ser ajustado por `SQLITE_PATH`.
+## Architecture
 
-## Convenções
-- Secrets **sempre** em `.env` (nunca hardcode); mantenha o `.env.example` atualizado e o `.env` fora do versionamento.
-- Migrações que apagam ou tornam campo obrigatório sem `default` precisam de aviso antes de rodar em produção.
-- Mensagens de UI/validação em português do Brasil, revisadas (acentuação e concordância).
-- Não commitar/pushar por conta própria: as alterações ficam prontas para o usuário revisar e commitar.
-- Preservar encoding dos arquivos ao editar (não converter ANSI ↔ UTF-8 sem pedido explícito).
+- **`core/`** — project config (`settings.py`, root `urls.py`, `wsgi.py`, `asgi.py`)
+- **`users/`** — custom User model (`AbstractUser`, `USERNAME_FIELD='email'`) + auth views
+- **`profiles/`** — Profile model (OneToOne→User) + auto-creation signal
+- **`accounts/`** — bank accounts (Account model)
+- **`categories/`** — transaction categories (Category model) + default categories signal
+- **`transactions/`** — financial transactions (Transaction model) + balance update signals
+- **`ai/`** — AI finance agent (AIAnalysis model, LangChain agent, analysis service)
+- **`templates/`** — global templates: `layouts/`, `components/`, `pages/`, `partials/`
+- **`static/`** — CSS/JS/images
+
+Each app will get `forms.py`, `urls.py`, `signals.py` added as needed.
+
+## URL patterns (planned)
+
+| Path | App |
+|------|-----|
+| `/` | core (landing) |
+| `/register/`, `/login/`, `/logout/` | users |
+| `/dashboard/` | core |
+| `/contas/...` | accounts |
+| `/categorias/...` | categories |
+| `/transacoes/...` | transactions |
+| `/analise/<id>/` | ai |
+| `/perfil/...` | profiles |
+
+## Design system
+
+Dark theme with violet/indigo accents. TailwindCSS via CDN. Font: Inter. All specs in `docs/design-system.md`.
+
+## Specialized agents
+
+| Agent | Purpose |
+|-------|---------|
+| `ai_integration_expert` | LangChain 1.0 + Django AI integration |
+| `django-tailwind-frontend` | Django Template Language + TailwindCSS frontend |
+| `django-web-tester` | End-to-end web testing with Playwright |
+| `explore` | Fast codebase exploration and file search |
+
+## Key references
+
+- `PRD.md` — full product requirements, sprint task list, user stories
+- `docs/` — architecture, code conventions, models, design system, setup guide
+- `docs/ai-finance-agent.md` — AI finance agent technical documentation
+- `agents/` — specialized agent documentation and configurations
